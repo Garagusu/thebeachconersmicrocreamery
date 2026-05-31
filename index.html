@@ -63,6 +63,21 @@
       background: var(--bg); color: var(--text); overflow-x: hidden;
     }
 
+    /* ── ANNOUNCEMENT BAR ──────────────────────── */
+    .announce-bar {
+      background: var(--coral);
+      text-align: center; padding: 0.6rem 1rem;
+      position: relative; z-index: 300;
+    }
+    .announce-bar a {
+      color: white; text-decoration: none;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+    .announce-bar a:hover { text-decoration: underline; }
+    /* Push hero down by bar height */
+    nav { top: 36px; }
+
     /* ── LANG SWITCHER ─────────────────────────── */
     .lang-fr .en { display: none !important; }
     .lang-en .fr { display: none !important; }
@@ -758,6 +773,14 @@
 </head>
 <body class="lang-en">
 
+<!-- ANNOUNCEMENT BAR -->
+<div class="announce-bar">
+  <a href="https://squareup.com/gift/38VCH5KHDJ7X2/order" target="_blank">
+    <span class="en">🎁 Give the gift of ice cream — Gift Cards available now →</span>
+    <span class="fr">🎁 Offrez de la crème glacée — Cartes-cadeaux disponibles →</span>
+  </a>
+</div>
+
 <!-- TIME PILL -->
 <div class="time-pill" id="timePill">
   <div class="dot"></div>
@@ -794,8 +817,8 @@
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">
-      <span class="en">Britannia Beach · Ottawa · Since 2015</span>
-      <span class="fr">Plage Britannia · Ottawa · Depuis 2015</span>
+      <span class="en">Britannia Beach · Ottawa · 19 Years of Handcrafted Joy</span>
+      <span class="fr">Plage Britannia · Ottawa · 19 ans de bonheur artisanal</span>
     </div>
     <h1 class="hero-h1">
       <span class="en">Handcrafted<br><em>Ice Cream</em><br>& Coffee.</span>
@@ -809,6 +832,10 @@
       <a href="#menu" class="btn-light">
         <span class="en">See the Menu</span>
         <span class="fr">Voir le menu</span>
+      </a>
+      <a href="https://squareup.com/gift/38VCH5KHDJ7X2/order" target="_blank" class="btn-outline" style="border-color:var(--butter);color:var(--butter);">
+        <span class="en">🎁 Gift Cards</span>
+        <span class="fr">🎁 Cartes-cadeaux</span>
       </a>
       <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_" target="_blank" class="btn-outline">
         <span class="en">Get Directions</span>
@@ -908,10 +935,10 @@
       <img src="assets/hero.jpg" alt="The Beachconers patio at night"/>
     </div>
     <div class="about-stat-card">
-      <div class="stat-num">4.7</div>
+      <div class="stat-num">19</div>
       <div class="stat-label">
-        <span class="en">Google Rating</span>
-        <span class="fr">Note Google</span>
+        <span class="en">Years of Joy</span>
+        <span class="fr">Ans de bonheur</span>
       </div>
     </div>
   </div>
@@ -923,18 +950,19 @@
       <span class="en">Ice cream &amp; coffee —<br><em>our love language</em></span>
       <span class="fr">Crème glacée &amp; café —<br><em>notre langage d'amour</em></span>
     </h2>
-    <p id="about-p1" class="en">The Beachconers was born from a simple belief: ice cream and coffee should be made the way your grandmother would — from scratch, with real ingredients, and a lot of love.</p>
-    <p id="about-p1-fr" class="fr">Les Beachconers sont nés d'une conviction simple : la crème glacée et le café devraient être faits comme votre grand-mère le ferait — de zéro, avec de vrais ingrédients, et beaucoup d'amour.</p>
-    <p id="about-p2" class="en">Nestled steps from Britannia Beach on the Ottawa River, we've been hand-crafting small-batch ice cream and pulling specialty espresso since 2015. Every flavour is developed in-house and made fresh each morning.</p>
-    <p id="about-p2-fr" class="fr">Nichés à quelques pas de la plage Britannia sur la rivière des Outaouais, nous fabriquons artisanalement de la crème glacée en petits lots et préparons des expressos de spécialité depuis 2015.</p>
+    <p id="about-p1" class="en">What started 19 years ago in Britannia has become one of Ottawa's most beloved local institutions. The Beachconers Microcreamery has been delighting Ottawa's west end with handcrafted, small-batch ice cream made from scratch — every single day.</p>
+    <p id="about-p1-fr" class="fr">Ce qui a commencé il y a 19 ans à Britannia est devenu l'une des institutions locales les plus aimées d'Ottawa. La microcrémererie Beachconers ravit l'ouest d'Ottawa avec de la crème glacée artisanale faite de zéro, chaque jour.</p>
+    <p id="about-p2" class="en">Nestled steps from Britannia Beach on the Ottawa River, every flavour is developed in-house using real, quality ingredients. No shortcuts. No artificial flavours. Just honest ice cream the way it should be made — as featured in the Ottawa media for the flavours that delight the whole community.</p>
+    <p id="about-p2-fr" class="fr">Nichés à quelques pas de la plage Britannia, chaque saveur est développée en interne avec de vrais ingrédients de qualité. Pas de raccourcis. Pas d'arômes artificiels. Juste une crème glacée honnête.</p>
     <p id="about-p3" class="en">We source locally whenever possible — Ontario dairy farms, seasonal fruit growers, and independent suppliers who care as much as we do. Come find us by the water.</p>
-    <p id="about-p3-fr" class="fr">Nous nous approvisionnons localement dans la mesure du possible — fermes laitières ontariennes, producteurs de fruits de saison. Venez nous trouver au bord de l'eau.</p>
+    <p id="about-p3-fr" class="fr">Nous nous approvisionnons localement dans la mesure du possible. Venez nous trouver au bord de l'eau.</p>
     <div class="about-pills">
       <span class="pill"><span class="en">🥛 Local Dairy</span><span class="fr">🥛 Lait local</span></span>
       <span class="pill"><span class="en">☕ Specialty Coffee</span><span class="fr">☕ Café de spécialité</span></span>
       <span class="pill"><span class="en">🫙 Small Batch</span><span class="fr">🫙 Petit lot</span></span>
       <span class="pill"><span class="en">🌱 Vegan Options</span><span class="fr">🌱 Options véganes</span></span>
       <span class="pill"><span class="en">🇨🇦 Ottawa Made</span><span class="fr">🇨🇦 Fait à Ottawa</span></span>
+      <span class="pill"><a href="https://www.instagram.com/beachconers/" target="_blank" style="color:inherit;text-decoration:none;">📸 @beachconers</a></span>
     </div>
   </div>
 </section>
@@ -1146,7 +1174,7 @@
         <span class="job-detail en">☀️ Seasonal</span>
         <span class="job-detail fr">☀️ Saisonnier</span>
       </div>
-      <a href="mailto:hello@thebeachconers.ca?subject=Job Application - Scoop Shop" class="job-apply">
+      <a href="mailto:thebeachconers@gmail.com?subject=Job Application - Scoop Shop" class="job-apply">
         <span class="en">Apply Now →</span>
         <span class="fr">Postuler →</span>
       </a>
@@ -1167,7 +1195,7 @@
         <span class="job-detail en">☀️ Seasonal</span>
         <span class="job-detail fr">☀️ Saisonnier</span>
       </div>
-      <a href="mailto:hello@thebeachconers.ca?subject=Job Application - Barista" class="job-apply">
+      <a href="mailto:thebeachconers@gmail.com?subject=Job Application - Barista" class="job-apply">
         <span class="en">Apply Now →</span>
         <span class="fr">Postuler →</span>
       </a>
@@ -1177,8 +1205,8 @@
   <div class="jobs-note reveal">
     <strong class="en">How to apply:</strong>
     <strong class="fr">Comment postuler :</strong>
-    <span class="en"> Send your resume and a short note about why you'd love to work with us to <a href="mailto:hello@thebeachconers.ca" style="color:var(--teal)">hello@thebeachconers.ca</a>. We read every application personally.</span>
-    <span class="fr"> Envoyez votre CV et une courte note sur pourquoi vous aimeriez travailler avec nous à <a href="mailto:hello@thebeachconers.ca" style="color:var(--teal)">hello@thebeachconers.ca</a>. Nous lisons chaque candidature personnellement.</span>
+    <span class="en"> Send your resume and a short note about why you'd love to work with us to <a href="mailto:thebeachconers@gmail.com" style="color:var(--teal)">hello@thebeachconers.ca</a>. We read every application personally.</span>
+    <span class="fr"> Envoyez votre CV et une courte note sur pourquoi vous aimeriez travailler avec nous à <a href="mailto:thebeachconers@gmail.com" style="color:var(--teal)">hello@thebeachconers.ca</a>. Nous lisons chaque candidature personnellement.</span>
   </div>
 </section>
 
@@ -1192,9 +1220,9 @@
       <p class="footer-tagline en">Handcrafted ice cream & coffee made from scratch in Britannia, Ottawa. Every scoop made with real ingredients and a whole lot of love.</p>
       <p class="footer-tagline fr">Crème glacée et café artisanaux faits de zéro à Britannia, Ottawa. Chaque boule préparée avec de vrais ingrédients.</p>
       <div class="footer-socials">
-        <a href="https://www.facebook.com/thebeachconers/" target="_blank" class="footer-social">f</a>
-        <a href="#" class="footer-social">ig</a>
-        <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_" target="_blank" class="footer-social">📍</a>
+        <a href="https://www.facebook.com/thebeachconers/" target="_blank" class="footer-social" title="Facebook">f</a>
+        <a href="https://www.instagram.com/beachconers/" target="_blank" class="footer-social" title="Instagram">ig</a>
+        <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_" target="_blank" class="footer-social" title="Google Maps">📍</a>
       </div>
     </div>
     <div class="footer-col">
@@ -1204,6 +1232,7 @@
         <li><a href="#menu"><span class="en">All Ice Cream</span><span class="fr">Toute la crème glacée</span></a></li>
         <li><a href="#menu"><span class="en">Coffee</span><span class="fr">Café</span></a></li>
         <li><a href="#menu"><span class="en">Food & Treats</span><span class="fr">Nourriture</span></a></li>
+        <li><a href="https://squareup.com/gift/38VCH5KHDJ7X2/order" target="_blank" style="color:var(--coral)"><span class="en">🎁 Gift Cards</span><span class="fr">🎁 Cartes-cadeaux</span></a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1220,7 +1249,7 @@
       <p>
         273 Britannia Rd<br>Ottawa, ON K2B 6W7<br><br>
         <a href="tel:+16138299696" id="footer-phone">+1 (613) 829-9696</a><br>
-        <a href="mailto:hello@thebeachconers.ca" id="footer-email">hello@thebeachconers.ca</a>
+        <a href="mailto:thebeachconers@gmail.com" id="footer-email">thebeachconers@gmail.com</a>
       </p>
     </div>
   </div>
