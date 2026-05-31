@@ -3,1324 +3,567 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Beachconers Microcreamery – Britannia, Ottawa</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <title>Beachconers Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    /* ── DAY THEME (default) ───────────────────── */
     :root {
-      --night:   #FDF6EC;
-      --cream:   #2A1A0E;
-      --coral:   #E8527A;
-      --teal:    #1A9090;
-      --butter:  #C4860A;
-      --warm:    #C4863A;
-      --muted:   rgba(42,26,14,0.55);
-      --border:  rgba(42,26,14,0.12);
-      --bg-section: rgba(42,26,14,0.03);
-      --bg-card: rgba(42,26,14,0.04);
-      --nav-scrolled: rgba(253,246,236,0.95);
-      --nav-border: rgba(42,26,14,0.1);
+      --cream: #FFF8EE; --sand: #FFF0F4; --coral: #E8527A;
+      --teal: #2BBFBF; --butter: #F5C842; --choc: #3B1F0E;
+      --bg: #F7F4F0; --card: #FFFFFF; --border: #E8E0D5;
+      --text: #1E1208; --muted: #8B7355;
     }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    /* ── NIGHT THEME (after 20:00) ─────────────── */
-    body.night-mode {
-      --night:   #0A0E1A;
-      --cream:   #F9F3E8;
-      --coral:   #E8527A;
-      --teal:    #2BBFBF;
-      --butter:  #F5C842;
-      --warm:    #C4863A;
-      --muted:   rgba(249,243,232,0.55);
-      --border:  rgba(249,243,232,0.12);
-      --bg-section: var(--bg-section);
-      --bg-card: var(--bg-card);
-      --nav-scrolled: rgba(10,14,26,0.92);
-      --nav-border: rgba(249,243,232,0.12);
-    }
+    /* LOGIN */
+    #login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--choc); }
+    .login-box { background:var(--cream); border-radius:24px; padding:3rem; width:100%; max-width:420px; text-align:center; box-shadow:0 24px 80px rgba(0,0,0,0.3); }
+    .login-logo { font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--choc); margin-bottom:0.3rem; }
+    .login-logo span { color:var(--coral); }
+    .login-sub { font-size:0.85rem; color:var(--muted); margin-bottom:2rem; }
+    .login-box input { width:100%; padding:0.9rem 1.2rem; border:2px solid var(--border); border-radius:12px; font-size:1rem; font-family:inherit; background:var(--bg); color:var(--text); margin-bottom:1rem; transition:border-color 0.2s; }
+    .login-box input:focus { outline:none; border-color:var(--teal); }
+    .btn { width:100%; padding:0.9rem; background:var(--coral); color:white; border:none; border-radius:12px; font-size:0.95rem; font-weight:600; font-family:inherit; cursor:pointer; transition:background 0.2s; }
+    .btn:hover { background:var(--teal); }
+    .login-error { color:var(--coral); font-size:0.82rem; margin-top:0.8rem; display:none; }
 
-    /* Theme transition — smooth */
-    body { transition: background-color 1.5s ease, color 1.5s ease; }
-    * { transition: background-color 1.5s ease, border-color 1.5s ease, color 1.5s ease; }
-    /* Don't transition transforms/opacity — would break animations */
-    .hero-bg, .reveal, .bar-fill, .reviews-scroll-track, .marquee-track {
-      transition: none !important;
-    }
+    /* LAYOUT */
+    #admin-app { display:none; }
+    .sidebar { position:fixed; top:0; left:0; bottom:0; width:240px; background:var(--choc); padding:2rem 1.5rem; display:flex; flex-direction:column; overflow-y:auto; }
+    .sidebar-logo { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--cream); margin-bottom:0.2rem; }
+    .sidebar-logo span { color:var(--coral); }
+    .sidebar-sub { font-size:0.7rem; color:rgba(255,248,238,0.35); margin-bottom:2rem; letter-spacing:0.1em; }
+    .nav-group { font-size:0.65rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,248,238,0.3); margin:1.2rem 0 0.5rem 0.5rem; }
+    .nav-item { display:flex; align-items:center; gap:0.8rem; padding:0.65rem 1rem; border-radius:10px; cursor:pointer; color:rgba(255,248,238,0.6); font-size:0.85rem; font-weight:500; transition:all 0.2s; margin-bottom:0.2rem; user-select:none; }
+    .nav-item:hover { background:rgba(255,255,255,0.07); color:var(--cream); }
+    .nav-item.active { background:var(--coral); color:white; }
+    .nav-icon { font-size:1rem; width:20px; text-align:center; }
+    .sidebar-footer { margin-top:auto; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.08); }
+    .preview-btn { display:flex; align-items:center; gap:0.7rem; padding:0.7rem 1rem; border-radius:10px; background:rgba(255,255,255,0.08); color:var(--butter); font-size:0.82rem; text-decoration:none; transition:background 0.2s; }
+    .preview-btn:hover { background:rgba(255,255,255,0.14); }
+    .logout-btn { display:flex; align-items:center; gap:0.7rem; padding:0.7rem 1rem; border-radius:10px; color:rgba(255,248,238,0.4); font-size:0.82rem; cursor:pointer; margin-top:0.4rem; transition:color 0.2s; }
+    .logout-btn:hover { color:var(--coral); }
 
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Instrument Sans', sans-serif; background: var(--night); color: var(--cream); overflow-x: hidden; }
+    /* MAIN */
+    .main { margin-left:240px; padding:2.5rem; min-height:100vh; padding-bottom:6rem; }
+    .page-header { margin-bottom:2rem; }
+    .page-title { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--choc); }
+    .page-sub { font-size:0.85rem; color:var(--muted); margin-top:0.3rem; }
+    .tab { display:none; }
+    .tab.active { display:block; }
 
-    /* ── LANG SWITCHER ─────────────────────────── */
-    .lang-fr .en { display: none !important; }
-    .lang-en .fr { display: none !important; }
+    /* SAVE BAR */
+    .save-bar { position:fixed; bottom:0; left:240px; right:0; background:white; border-top:1px solid var(--border); padding:1rem 2.5rem; display:flex; align-items:center; justify-content:space-between; z-index:50; transform:translateY(100%); transition:transform 0.3s; }
+    .save-bar.visible { transform:translateY(0); }
+    .save-bar-msg { font-size:0.85rem; color:var(--muted); }
+    .save-bar-msg span { color:var(--coral); font-weight:600; }
+    .save-actions { display:flex; gap:0.8rem; }
+    .btn-save { padding:0.6rem 1.5rem; background:var(--teal); color:white; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; font-family:inherit; cursor:pointer; }
+    .btn-save:hover { background:#1D9494; }
+    .btn-discard { padding:0.6rem 1.5rem; background:transparent; color:var(--muted); border:1px solid var(--border); border-radius:8px; font-size:0.85rem; font-family:inherit; cursor:pointer; }
+    .btn-discard:hover { border-color:var(--coral); color:var(--coral); }
 
-    /* ── NAV ───────────────────────────────────── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 3rem;
-      height: 100px;
-      transition: background 0.5s, backdrop-filter 0.5s;
-    }
-    nav.scrolled {
-      background: var(--nav-scrolled);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--nav-border);
-    }
-    .nav-logo img { height: 90px; width: auto; }
-    .nav-right { display: flex; align-items: center; gap: 2.5rem; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      font-size: 0.78rem; font-weight: 500;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--cream); text-decoration: none; opacity: 0.75;
-      transition: opacity 0.2s;
-    }
-    .nav-links a:hover { opacity: 1; }
-    .lang-btn {
-      display: flex; gap: 0; align-items: center;
-      background: var(--border); border-radius: 50px;
-      border: 1px solid var(--border); overflow: hidden;
-    }
-    .lang-btn button {
-      background: none; border: none; cursor: pointer;
-      padding: 0.4rem 0.85rem; font-size: 0.72rem;
-      font-weight: 600; letter-spacing: 0.1em;
-      color: var(--cream); opacity: 0.45;
-      font-family: inherit; transition: all 0.2s;
-    }
-    .lang-btn button.active { background: var(--coral); opacity: 1; }
-    .nav-cta-btn {
-      background: var(--coral); color: white;
-      padding: 0.6rem 1.4rem; border-radius: 50px;
-      font-size: 0.75rem; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .nav-cta-btn:hover { background: var(--teal); transform: translateY(-1px); }
+    /* FORM FIELDS */
+    .section-label { font-size:0.72rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:1rem; margin-top:2rem; }
+    .section-label:first-child { margin-top:0; }
+    .card { background:var(--card); border:1.5px solid var(--border); border-radius:16px; padding:1.8rem; margin-bottom:1.2rem; transition:border-color 0.2s; }
+    .card:focus-within { border-color:var(--teal); }
+    .field-group { margin-bottom:1rem; }
+    .field-group:last-child { margin-bottom:0; }
+    .field-label { font-size:0.72rem; font-weight:600; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:0.35rem; }
+    .field-input { width:100%; padding:0.65rem 0.9rem; border:1.5px solid var(--border); border-radius:8px; font-size:0.9rem; font-family:inherit; color:var(--text); background:var(--bg); transition:border-color 0.2s; }
+    .field-input:focus { outline:none; border-color:var(--teal); }
+    textarea.field-input { resize:vertical; min-height:80px; line-height:1.6; }
+    .field-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .field-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
 
-    /* ── HERO ──────────────────────────────────── */
-    .hero {
-      position: relative;
-      height: 100vh; min-height: 700px;
-      display: flex; align-items: flex-end;
-      overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background-image: url('assets/hero.jpg');
-      background-size: cover;
-      background-position: center 30%;
-      transform: scale(1.08);
-      transition: transform 12s ease;
-    }
-    .hero-bg.loaded { transform: scale(1); }
-    .hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(10,14,26,0.05) 0%,
-        rgba(10,14,26,0.0) 25%,
-        rgba(10,14,26,0.35) 60%,
-        rgba(10,14,26,0.85) 100%
-      );
-    }
-    .hero-content {
-      position: relative; z-index: 1;
-      padding: 0 5rem 6rem;
-      max-width: 800px;
-    }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 0.6rem;
-      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--butter);
-      margin-bottom: 1.5rem;
-      opacity: 0; animation: fadeUp 1s 0.3s ease forwards;
-    }
-    .hero-eyebrow::before {
-      content: ''; width: 28px; height: 1px; background: var(--butter);
-    }
-    .hero-h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.5rem, 7vw, 7rem);
-      font-weight: 300; line-height: 1.0;
-      letter-spacing: -1px;
-      color: var(--cream);
-      margin-bottom: 1.5rem;
-      opacity: 0; animation: fadeUp 1s 0.5s ease forwards;
-    }
-    .hero-h1 em { font-style: italic; color: var(--coral); }
-    .hero-sub {
-      font-size: 1rem; font-weight: 300;
-      color: var(--muted); line-height: 1.8;
-      max-width: 480px; margin-bottom: 2.5rem;
-      opacity: 0; animation: fadeUp 1s 0.7s ease forwards;
-    }
-    .hero-btns {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp 1s 0.9s ease forwards;
-    }
-    .btn-light {
-      background: var(--cream); color: var(--night);
-      padding: 0.85rem 2rem; border-radius: 4px;
-      font-size: 0.8rem; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .btn-light:hover { background: var(--butter); transform: translateY(-2px); }
-    .btn-outline {
-      border: 1px solid rgba(249,243,232,0.4); color: var(--cream);
-      padding: 0.85rem 2rem; border-radius: 4px;
-      font-size: 0.8rem; font-weight: 500;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .btn-outline:hover { border-color: var(--cream); background: var(--border); }
+    /* HOURS TABLE */
+    .hours-table { width:100%; border-collapse:collapse; }
+    .hours-table td { padding:0.5rem 0.4rem; }
+    .hours-table td:first-child { font-size:0.85rem; font-weight:500; color:var(--choc); width:110px; }
+    .hours-table .field-input { padding:0.5rem 0.8rem; font-size:0.85rem; }
 
-    /* Hero scroll indicator */
-    .hero-scroll {
-      position: absolute; bottom: 2.5rem; right: 5rem;
-      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-      opacity: 0; animation: fadeIn 1s 1.4s ease forwards;
-    }
-    .hero-scroll span {
-      font-size: 0.65rem; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--muted);
-      writing-mode: vertical-rl;
-    }
-    .scroll-line {
-      width: 1px; height: 50px;
-      background: linear-gradient(to bottom, var(--coral), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.4; transform: scaleY(1); }
-      50% { opacity: 1; transform: scaleY(1.2); }
-    }
+    /* MENU CARDS */
+    .menu-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:1.2rem; margin-bottom:1.5rem; }
+    .menu-card { background:var(--card); border:1.5px solid var(--border); border-radius:16px; padding:1.4rem; transition:border-color 0.2s; }
+    .menu-card:focus-within { border-color:var(--teal); }
+    .menu-card-top { display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem; }
+    .card-emoji { font-size:1.8rem; width:46px; height:46px; background:var(--bg); border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:background 0.2s; }
+    .card-emoji:hover { background:var(--sand); }
+    .available-toggle { display:flex; align-items:center; gap:0.5rem; font-size:0.78rem; color:var(--muted); cursor:pointer; }
+    .toggle { width:34px; height:18px; background:var(--border); border-radius:9px; position:relative; transition:background 0.2s; flex-shrink:0; }
+    .toggle::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; background:white; border-radius:50%; transition:transform 0.2s; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+    .toggle.on { background:var(--teal); }
+    .toggle.on::after { transform:translateX(16px); }
+    .remove-btn { margin-left:auto; background:none; border:none; cursor:pointer; color:#ddd; font-size:1.1rem; padding:4px; transition:color 0.2s; }
+    .remove-btn:hover { color:var(--coral); }
+    .add-item-btn { display:flex; align-items:center; justify-content:center; gap:0.6rem; padding:1rem; border:2px dashed var(--border); border-radius:14px; background:transparent; color:var(--muted); font-size:0.85rem; font-family:inherit; cursor:pointer; width:100%; transition:all 0.2s; }
+    .add-item-btn:hover { border-color:var(--teal); color:var(--teal); background:rgba(43,191,191,0.04); }
 
-    /* ── MARQUEE ───────────────────────────────── */
-    .marquee-wrap {
-      overflow: hidden;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-section);
-      padding: 1rem 0;
-    }
-    .marquee-track {
-      display: flex; width: max-content;
-      animation: marquee 50s linear infinite;
-    }
-    .marquee-item {
-      display: flex; align-items: center; gap: 1.5rem;
-      padding: 0 2.5rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: 1.1rem;
-      color: var(--muted); white-space: nowrap;
-    }
-    .marquee-sep { color: var(--coral); font-style: normal; font-size: 0.5rem; }
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+    /* IMG UPLOAD */
+    .img-upload-area { border:2px dashed var(--border); border-radius:10px; padding:1.2rem; text-align:center; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; }
+    .img-upload-area:hover { border-color:var(--teal); }
+    .img-upload-area.has-image { padding:0; border-style:solid; border-color:var(--teal); }
+    .img-upload-area img { width:100%; height:130px; object-fit:cover; border-radius:8px; display:block; }
+    .img-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; color:white; font-size:0.82rem; }
+    .img-upload-area.has-image:hover .img-overlay { opacity:1; }
+    .img-upload-input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+    .img-placeholder { color:var(--muted); font-size:0.8rem; }
+    .img-placeholder-icon { font-size:1.6rem; margin-bottom:0.3rem; }
 
-    /* ── SECTIONS SHARED ───────────────────────── */
-    .section { padding: 8rem 5rem; }
-    .section-eyebrow {
-      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--coral);
-      margin-bottom: 1rem;
-      display: flex; align-items: center; gap: 0.8rem;
-    }
-    .section-eyebrow::after { content: ''; flex: 0 0 24px; height: 1px; background: var(--coral); }
-    .section-h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.5rem, 4vw, 4rem);
-      font-weight: 300; line-height: 1.1;
-      color: var(--cream); margin-bottom: 1.5rem;
-    }
-    .section-h2 em { font-style: italic; color: var(--teal); }
+    /* EMOJI PICKER */
+    .emoji-picker { position:fixed; background:white; border:1.5px solid var(--border); border-radius:12px; padding:0.8rem; box-shadow:0 8px 32px rgba(0,0,0,0.12); display:none; z-index:200; width:230px; flex-wrap:wrap; gap:0.25rem; }
+    .emoji-picker.open { display:flex; }
+    .ep-emoji { font-size:1.4rem; padding:0.3rem; border-radius:6px; cursor:pointer; }
+    .ep-emoji:hover { background:var(--sand); }
 
-    /* reveal */
-    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    /* TOAST */
+    .toast { position:fixed; bottom:5rem; right:2rem; background:var(--choc); color:var(--cream); padding:0.8rem 1.4rem; border-radius:10px; font-size:0.85rem; font-weight:500; transform:translateY(20px); opacity:0; transition:all 0.3s; z-index:300; pointer-events:none; }
+    .toast.show { transform:translateY(0); opacity:1; }
 
-    /* ── MENU SECTION ──────────────────────────── */
-    .menu-section { background: var(--night); padding: 8rem 5rem; }
-    .menu-header {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      margin-bottom: 3.5rem; flex-wrap: wrap; gap: 2rem;
-    }
-    .menu-tabs {
-      display: flex; gap: 0;
-      border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
-    }
-    .menu-tab {
-      background: none; border: none; border-right: 1px solid var(--border);
-      padding: 0.65rem 1.4rem; font-size: 0.72rem;
-      font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--muted); cursor: pointer; font-family: inherit;
-      transition: all 0.2s;
-    }
-    .menu-tab:last-child { border-right: none; }
-    .menu-tab:hover { color: var(--cream); background: rgba(255,255,255,0.05); }
-    .menu-tab.active { background: var(--cream); color: var(--night); }
-    .menu-panel { display: none; }
-    .menu-panel.active { display: block; }
-
-    /* Today note */
-    .today-banner {
-      display: flex; align-items: center; gap: 1rem;
-      background: rgba(245,200,66,0.08);
-      border: 1px solid rgba(245,200,66,0.2);
-      border-radius: 4px; padding: 1rem 1.5rem;
-      margin-bottom: 2.5rem;
-      font-size: 0.82rem; color: var(--butter);
-    }
-
-    /* Ice cream grid */
-    .flavour-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 4px; overflow: hidden;
-    }
-    .flavour-item {
-      background: var(--night);
-      padding: 1.8rem 1.5rem;
-      transition: background 0.2s;
-      position: relative;
-    }
-    .flavour-item:hover { background: var(--bg-card); }
-    .flavour-emoji-sm { font-size: 1.6rem; margin-bottom: 0.8rem; display: block; }
-    .flavour-item img {
-      width: 100%; height: 120px; object-fit: cover;
-      border-radius: 4px; margin-bottom: 0.8rem;
-    }
-    .flavour-item-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem; font-weight: 600;
-      color: var(--cream); margin-bottom: 0.3rem;
-    }
-    .flavour-item-desc {
-      font-size: 0.75rem; color: var(--muted);
-      line-height: 1.6; margin-bottom: 0.8rem;
-    }
-    .flavour-item-price {
-      font-family: 'Caveat', cursive;
-      font-size: 1.1rem; color: var(--coral);
-    }
-    .flavour-badge {
-      position: absolute; top: 1rem; right: 1rem;
-      background: var(--butter); color: var(--night);
-      font-size: 0.6rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      padding: 0.2rem 0.5rem; border-radius: 2px;
-    }
-
-    /* Coffee list */
-    .coffee-list {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: 4px; overflow: hidden;
-    }
-    .coffee-item {
-      background: var(--night);
-      display: flex; align-items: center; gap: 1.2rem;
-      padding: 1.6rem 2rem;
-      transition: background 0.2s;
-    }
-    .coffee-item:hover { background: var(--bg-card); }
-    .coffee-item-icon {
-      font-size: 1.8rem; width: 48px; height: 48px;
-      background: var(--bg-card);
-      border-radius: 4px;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .coffee-item-info { flex: 1; }
-    .coffee-item-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem; font-weight: 600; color: var(--cream);
-      margin-bottom: 0.2rem;
-    }
-    .coffee-item-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
-    .coffee-item-badge {
-      display: inline-block; background: var(--butter); color: var(--night);
-      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em;
-      padding: 0.15rem 0.5rem; border-radius: 2px; margin-top: 0.3rem;
-    }
-    .coffee-item-price {
-      font-family: 'Caveat', cursive;
-      font-size: 1.25rem; color: var(--coral); flex-shrink: 0;
-    }
-    .coffee-note {
-      text-align: center; margin-top: 1.5rem;
-      font-size: 0.75rem; color: var(--muted); font-style: italic;
-    }
-
-    /* ── ABOUT ─────────────────────────────────── */
-    .about-section {
-      background: var(--bg-section);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 8rem 5rem;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
-    }
-    .about-visual { position: relative; }
-    .about-img-wrap {
-      border-radius: 4px; overflow: hidden;
-      aspect-ratio: 4/5;
-    }
-    .about-img-wrap img {
-      width: 100%; height: 100%; object-fit: cover;
-      filter: saturate(1.1);
-      transition: transform 0.6s ease;
-    }
-    .about-img-wrap:hover img { transform: scale(1.03); }
-    .about-stat-card {
-      position: absolute; bottom: -2rem; right: -2rem;
-      background: var(--coral);
-      padding: 1.5rem 2rem; border-radius: 4px;
-      text-align: center;
-    }
-    .stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem; font-weight: 300; color: white;
-      line-height: 1;
-    }
-    .stat-label { font-size: 0.7rem; color: rgba(255,255,255,0.75); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.3rem; }
-    .about-text p {
-      font-size: 0.95rem; font-weight: 300;
-      color: var(--muted); line-height: 1.9;
-      margin-bottom: 1.2rem;
-    }
-    .about-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
-    .pill {
-      border: 1px solid var(--border);
-      color: var(--muted); font-size: 0.72rem;
-      font-weight: 500; padding: 0.4rem 0.9rem;
-      border-radius: 2px; letter-spacing: 0.05em;
-    }
-
-    /* ── REVIEWS ───────────────────────────────── */
-    .reviews-section { background: var(--night); padding: 8rem 5rem; overflow: hidden; }
-    .reviews-top {
-      display: flex; align-items: flex-end;
-      justify-content: space-between;
-      margin-bottom: 4rem; flex-wrap: wrap; gap: 2rem;
-    }
-    .rating-display { display: flex; align-items: baseline; gap: 0.8rem; }
-    .rating-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 5rem; font-weight: 300; line-height: 1; color: var(--cream);
-    }
-    .rating-detail {}
-    .rating-stars { color: var(--butter); font-size: 1rem; letter-spacing: 2px; }
-    .rating-count { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
-    .rating-bars { display: flex; flex-direction: column; gap: 0.5rem; max-width: 260px; }
-    .bar-row { display: flex; align-items: center; gap: 0.8rem; }
-    .bar-lbl { font-size: 0.72rem; color: var(--muted); width: 10px; }
-    .bar-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-    .bar-fill { height: 100%; background: var(--butter); border-radius: 2px; }
-    .bar-pct { font-size: 0.68rem; color: var(--muted); width: 28px; }
-    .write-review {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      border: 1px solid var(--border); color: var(--cream);
-      padding: 0.75rem 1.5rem; border-radius: 4px;
-      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em;
-      text-transform: uppercase; text-decoration: none;
-      transition: all 0.2s;
-    }
-    .write-review:hover { border-color: var(--butter); color: var(--butter); }
-
-    /* Scrolling reviews */
-    .reviews-scroll-wrap { overflow: hidden; margin: 0 -5rem; }
-    .reviews-scroll-track {
-      display: flex; gap: 1.5rem;
-      padding: 0.5rem 5rem;
-      animation: reviewsScroll 45s linear infinite;
-      width: max-content;
-    }
-    .reviews-scroll-track:hover { animation-play-state: paused; }
-    @keyframes reviewsScroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .review-card {
-      width: 340px; flex-shrink: 0;
-      border: 1px solid var(--border);
-      border-radius: 4px; padding: 2rem;
-      background: var(--bg-section);
-      transition: background 0.3s, border-color 0.3s;
-    }
-    .review-card:hover { background: rgba(128,80,40,0.06); border-color: rgba(249,243,232,0.2); }
-    .rc-top { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
-    .rc-avatar {
-      width: 38px; height: 38px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.78rem; font-weight: 700; color: white; flex-shrink: 0;
-    }
-    .rc-name { font-size: 0.85rem; font-weight: 500; color: var(--cream); }
-    .rc-meta { font-size: 0.68rem; color: var(--muted); margin-top: 0.1rem; }
-    .rc-g { margin-left: auto; width: 24px; height: 24px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 900; color: #4285F4; flex-shrink: 0; }
-    .rc-stars { color: var(--butter); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 0.8rem; }
-    .rc-text { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--muted); line-height: 1.7; margin-bottom: 0.8rem; }
-    .rc-time { font-size: 0.68rem; color: rgba(249,243,232,0.3); }
-    .reviews-footer { text-align: center; margin-top: 3rem; }
-    .reviews-all-link {
-      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--muted); text-decoration: none;
-      border-bottom: 1px solid var(--border); padding-bottom: 2px;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .reviews-all-link:hover { color: var(--butter); border-color: var(--butter); }
-
-    /* ── FOOTER ────────────────────────────────── */
-    footer {
-      background: var(--bg-section);
-      border-top: 1px solid var(--border);
-      padding: 5rem 5rem 3rem;
-    }
-    .footer-grid {
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 3rem; margin-bottom: 4rem;
-    }
-    .footer-logo img { height: 56px; margin-bottom: 1.2rem; filter: brightness(0) invert(1); opacity: 0.8; }
-    .footer-tagline { font-size: 0.82rem; color: var(--muted); line-height: 1.8; max-width: 280px; }
-    .footer-socials { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
-    .footer-social {
-      width: 34px; height: 34px; border: 1px solid var(--border);
-      border-radius: 2px; display: flex; align-items: center; justify-content: center;
-      color: var(--muted); text-decoration: none; font-size: 0.75rem;
-      transition: all 0.2s;
-    }
-    .footer-social:hover { border-color: var(--coral); color: var(--coral); }
-    .footer-col h4 {
-      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em;
-      text-transform: uppercase; color: var(--cream); margin-bottom: 1.2rem;
-      opacity: 0.6;
-    }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 0.6rem; }
-    .footer-col a {
-      font-size: 0.82rem; color: var(--muted); text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-col a:hover { color: var(--cream); }
-    .footer-col p { font-size: 0.82rem; color: var(--muted); line-height: 1.8; }
-    .footer-col .hours-row { display: flex; justify-content: space-between; margin-bottom: 0.3rem; }
-    .footer-col .hours-day { font-size: 0.78rem; color: var(--muted); }
-    .footer-col .hours-time { font-size: 0.78rem; color: rgba(249,243,232,0.5); }
-    .footer-bottom {
-      border-top: 1px solid var(--border); padding-top: 2rem;
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-bottom p { font-size: 0.72rem; color: rgba(249,243,232,0.3); letter-spacing: 0.05em; }
-
-    /* ── ANIMATIONS ────────────────────────────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; } to { opacity: 1; }
-    }
-
-    /* Day mode logo — remove white bg */
-    body:not(.night-mode) .nav-logo img { mix-blend-mode: multiply; }
-    body.night-mode .nav-logo img { mix-blend-mode: normal; filter: brightness(0) invert(1) opacity(0.9); }
-
-    /* Time indicator pill */
-    .time-pill {
-      position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
-      background: var(--nav-scrolled); border: 1px solid var(--border);
-      border-radius: 50px; padding: 0.5rem 1rem;
-      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em;
-      color: var(--muted); backdrop-filter: blur(12px);
-      display: flex; align-items: center; gap: 0.5rem;
-      transition: opacity 0.3s;
-    }
-    .time-pill .dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--teal); flex-shrink: 0;
-      animation: pulse 2s ease-in-out infinite;
-    }
-    body.night-mode .time-pill .dot { background: var(--butter); }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
-
-    /* Section backgrounds use variable */
-    .menu-section { background: var(--night); }
-    .gallery-section { background: var(--night); }
-    .reviews-section { background: var(--night); }
-    .about-section { background: var(--bg-section); border-color: var(--border); }
-    .jobs-section { background: var(--bg-section); border-color: var(--border); }
-    footer { background: var(--bg-section); border-color: var(--border); }
-    .gallery-section { background: var(--night); padding: 8rem 5rem; }
-    .gallery-intro { max-width: 560px; margin-bottom: 3.5rem; }
-    .gallery-note {
-      font-size: 0.78rem; color: var(--muted); margin-top: 1rem;
-      font-style: italic;
-    }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: auto;
-      gap: 12px;
-    }
-    /* Big featured card */
-    .gallery-card {
-      border-radius: 4px; overflow: hidden;
-      position: relative; background: var(--bg-card);
-      border: 1px solid var(--border);
-      transition: transform 0.3s ease;
-    }
-    .gallery-card:hover { transform: scale(1.01); z-index: 2; }
-    .gallery-card:hover .gallery-card-overlay { opacity: 1; }
-    .gallery-card-inner {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 2.5rem 2rem; text-align: center;
-    }
-    .gallery-card-emoji { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
-    .gallery-card-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem; font-weight: 600; color: var(--cream);
-      margin-bottom: 0.4rem;
-    }
-    .gallery-card-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.8rem; }
-    .gallery-card-price {
-      font-family: 'Caveat', cursive;
-      font-size: 1.2rem; color: var(--coral);
-    }
-    .gallery-card-badge {
-      position: absolute; top: 0.8rem; left: 0.8rem;
-      background: var(--butter); color: var(--night);
-      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em;
-      text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px;
-    }
-    /* Color themes per card */
-    .gc-1 { background: linear-gradient(135deg, rgba(232,82,122,0.15), rgba(232,82,122,0.05)); grid-column: span 4; min-height: 260px; }
-    .gc-2 { background: linear-gradient(135deg, rgba(43,191,191,0.15), rgba(43,191,191,0.05)); grid-column: span 4; min-height: 260px; }
-    .gc-3 { background: linear-gradient(135deg, rgba(245,200,66,0.15), rgba(245,200,66,0.05)); grid-column: span 4; min-height: 260px; }
-    .gc-4 { background: linear-gradient(135deg, rgba(196,134,58,0.15), rgba(196,134,58,0.05)); grid-column: span 3; min-height: 220px; }
-    .gc-5 { background: linear-gradient(135deg, rgba(123,94,167,0.15), rgba(123,94,167,0.05)); grid-column: span 3; min-height: 220px; }
-    .gc-6 { background: linear-gradient(135deg, rgba(232,82,122,0.1), rgba(43,191,191,0.1)); grid-column: span 3; min-height: 220px; }
-    .gc-7 { background: linear-gradient(135deg, rgba(245,200,66,0.12), rgba(196,134,58,0.08)); grid-column: span 3; min-height: 220px; }
-    .gc-8 { background: linear-gradient(135deg, rgba(43,191,191,0.12), rgba(0,0,0,0.08)); grid-column: span 4; min-height: 220px; }
-    .gc-9 { background: linear-gradient(135deg, rgba(232,82,122,0.12), rgba(0,0,0,0.08)); grid-column: span 4; min-height: 220px; }
-    .gc-10 { background: linear-gradient(135deg, rgba(123,94,167,0.15), rgba(0,0,0,0.08)); grid-column: span 4; min-height: 220px; }
-
-    /* Upload prompt card */
-    .gc-upload {
-      grid-column: span 12;
-      border: 2px dashed rgba(249,243,232,0.1);
-      background: transparent;
-      display: flex; align-items: center; justify-content: center;
-      padding: 2rem; gap: 1.5rem; min-height: 80px;
-      flex-wrap: wrap;
-    }
-    .gc-upload p { font-size: 0.78rem; color: var(--muted); }
-    .gc-upload a {
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--teal); text-decoration: none;
-      border-bottom: 1px solid var(--teal); padding-bottom: 1px;
-    }
-
-    /* ── JOBS ──────────────────────────────────── */
-    .jobs-section {
-      border-top: 1px solid var(--border);
-      padding: 8rem 5rem;
-      background: rgba(249,243,232,0.02);
-    }
-    .jobs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3.5rem; }
-    .job-card {
-      border: 1px solid var(--border); border-radius: 4px;
-      padding: 2.5rem; transition: border-color 0.2s, background 0.2s;
-    }
-    .job-card:hover { border-color: var(--coral); background: rgba(232,82,122,0.04); }
-    .job-tag {
-      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--teal);
-      background: rgba(43,191,191,0.1);
-      padding: 0.25rem 0.7rem; border-radius: 2px;
-      display: inline-block; margin-bottom: 1.2rem;
-    }
-    .job-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem; font-weight: 600; color: var(--cream);
-      margin-bottom: 0.8rem;
-    }
-    .job-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
-    .job-details { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.8rem; }
-    .job-detail {
-      font-size: 0.72rem; color: var(--muted);
-      border: 1px solid var(--border); padding: 0.3rem 0.8rem; border-radius: 2px;
-    }
-    .job-apply {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--coral); color: white;
-      padding: 0.7rem 1.5rem; border-radius: 4px;
-      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
-      text-transform: uppercase; text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .job-apply:hover { background: var(--teal); transform: translateY(-1px); }
-    .jobs-note {
-      margin-top: 2rem; padding: 1.5rem 2rem;
-      border: 1px solid rgba(245,200,66,0.2);
-      background: rgba(245,200,66,0.04);
-      border-radius: 4px; font-size: 0.82rem; color: var(--muted);
-    }
-    .jobs-note strong { color: var(--butter); }
-
-    /* ── RESPONSIVE ────────────────────────────── */
-    @media (max-width: 1024px) {
-      .section, .menu-section, .about-section, .reviews-section, .gallery-section, .jobs-section, footer { padding-left: 2.5rem; padding-right: 2.5rem; }
-      nav { padding: 0 2rem; }
-      .hero-content { padding: 0 2.5rem 5rem; }
-      .hero-scroll { right: 2.5rem; }
-      .about-section { grid-template-columns: 1fr; gap: 3rem; }
-      .about-stat-card { bottom: 1rem; right: 1rem; }
-      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-      .coffee-list { grid-template-columns: 1fr; }
-      .gc-1, .gc-2, .gc-3 { grid-column: span 6; }
-      .gc-4, .gc-5, .gc-6, .gc-7 { grid-column: span 6; }
-      .gc-8, .gc-9, .gc-10 { grid-column: span 4; }
-    }
-    @media (max-width: 768px) {
-      nav { padding: 0 1.5rem; height: 72px; }
-      .nav-links { display: none; }
-      .hero-content { padding: 0 1.5rem 4rem; }
-      .hero-scroll { display: none; }
-      .menu-tabs { flex-wrap: wrap; }
-      .reviews-scroll-wrap { margin: 0 -2.5rem; }
-      .reviews-scroll-track { padding: 0.5rem 2.5rem; }
-      footer { padding: 3rem 1.5rem 2rem; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; text-align: center; }
-      .gc-1,.gc-2,.gc-3,.gc-4,.gc-5,.gc-6,.gc-7,.gc-8,.gc-9,.gc-10 { grid-column: span 12; }
-      .jobs-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width:768px) { .sidebar { display:none; } .main { margin-left:0; } .save-bar { left:0; } }
   </style>
 </head>
-<body class="lang-en">
+<body>
 
-<!-- TIME PILL -->
-<div class="time-pill" id="timePill">
-  <div class="dot"></div>
-  <span id="timePillText"></span>
-</div>
-
-<!-- NAV -->
-<nav id="navbar">
-  <a href="#" class="nav-logo">
-    <img src="assets/logo.png" alt="The Beachconers Microcreamery"/>
-  </a>
-  <div class="nav-right">
-    <ul class="nav-links">
-      <li><a href="#menu"><span class="en">Menu</span><span class="fr">Menu</span></a></li>
-      <li><a href="#gallery"><span class="en">Gallery</span><span class="fr">Galerie</span></a></li>
-      <li><a href="#about"><span class="en">Our Story</span><span class="fr">Notre Histoire</span></a></li>
-      <li><a href="#reviews"><span class="en">Reviews</span><span class="fr">Avis</span></a></li>
-      <li><a href="#jobs"><span class="en">Jobs</span><span class="fr">Emplois</span></a></li>
-    </ul>
-    <div class="lang-btn">
-      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
-      <button id="btn-fr" onclick="setLang('fr')">FR</button>
-    </div>
-    <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_" target="_blank" class="nav-cta-btn">
-      <span class="en">📍 Visit Us</span>
-      <span class="fr">📍 Nous visiter</span>
-    </a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg" id="heroBg"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">
-      <span class="en">Britannia Beach · Ottawa · Since 2015</span>
-      <span class="fr">Plage Britannia · Ottawa · Depuis 2015</span>
-    </div>
-    <h1 class="hero-h1">
-      <span class="en">Handcrafted<br><em>Ice Cream</em><br>& Coffee.</span>
-      <span class="fr">Crème glacée<br><em>artisanale</em><br>& café.</span>
-    </h1>
-    <p class="hero-sub">
-      <span class="en">Small-batch, made from scratch every morning. 273 Britannia Rd, right by the water.</span>
-      <span class="fr">En petits lots, fait de zéro chaque matin. 273 ch. Britannia, juste au bord de l'eau.</span>
-    </p>
-    <div class="hero-btns">
-      <a href="#menu" class="btn-light">
-        <span class="en">See the Menu</span>
-        <span class="fr">Voir le menu</span>
-      </a>
-      <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_" target="_blank" class="btn-outline">
-        <span class="en">Get Directions</span>
-        <span class="fr">Itinéraire</span>
-      </a>
-    </div>
-  </div>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>scroll</span>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track" id="marquee">
-    <span class="marquee-item">Vanilla Bean <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Blueberry Lavender <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Snickerdoodle Latte <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Cookie D'OH <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Cold Brew Coffee <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Hong Kong Waffle <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">London Fog <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Maple Walnut <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Oat Milk Mocha <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Peach Cardamom <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Affogato <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Raspberry Lemon <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Vanilla Bean <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Blueberry Lavender <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Snickerdoodle Latte <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Cookie D'OH <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Cold Brew Coffee <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Hong Kong Waffle <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">London Fog <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Maple Walnut <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Oat Milk Mocha <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Peach Cardamom <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Affogato <span class="marquee-sep">✦</span></span>
-    <span class="marquee-item">Raspberry Lemon <span class="marquee-sep">✦</span></span>
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Beach<span>coners</span></div>
+    <div class="login-sub">Admin Panel · Staff Only</div>
+    <input type="text" id="login-user" placeholder="Username" autocomplete="username"/>
+    <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password"/>
+    <button class="btn" onclick="doLogin()">Sign In →</button>
+    <div class="login-error" id="login-error">Incorrect username or password.</div>
   </div>
 </div>
 
-<!-- MENU -->
-<section class="menu-section" id="menu">
-  <div class="menu-header reveal">
-    <div>
-      <div class="section-eyebrow">
-        <span class="en">Full Menu</span><span class="fr">Menu complet</span>
-      </div>
-      <h2 class="section-h2">
-        <span class="en">Everything we <em>make</em></span>
-        <span class="fr">Tout ce que nous <em>faisons</em></span>
-      </h2>
-    </div>
-    <div class="menu-tabs">
-      <button class="menu-tab active" onclick="switchTab('today',this)">
-        <span class="en">✦ Today</span><span class="fr">✦ Aujourd'hui</span>
-      </button>
-      <button class="menu-tab" onclick="switchTab('icecream',this)">
-        <span class="en">Ice Cream</span><span class="fr">Crème glacée</span>
-      </button>
-      <button class="menu-tab" onclick="switchTab('coffee',this)">
-        <span class="en">Coffee</span><span class="fr">Café</span>
-      </button>
-      <button class="menu-tab" onclick="switchTab('food',this)">
-        <span class="en">Food</span><span class="fr">Nourriture</span>
-      </button>
+<div id="admin-app">
+  <div class="sidebar">
+    <div class="sidebar-logo">Beach<span>coners</span></div>
+    <div class="sidebar-sub">ADMIN PANEL</div>
+
+    <div class="nav-group">Menu</div>
+    <div class="nav-item active" onclick="showTab('today',this)"><span class="nav-icon">🌟</span> Today's Flavours</div>
+    <div class="nav-item" onclick="showTab('icecream',this)"><span class="nav-icon">🍦</span> All Ice Cream</div>
+    <div class="nav-item" onclick="showTab('coffee',this)"><span class="nav-icon">☕</span> Coffee</div>
+    <div class="nav-item" onclick="showTab('food',this)"><span class="nav-icon">🥪</span> Food & Treats</div>
+
+    <div class="nav-group">Site Content</div>
+    <div class="nav-item" onclick="showTab('about',this)"><span class="nav-icon">📖</span> Our Story</div>
+    <div class="nav-item" onclick="showTab('contact',this)"><span class="nav-icon">📍</span> Contact & Hours</div>
+    <div class="nav-item" onclick="showTab('social',this)"><span class="nav-icon">📱</span> Social & Links</div>
+    <div class="nav-item" onclick="showTab('password',this)"><span class="nav-icon">🔐</span> Change Password</div>
+
+    <div class="sidebar-footer">
+      <a href="index.html" target="_blank" class="preview-btn">👁 Preview Site</a>
+      <div class="logout-btn" onclick="doLogout()">↩ Logout</div>
     </div>
   </div>
 
-  <div class="menu-panel active" id="panel-today">
-    <div class="today-banner">
-      <span>✨</span>
-      <span class="en">These flavours are freshly made today — they rotate regularly, so come back often!</span>
-      <span class="fr">Ces saveurs sont fraîchement préparées aujourd'hui — elles changent régulièrement !</span>
-    </div>
-    <div class="flavour-grid" id="today-menu"></div>
-  </div>
-  <div class="menu-panel" id="panel-icecream">
-    <div class="flavour-grid" id="icecream-menu"></div>
-  </div>
-  <div class="menu-panel" id="panel-coffee">
-    <div class="coffee-list" id="coffee-menu"></div>
-    <div class="coffee-note en">☀️ All espresso drinks available hot or iced · Oat, almond & soy milk available · +$0.75</div>
-    <div class="coffee-note fr">☀️ Toutes les boissons espresso disponibles chaudes ou glacées · Lait d'avoine, amande & soja disponible · +0,75 $</div>
-  </div>
-  <div class="menu-panel" id="panel-food">
-    <div class="flavour-grid" id="food-menu"></div>
-  </div>
-</section>
+  <div class="main">
 
-<!-- ABOUT -->
-<section class="about-section" id="about">
-  <div class="about-visual reveal">
-    <div class="about-img-wrap">
-      <img src="assets/hero.jpg" alt="The Beachconers patio at night"/>
+    <!-- TODAY -->
+    <div class="tab active" id="tab-today">
+      <div class="page-header">
+        <div class="page-title">Today's Flavours</div>
+        <div class="page-sub">These rotate daily. Update every morning with what's fresh.</div>
+      </div>
+      <div class="menu-grid" id="grid-today"></div>
+      <button class="add-item-btn" onclick="addItem('icecream_today')">＋ Add Today's Flavour</button>
     </div>
-    <div class="about-stat-card">
-      <div class="stat-num">4.7</div>
-      <div class="stat-label">
-        <span class="en">Google Rating</span>
-        <span class="fr">Note Google</span>
+
+    <!-- ALL ICE CREAM -->
+    <div class="tab" id="tab-icecream">
+      <div class="page-header">
+        <div class="page-title">All Ice Cream</div>
+        <div class="page-sub">Your full ice cream menu. Toggle availability anytime.</div>
+      </div>
+      <div class="menu-grid" id="grid-icecream"></div>
+      <button class="add-item-btn" onclick="addItem('icecream')">＋ Add Flavour</button>
+    </div>
+
+    <!-- COFFEE -->
+    <div class="tab" id="tab-coffee">
+      <div class="page-header">
+        <div class="page-title">Coffee Menu</div>
+        <div class="page-sub">Update drinks, prices and availability.</div>
+      </div>
+      <div class="menu-grid" id="grid-coffee"></div>
+      <button class="add-item-btn" onclick="addItem('coffee')">＋ Add Drink</button>
+    </div>
+
+    <!-- FOOD -->
+    <div class="tab" id="tab-food">
+      <div class="page-header">
+        <div class="page-title">Food & Treats</div>
+        <div class="page-sub">Sandwiches, waffles, baked goods and more.</div>
+      </div>
+      <div class="menu-grid" id="grid-food"></div>
+      <button class="add-item-btn" onclick="addItem('food')">＋ Add Item</button>
+    </div>
+
+    <!-- ABOUT -->
+    <div class="tab" id="tab-about">
+      <div class="page-header">
+        <div class="page-title">Our Story</div>
+        <div class="page-sub">Edit the text that appears in the "Our Story" section.</div>
+      </div>
+      <div class="card">
+        <div class="field-group">
+          <div class="field-label">Section Heading</div>
+          <input class="field-input" id="about_title" oninput="updateSite('about_title',this.value)" placeholder="Ice cream & coffee — our love language"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Paragraph 1</div>
+          <textarea class="field-input" id="about_p1" oninput="updateSite('about_p1',this.value)"></textarea>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Paragraph 2</div>
+          <textarea class="field-input" id="about_p2" oninput="updateSite('about_p2',this.value)"></textarea>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Paragraph 3</div>
+          <textarea class="field-input" id="about_p3" oninput="updateSite('about_p3',this.value)"></textarea>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="about-text reveal">
-    <div class="section-eyebrow">
-      <span class="en">Our Story</span><span class="fr">Notre Histoire</span>
-    </div>
-    <h2 class="section-h2" id="about-title">
-      <span class="en">Ice cream &amp; coffee —<br><em>our love language</em></span>
-      <span class="fr">Crème glacée &amp; café —<br><em>notre langage d'amour</em></span>
-    </h2>
-    <p id="about-p1" class="en">The Beachconers was born from a simple belief: ice cream and coffee should be made the way your grandmother would — from scratch, with real ingredients, and a lot of love.</p>
-    <p id="about-p1-fr" class="fr">Les Beachconers sont nés d'une conviction simple : la crème glacée et le café devraient être faits comme votre grand-mère le ferait — de zéro, avec de vrais ingrédients, et beaucoup d'amour.</p>
-    <p id="about-p2" class="en">Nestled steps from Britannia Beach on the Ottawa River, we've been hand-crafting small-batch ice cream and pulling specialty espresso since 2015. Every flavour is developed in-house and made fresh each morning.</p>
-    <p id="about-p2-fr" class="fr">Nichés à quelques pas de la plage Britannia sur la rivière des Outaouais, nous fabriquons artisanalement de la crème glacée en petits lots et préparons des expressos de spécialité depuis 2015.</p>
-    <p id="about-p3" class="en">We source locally whenever possible — Ontario dairy farms, seasonal fruit growers, and independent suppliers who care as much as we do. Come find us by the water.</p>
-    <p id="about-p3-fr" class="fr">Nous nous approvisionnons localement dans la mesure du possible — fermes laitières ontariennes, producteurs de fruits de saison. Venez nous trouver au bord de l'eau.</p>
-    <div class="about-pills">
-      <span class="pill"><span class="en">🥛 Local Dairy</span><span class="fr">🥛 Lait local</span></span>
-      <span class="pill"><span class="en">☕ Specialty Coffee</span><span class="fr">☕ Café de spécialité</span></span>
-      <span class="pill"><span class="en">🫙 Small Batch</span><span class="fr">🫙 Petit lot</span></span>
-      <span class="pill"><span class="en">🌱 Vegan Options</span><span class="fr">🌱 Options véganes</span></span>
-      <span class="pill"><span class="en">🇨🇦 Ottawa Made</span><span class="fr">🇨🇦 Fait à Ottawa</span></span>
-    </div>
-  </div>
-</section>
 
-<!-- REVIEWS -->
-<section class="reviews-section" id="reviews">
-  <div class="reviews-top reveal">
-    <div>
-      <div class="section-eyebrow">
-        <span class="en">What people say</span><span class="fr">Ce que les gens disent</span>
+    <!-- CONTACT & HOURS -->
+    <div class="tab" id="tab-contact">
+      <div class="page-header">
+        <div class="page-title">Contact & Hours</div>
+        <div class="page-sub">Update your address, phone, email and opening hours.</div>
       </div>
-      <div class="rating-display">
-        <div class="rating-num">4.7</div>
-        <div class="rating-detail">
-          <div class="rating-stars">★★★★★</div>
-          <div class="rating-count">
-            <span class="en">1,164 Google reviews</span>
-            <span class="fr">1 164 avis Google</span>
+      <div class="card">
+        <div class="section-label" style="margin-top:0">Contact Info</div>
+        <div class="field-row">
+          <div class="field-group">
+            <div class="field-label">Phone</div>
+            <input class="field-input" id="s_phone" oninput="updateSite('phone',this.value)"/>
+          </div>
+          <div class="field-group">
+            <div class="field-label">Email</div>
+            <input class="field-input" id="s_email" oninput="updateSite('email',this.value)"/>
           </div>
         </div>
+        <div class="field-group">
+          <div class="field-label">Address</div>
+          <input class="field-input" id="s_address" oninput="updateSite('address',this.value)"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Address Note (e.g. parking info)</div>
+          <input class="field-input" id="s_address_note" oninput="updateSite('address_note',this.value)"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Google Maps Embed URL</div>
+          <input class="field-input" id="s_maps" oninput="updateSite('maps_embed',this.value)" placeholder="https://www.google.com/maps/embed?..."/>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-label" style="margin-top:0">Opening Hours</div>
+        <table class="hours-table">
+          <tr><td>Monday</td><td><input class="field-input" id="h_monday" oninput="updateHours('monday',this.value)"/></td></tr>
+          <tr><td>Tuesday</td><td><input class="field-input" id="h_tuesday" oninput="updateHours('tuesday',this.value)"/></td></tr>
+          <tr><td>Wednesday</td><td><input class="field-input" id="h_wednesday" oninput="updateHours('wednesday',this.value)"/></td></tr>
+          <tr><td>Thursday</td><td><input class="field-input" id="h_thursday" oninput="updateHours('thursday',this.value)"/></td></tr>
+          <tr><td>Friday</td><td><input class="field-input" id="h_friday" oninput="updateHours('friday',this.value)"/></td></tr>
+          <tr><td>Saturday</td><td><input class="field-input" id="h_saturday" oninput="updateHours('saturday',this.value)"/></td></tr>
+          <tr><td>Sunday</td><td><input class="field-input" id="h_sunday" oninput="updateHours('sunday',this.value)"/></td></tr>
+        </table>
       </div>
     </div>
-    <div>
-      <div class="rating-bars" style="margin-bottom:1.5rem;">
-        <div class="bar-row"><span class="bar-lbl">5</span><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div><span class="bar-pct">78%</span></div>
-        <div class="bar-row"><span class="bar-lbl">4</span><div class="bar-track"><div class="bar-fill" style="width:13%"></div></div><span class="bar-pct">13%</span></div>
-        <div class="bar-row"><span class="bar-lbl">3</span><div class="bar-track"><div class="bar-fill" style="width:5%"></div></div><span class="bar-pct">5%</span></div>
-        <div class="bar-row"><span class="bar-lbl">2</span><div class="bar-track"><div class="bar-fill" style="width:2%"></div></div><span class="bar-pct">2%</span></div>
-        <div class="bar-row"><span class="bar-lbl">1</span><div class="bar-track"><div class="bar-fill" style="width:2%"></div></div><span class="bar-pct">2%</span></div>
+
+    <!-- SOCIAL -->
+    <div class="tab" id="tab-social">
+      <div class="page-header">
+        <div class="page-title">Social & Links</div>
+        <div class="page-sub">Update your social media links and site tagline.</div>
       </div>
-      <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_?entry=ttu" target="_blank" class="write-review">
-        <span class="en">✍ Write a Review</span>
-        <span class="fr">✍ Écrire un avis</span>
-      </a>
+      <div class="card">
+        <div class="field-group">
+          <div class="field-label">Site Tagline</div>
+          <input class="field-input" id="s_tagline" oninput="updateSite('tagline',this.value)"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Facebook URL</div>
+          <input class="field-input" id="s_facebook" oninput="updateSite('facebook',this.value)"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Instagram URL</div>
+          <input class="field-input" id="s_instagram" oninput="updateSite('instagram',this.value)"/>
+        </div>
+      </div>
     </div>
+
+    <!-- PASSWORD -->
+    <div class="tab" id="tab-password">
+      <div class="page-header">
+        <div class="page-title">Change Password</div>
+        <div class="page-sub">Update your admin login credentials.</div>
+      </div>
+      <div class="card" style="max-width:400px;">
+        <div class="field-group">
+          <div class="field-label">New Username</div>
+          <input class="field-input" id="new-user" placeholder="beachconers"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label">New Password</div>
+          <input class="field-input" type="password" id="new-pass" placeholder="••••••••"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Confirm Password</div>
+          <input class="field-input" type="password" id="new-pass2" placeholder="••••••••"/>
+        </div>
+        <button class="btn-save" style="margin-top:0.5rem;" onclick="changePassword()">Update Credentials</button>
+        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.8rem;">⚠️ Note: credentials are saved in the browser on this device.</p>
+      </div>
+    </div>
+
   </div>
 
-  <div class="reviews-scroll-wrap">
-    <div class="reviews-scroll-track" id="reviews-track">
-      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#E8527A">BR</div><div><div class="rc-name">Brenna Roux</div><div class="rc-meta">Local Guide · 123 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"This place is truly a gem. Unique and delicious homemade ice cream. The terrace is super cute and great for people-watching."</p><div class="rc-time">9 months ago</div></div>
-      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#2BBFBF">KL</div><div><div class="rc-name">Kevin L.</div><div class="rc-meta">Ottawa · 47 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"The blueberry lavender is unlike anything I've tasted. You can tell every flavour is made with serious care. Perfect summer destination."</p><div class="rc-time">6 months ago</div></div>
-      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#F5C842;color:#0A0E1A">AM</div><div><div class="rc-name">Aisha M.</div><div class="rc-meta">Kanata · 89 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"Came for the ice cream, stayed for the coffee. The Snickerdoodle Latte is incredible. Will be back weekly."</p><div class="rc-time">4 months ago</div></div>
-      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#7B5EA7">TP</div><div><div class="rc-name">Tom P.</div><div class="rc-meta">Local Guide · 211 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"Best stop on the Ottawa River bike path, hands down. The Cold Brew ice cream cone is a revelation. Generous portions."</p><div class="rc-time">1 year ago</div></div>
-      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#E8527A">SR</div><div><div class="rc-name">Sophie R.</div><div class="rc-meta">Ottawa · 34 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"The vegan options here are genuinely excellent — not an afterthought. A place that truly caters to everyone."</p><div class="rc-time">3 months ago</div></div>
-      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#2BBFBF">JC</div><div><div class="rc-name">James C.</div><div class="rc-meta">Local Guide · 156 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"Cookie D'OH is my daughter's new obsession. The Hong Kong Waffle with a scoop on top is absolutely next level."</p><div class="rc-time">5 months ago</div></div>
-      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#C4863A">RK</div><div><div class="rc-name">Ravi K.</div><div class="rc-meta">Local Guide · 302 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"After 50+ ice cream shops in Ottawa, Beachconers is still my #1. Bruce behind the counter is the friendliest barista in the city."</p><div class="rc-time">2 months ago</div></div>
+  <div class="save-bar" id="save-bar">
+    <div class="save-bar-msg">You have <span>unsaved changes</span></div>
+    <div class="save-actions">
+      <button class="btn-discard" onclick="discardChanges()">Discard</button>
+      <button class="btn-save" onclick="saveChanges()">💾 Save & Download</button>
     </div>
   </div>
+</div>
 
-  <div class="reviews-footer reveal">
-    <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_?entry=ttu" target="_blank" class="reviews-all-link">
-      <span class="en">See all 1,164 reviews on Google</span>
-      <span class="fr">Voir tous les 1 164 avis sur Google</span>
-    </a>
-  </div>
-</section>
-
-<!-- GALLERY -->
-<section class="gallery-section" id="gallery">
-  <div class="gallery-intro reveal">
-    <div class="section-eyebrow">
-      <span class="en">Our Flavours</span><span class="fr">Nos saveurs</span>
-    </div>
-    <h2 class="section-h2">
-      <span class="en">Made fresh,<br><em>every single day</em></span>
-      <span class="fr">Fait frais,<br><em>chaque jour</em></span>
-    </h2>
-    <p class="gallery-note en">📷 Add your own photos via the admin panel — photos appear here automatically.</p>
-    <p class="gallery-note fr">📷 Ajoutez vos propres photos via le panneau d'administration.</p>
-  </div>
-
-  <div class="gallery-grid" id="gallery-grid">
-    <!-- Top row: 3 big cards -->
-    <div class="gallery-card gc-1 reveal">
-      <div class="gallery-card-inner">
-        <div class="gallery-card-badge en">⭐ Fan Fave</div>
-        <div class="gallery-card-badge fr">⭐ Favori</div>
-        <span class="gallery-card-emoji">🍦</span>
-        <div class="gallery-card-name">Madagascar Vanilla Bean</div>
-        <div class="gallery-card-desc en">Real vanilla beans, slow-churned with Ontario cream.</div>
-        <div class="gallery-card-desc fr">Vraies gousses de vanille, barattées lentement.</div>
-        <div class="gallery-card-price">from $4.50</div>
-      </div>
-    </div>
-    <div class="gallery-card gc-2 reveal">
-      <div class="gallery-card-inner">
-        <span class="gallery-card-emoji">🫐</span>
-        <div class="gallery-card-name">Blueberry Lavender</div>
-        <div class="gallery-card-desc en">Wild blueberries with a floral lavender note.</div>
-        <div class="gallery-card-desc fr">Bleuets sauvages avec une note florale de lavande.</div>
-        <div class="gallery-card-price">from $4.75</div>
-      </div>
-    </div>
-    <div class="gallery-card gc-3 reveal">
-      <div class="gallery-card-inner">
-        <div class="gallery-card-badge">⭐ Must Try</div>
-        <span class="gallery-card-emoji">🍪</span>
-        <div class="gallery-card-name">Snickerdoodle Latte</div>
-        <div class="gallery-card-desc en">Cinnamon sugar sweetness in a velvety espresso latte.</div>
-        <div class="gallery-card-desc fr">Douceur de sucre cannelle dans un latte espresso velouté.</div>
-        <div class="gallery-card-price">$6.00</div>
-      </div>
-    </div>
-
-    <!-- Middle row: 4 medium cards -->
-    <div class="gallery-card gc-4 reveal">
-      <div class="gallery-card-inner">
-        <span class="gallery-card-emoji">🍫</span>
-        <div class="gallery-card-name">Cookie D'OH</div>
-        <div class="gallery-card-desc en">Cookie dough chunks in sweet vanilla cream.</div>
-        <div class="gallery-card-desc fr">Morceaux de pâte à biscuits dans une crème vanille.</div>
-        <div class="gallery-card-price">from $5.00</div>
-      </div>
-    </div>
-    <div class="gallery-card gc-5 reveal">
-      <div class="gallery-card-inner">
-        <span class="gallery-card-emoji">🧇</span>
-        <div class="gallery-card-name en">Hong Kong Waffle</div>
-        <div class="gallery-card-name fr">Gaufre Hong Kong</div>
-        <div class="gallery-card-desc en">Crispy bubble waffle + your choice of scoop.</div>
-        <div class="gallery-card-desc fr">Gaufre bulle croustillante + votre choix de boule.</div>
-        <div class="gallery-card-price">$9.00</div>
-      </div>
-    </div>
-    <div class="gallery-card gc-6 reveal">
-      <div class="gallery-card-inner">
-        <span class="gallery-card-emoji">☕</span>
-        <div class="gallery-card-name">Cold Brew Coffee</div>
-        <div class="gallery-card-desc en">House cold brew churned into ice cream.</div>
-        <div class="gallery-card-desc fr">Cold brew maison transformé en crème glacée.</div>
-        <div class="gallery-card-price">from $4.75</div>
-      </div>
-    </div>
-    <div class="gallery-card gc-7 reveal">
-      <div class="gallery-card-inner">
-        <div class="gallery-card-badge">🌱 Vegan</div>
-        <span class="gallery-card-emoji">🌱</span>
-        <div class="gallery-card-name">Vegan Root Beer</div>
-        <div class="gallery-card-desc en">100% dairy-free. All the flavour, no compromise.</div>
-        <div class="gallery-card-desc fr">100% sans produits laitiers. Toute la saveur.</div>
-        <div class="gallery-card-price">from $4.75</div>
-      </div>
-    </div>
-
-    <!-- Bottom row: 3 cards -->
-    <div class="gallery-card gc-8 reveal">
-      <div class="gallery-card-inner">
-        <span class="gallery-card-emoji">🍁</span>
-        <div class="gallery-card-name">Maple Walnut</div>
-        <div class="gallery-card-desc en">Ontario maple syrup + toasted walnuts.</div>
-        <div class="gallery-card-desc fr">Sirop d'érable ontarien + noix de Grenoble grillées.</div>
-        <div class="gallery-card-price">from $4.75</div>
-      </div>
-    </div>
-    <div class="gallery-card gc-9 reveal">
-      <div class="gallery-card-inner">
-        <span class="gallery-card-emoji">🫖</span>
-        <div class="gallery-card-name">London Fog</div>
-        <div class="gallery-card-desc en">Earl Grey tea-infused cream with vanilla.</div>
-        <div class="gallery-card-desc fr">Crème infusée au thé Earl Grey avec vanille.</div>
-        <div class="gallery-card-price">from $4.75</div>
-      </div>
-    </div>
-    <div class="gallery-card gc-10 reveal">
-      <div class="gallery-card-inner">
-        <span class="gallery-card-emoji">🍦</span>
-        <div class="gallery-card-name">Affogato</div>
-        <div class="gallery-card-desc en">Hot espresso poured over vanilla bean ice cream.</div>
-        <div class="gallery-card-desc fr">Espresso chaud versé sur une boule de vanille.</div>
-        <div class="gallery-card-price">$6.50</div>
-      </div>
-    </div>
-
-    <!-- Upload note -->
-    <div class="gallery-card gc-upload">
-      <p class="en">📸 Have photos of your visit? Share them on Google or Facebook — we'd love to see!</p>
-      <p class="fr">📸 Vous avez des photos de votre visite ? Partagez-les sur Google ou Facebook !</p>
-      <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_?entry=ttu" target="_blank" class="en">Add a photo on Google →</a>
-      <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_?entry=ttu" target="_blank" class="fr">Ajouter une photo sur Google →</a>
-    </div>
-  </div>
-</section>
-
-<!-- JOBS -->
-<section class="jobs-section" id="jobs">
-  <div class="reveal">
-    <div class="section-eyebrow">
-      <span class="en">Join Our Team</span><span class="fr">Rejoignez notre équipe</span>
-    </div>
-    <h2 class="section-h2">
-      <span class="en">Work somewhere<br><em>worth waking up for</em></span>
-      <span class="fr">Travaillez quelque part<br><em>qui en vaut la peine</em></span>
-    </h2>
-  </div>
-
-  <div class="jobs-grid">
-    <div class="job-card reveal">
-      <div class="job-tag en">🍦 Ice Cream</div>
-      <div class="job-tag fr">🍦 Crème glacée</div>
-      <div class="job-title en">Scoop Shop Team Member</div>
-      <div class="job-title fr">Membre de l'équipe</div>
-      <div class="job-desc en">Join our front-of-house team serving handcrafted ice cream, coffee and food to the Ottawa community. We're looking for friendly, enthusiastic people who love great food and great people.</div>
-      <div class="job-desc fr">Rejoignez notre équipe pour servir de la crème glacée artisanale, du café et de la nourriture à la communauté d'Ottawa. Nous cherchons des personnes amicales et enthousiastes.</div>
-      <div class="job-details">
-        <span class="job-detail en">🕐 Part-time & Full-time</span>
-        <span class="job-detail fr">🕐 Temps partiel & plein</span>
-        <span class="job-detail en">📍 273 Britannia Rd</span>
-        <span class="job-detail fr">📍 273 ch. Britannia</span>
-        <span class="job-detail en">☀️ Seasonal</span>
-        <span class="job-detail fr">☀️ Saisonnier</span>
-      </div>
-      <a href="mailto:hello@thebeachconers.ca?subject=Job Application - Scoop Shop" class="job-apply">
-        <span class="en">Apply Now →</span>
-        <span class="fr">Postuler →</span>
-      </a>
-    </div>
-
-    <div class="job-card reveal">
-      <div class="job-tag en">☕ Coffee</div>
-      <div class="job-tag fr">☕ Café</div>
-      <div class="job-title en">Barista</div>
-      <div class="job-title fr">Barista</div>
-      <div class="job-desc en">We're looking for a skilled and passionate barista to craft specialty espresso drinks alongside our ice cream service. Experience with specialty coffee is preferred, but a genuine love for the craft is essential.</div>
-      <div class="job-desc fr">Nous cherchons un barista qualifié et passionné pour préparer des boissons espresso de spécialité. L'expérience est préférée, mais la passion est essentielle.</div>
-      <div class="job-details">
-        <span class="job-detail en">🕐 Part-time</span>
-        <span class="job-detail fr">🕐 Temps partiel</span>
-        <span class="job-detail en">📍 273 Britannia Rd</span>
-        <span class="job-detail fr">📍 273 ch. Britannia</span>
-        <span class="job-detail en">☀️ Seasonal</span>
-        <span class="job-detail fr">☀️ Saisonnier</span>
-      </div>
-      <a href="mailto:hello@thebeachconers.ca?subject=Job Application - Barista" class="job-apply">
-        <span class="en">Apply Now →</span>
-        <span class="fr">Postuler →</span>
-      </a>
-    </div>
-  </div>
-
-  <div class="jobs-note reveal">
-    <strong class="en">How to apply:</strong>
-    <strong class="fr">Comment postuler :</strong>
-    <span class="en"> Send your resume and a short note about why you'd love to work with us to <a href="mailto:hello@thebeachconers.ca" style="color:var(--teal)">hello@thebeachconers.ca</a>. We read every application personally.</span>
-    <span class="fr"> Envoyez votre CV et une courte note sur pourquoi vous aimeriez travailler avec nous à <a href="mailto:hello@thebeachconers.ca" style="color:var(--teal)">hello@thebeachconers.ca</a>. Nous lisons chaque candidature personnellement.</span>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-grid">
-    <div>
-      <div class="footer-logo">
-        <img src="assets/logo.png" alt="The Beachconers"/>
-      </div>
-      <p class="footer-tagline en">Handcrafted ice cream & coffee made from scratch in Britannia, Ottawa. Every scoop made with real ingredients and a whole lot of love.</p>
-      <p class="footer-tagline fr">Crème glacée et café artisanaux faits de zéro à Britannia, Ottawa. Chaque boule préparée avec de vrais ingrédients.</p>
-      <div class="footer-socials">
-        <a href="https://www.facebook.com/thebeachconers/" target="_blank" class="footer-social">f</a>
-        <a href="#" class="footer-social">ig</a>
-        <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_" target="_blank" class="footer-social">📍</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4><span class="en">Menu</span><span class="fr">Menu</span></h4>
-      <ul>
-        <li><a href="#menu"><span class="en">Today's Flavours</span><span class="fr">Saveurs du jour</span></a></li>
-        <li><a href="#menu"><span class="en">All Ice Cream</span><span class="fr">Toute la crème glacée</span></a></li>
-        <li><a href="#menu"><span class="en">Coffee</span><span class="fr">Café</span></a></li>
-        <li><a href="#menu"><span class="en">Food & Treats</span><span class="fr">Nourriture</span></a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4><span class="en">Hours</span><span class="fr">Heures</span></h4>
-      <div id="footer-hours">
-        <div class="hours-row"><span class="hours-day en">Monday</span><span class="hours-day fr">Lundi</span><span class="hours-time">Closed / Fermé</span></div>
-        <div class="hours-row"><span class="hours-day en">Tue – Fri</span><span class="hours-day fr">Mar – Ven</span><span class="hours-time">8am – 5pm</span></div>
-        <div class="hours-row"><span class="hours-day en">Saturday</span><span class="hours-day fr">Samedi</span><span class="hours-time">9am – 5pm</span></div>
-        <div class="hours-row"><span class="hours-day en">Sunday</span><span class="hours-day fr">Dimanche</span><span class="hours-time">9am – 4pm</span></div>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4><span class="en">Contact</span><span class="fr">Contact</span></h4>
-      <p>
-        273 Britannia Rd<br>Ottawa, ON K2B 6W7<br><br>
-        <a href="tel:+16138299696" id="footer-phone">+1 (613) 829-9696</a><br>
-        <a href="mailto:hello@thebeachconers.ca" id="footer-email">hello@thebeachconers.ca</a>
-      </p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2025 The Beachconers Microcreamery. <span class="en">All rights reserved.</span><span class="fr">Tous droits réservés.</span></p>
-    <p><span class="en">Made with ❤️ in Ottawa</span><span class="fr">Fait avec ❤️ à Ottawa</span></p>
-  </div>
-</footer>
+<div class="emoji-picker" id="emoji-picker">
+  <span class="ep-emoji" onclick="pickEmoji('🍦')">🍦</span><span class="ep-emoji" onclick="pickEmoji('🍓')">🍓</span>
+  <span class="ep-emoji" onclick="pickEmoji('🍃')">🍃</span><span class="ep-emoji" onclick="pickEmoji('🍫')">🍫</span>
+  <span class="ep-emoji" onclick="pickEmoji('🥭')">🥭</span><span class="ep-emoji" onclick="pickEmoji('🫐')">🫐</span>
+  <span class="ep-emoji" onclick="pickEmoji('🍋')">🍋</span><span class="ep-emoji" onclick="pickEmoji('🍑')">🍑</span>
+  <span class="ep-emoji" onclick="pickEmoji('🍁')">🍁</span><span class="ep-emoji" onclick="pickEmoji('🍯')">🍯</span>
+  <span class="ep-emoji" onclick="pickEmoji('🌿')">🌿</span><span class="ep-emoji" onclick="pickEmoji('🌱')">🌱</span>
+  <span class="ep-emoji" onclick="pickEmoji('☕')">☕</span><span class="ep-emoji" onclick="pickEmoji('🥛')">🥛</span>
+  <span class="ep-emoji" onclick="pickEmoji('🧊')">🧊</span><span class="ep-emoji" onclick="pickEmoji('🧋')">🧋</span>
+  <span class="ep-emoji" onclick="pickEmoji('🫧')">🫧</span><span class="ep-emoji" onclick="pickEmoji('🍊')">🍊</span>
+  <span class="ep-emoji" onclick="pickEmoji('🥪')">🥪</span><span class="ep-emoji" onclick="pickEmoji('🧇')">🧇</span>
+  <span class="ep-emoji" onclick="pickEmoji('🍪')">🍪</span><span class="ep-emoji" onclick="pickEmoji('🥐')">🥐</span>
+  <span class="ep-emoji" onclick="pickEmoji('🍰')">🍰</span><span class="ep-emoji" onclick="pickEmoji('🫖')">🫖</span>
+</div>
+<div class="toast" id="toast"></div>
 
 <script>
-  // ── TIME-BASED THEME ─────────────────────────
-  function applyTheme() {
-    const hour = new Date().getHours();
-    const isNight = hour >= 20 || hour < 6; // night: 8pm – 6am
-    document.body.classList.toggle('night-mode', isNight);
+  // ─── AUTH ─────────────────────────────────────────────
+  let ADMIN_USER = localStorage.getItem('bc_user') || 'beachconers';
+  let ADMIN_PASS = localStorage.getItem('bc_pass') || 'icecream2025';
 
-    // Update time pill
-    const pill = document.getElementById('timePillText');
-    if (pill) {
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString('en-CA', { hour:'2-digit', minute:'2-digit' });
-      if (isNight) {
-        pill.textContent = `${timeStr} — Evening mode 🌙`;
-      } else {
-        pill.textContent = `${timeStr} — Day mode ☀️`;
-      }
+  function doLogin() {
+    const u = document.getElementById('login-user').value;
+    const p = document.getElementById('login-pass').value;
+    if (u === ADMIN_USER && p === ADMIN_PASS) {
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('admin-app').style.display = 'block';
+      init();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
     }
   }
-  applyTheme();
-  setInterval(applyTheme, 60000); // check every minute
-
-  // ── LANG ─────────────────────────────────────
-  function setLang(lang) {
-    document.body.className = 'lang-' + lang;
-    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-    document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
-    localStorage.setItem('bc-lang', lang);
+  document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  function doLogout() {
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('admin-app').style.display = 'none';
+    document.getElementById('login-user').value = '';
+    document.getElementById('login-pass').value = '';
   }
-  // Restore preference
-  const savedLang = localStorage.getItem('bc-lang');
-  if (savedLang) setLang(savedLang);
-
-  // ── NAV SCROLL ───────────────────────────────
-  const nav = document.getElementById('navbar');
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
-
-  // ── HERO PARALLAX ────────────────────────────
-  const heroBg = document.getElementById('heroBg');
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    if (y < window.innerHeight) heroBg.style.transform = `translateY(${y * 0.3}px)`;
-  });
-  // Trigger zoom-out on load
-  setTimeout(() => heroBg.classList.add('loaded'), 100);
-
-  // ── REVEAL ON SCROLL ─────────────────────────
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 100);
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-  // ── MENU TABS ────────────────────────────────
-  function switchTab(name, btn) {
-    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('panel-' + name).classList.add('active');
+  function changePassword() {
+    const u = document.getElementById('new-user').value.trim();
+    const p = document.getElementById('new-pass').value;
+    const p2 = document.getElementById('new-pass2').value;
+    if (!u || !p) return showToast('⚠️ Fill in all fields.');
+    if (p !== p2) return showToast('⚠️ Passwords don\'t match.');
+    ADMIN_USER = u; ADMIN_PASS = p;
+    localStorage.setItem('bc_user', u);
+    localStorage.setItem('bc_pass', p);
+    showToast('✅ Credentials updated!');
   }
 
-  // ── DUPLICATE REVIEWS ────────────────────────
-  const rt = document.getElementById('reviews-track');
-  if (rt) rt.innerHTML += rt.innerHTML;
+  // ─── DATA ─────────────────────────────────────────────
+  let menuData = null, originalData = null, isDirty = false, activeEmojiTarget = null;
 
-  // ── LOAD MENU FROM JSON ──────────────────────
-  async function loadMenu() {
-    let data;
+  async function init() {
     try {
       const res = await fetch('data/menu.json?t=' + Date.now());
-      data = await res.json();
-    } catch(e) { return; }
-
-    function icCard(item) {
-      return `<div class="flavour-item">
-        ${item.badge ? `<div class="flavour-badge">${item.badge}</div>` : ''}
-        ${item.image
-          ? `<img src="${item.image}" alt="${item.name}"/>`
-          : `<span class="flavour-emoji-sm">${item.emoji}</span>`}
-        <div class="flavour-item-name">${item.name}</div>
-        <div class="flavour-item-desc">${item.desc}</div>
-        <div class="flavour-item-price">${item.price}</div>
-      </div>`;
+      menuData = await res.json();
+    } catch(e) {
+      showToast('⚠️ Could not load menu.json — using defaults.');
+      menuData = { site:{name:'',tagline:'',phone:'',email:'',address:'',address_note:'',facebook:'',instagram:'',maps_embed:'',about_title:'',about_p1:'',about_p2:'',about_p3:'',hours:{monday:'',tuesday:'',wednesday:'',thursday:'',friday:'',saturday:'',sunday:''}}, icecream_today:[], icecream:[], coffee:[], food:[] };
     }
-
-    function cfCard(item) {
-      return `<div class="coffee-item">
-        <div class="coffee-item-icon">${item.emoji}</div>
-        <div class="coffee-item-info">
-          <div class="coffee-item-name">${item.name}</div>
-          <div class="coffee-item-desc">${item.desc}</div>
-          ${item.badge ? `<span class="coffee-item-badge">${item.badge}</span>` : ''}
-        </div>
-        <div class="coffee-item-price">${item.price}</div>
-      </div>`;
-    }
-
-    const sets = [
-      ['icecream_today', 'today-menu', icCard],
-      ['icecream', 'icecream-menu', icCard],
-      ['coffee', 'coffee-menu', cfCard],
-      ['food', 'food-menu', icCard],
-    ];
-    sets.forEach(([key, id, fn]) => {
-      const el = document.getElementById(id);
-      if (el && data[key]) el.innerHTML = data[key].filter(i=>i.available).map(fn).join('');
-    });
-
-    // Site content from JSON
-    if (data.site) {
-      const s = data.site;
-      ['p1','p2','p3'].forEach(k => {
-        const el = document.getElementById('about-' + k);
-        if (el && s['about_' + k]) el.textContent = s['about_' + k];
-      });
-      const fp = document.getElementById('footer-phone');
-      if (fp && s.phone) { fp.textContent = s.phone; fp.href = 'tel:' + s.phone.replace(/\D/g,''); }
-      const fe = document.getElementById('footer-email');
-      if (fe && s.email) { fe.textContent = s.email; fe.href = 'mailto:' + s.email; }
-    }
-
-    // Re-observe new elements
-    document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
+    originalData = JSON.stringify(menuData);
+    renderAll();
   }
-  loadMenu();
+
+  function markDirty() { isDirty = true; document.getElementById('save-bar').classList.add('visible'); }
+
+  // ─── TABS ─────────────────────────────────────────────
+  function showTab(name, el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    el.classList.add('active');
+  }
+
+  // ─── RENDER ALL ───────────────────────────────────────
+  function renderAll() {
+    renderGrid('icecream_today', 'grid-today');
+    renderGrid('icecream', 'grid-icecream');
+    renderGrid('coffee', 'grid-coffee');
+    renderGrid('food', 'grid-food');
+    renderSiteFields();
+  }
+
+  function renderSiteFields() {
+    const s = menuData.site;
+    const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
+    set('about_title', s.about_title); set('about_p1', s.about_p1); set('about_p2', s.about_p2); set('about_p3', s.about_p3);
+    set('s_phone', s.phone); set('s_email', s.email); set('s_address', s.address); set('s_address_note', s.address_note); set('s_maps', s.maps_embed);
+    set('s_tagline', s.tagline); set('s_facebook', s.facebook); set('s_instagram', s.instagram);
+    const h = s.hours || {};
+    ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'].forEach(d => set('h_'+d, h[d]));
+  }
+
+  // ─── MENU GRID ────────────────────────────────────────
+  function renderGrid(key, gridId) {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    grid.innerHTML = '';
+    (menuData[key] || []).forEach((item, idx) => grid.appendChild(makeCard(item, key, idx)));
+  }
+
+  function makeCard(item, section, idx) {
+    const card = document.createElement('div');
+    card.className = 'menu-card';
+    card.innerHTML = `
+      <div class="menu-card-top">
+        <div class="card-emoji" title="Change emoji" onclick="openEmoji(this,'${section}',${idx})">${item.emoji||'🍦'}</div>
+        <label class="available-toggle">
+          <div class="toggle ${item.available?'on':''}" id="tog-${section}-${idx}"></div>
+          <span id="tog-label-${section}-${idx}">${item.available?'Available':'Unavailable'}</span>
+        </label>
+        <button class="remove-btn" onclick="removeItem('${section}',${idx})" title="Remove">✕</button>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Name</div>
+        <input class="field-input" value="${esc(item.name)}" oninput="updateField('${section}',${idx},'name',this.value)"/>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Description</div>
+        <input class="field-input" value="${esc(item.desc)}" oninput="updateField('${section}',${idx},'desc',this.value)"/>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <div class="field-label">Price</div>
+          <input class="field-input" value="${esc(item.price)}" oninput="updateField('${section}',${idx},'price',this.value)"/>
+        </div>
+        <div class="field-group">
+          <div class="field-label">Badge</div>
+          <input class="field-input" value="${esc(item.badge)}" placeholder="e.g. ⭐ Fan Fave" oninput="updateField('${section}',${idx},'badge',this.value)"/>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Photo</div>
+        <div class="img-upload-area ${item.image?'has-image':''}" id="img-${section}-${idx}">
+          ${item.image
+            ? `<img src="${item.image}" alt=""/><div class="img-overlay">📷 Change Photo</div>`
+            : `<div class="img-placeholder"><div class="img-placeholder-icon">📷</div>Click to upload photo</div>`}
+          <input type="file" class="img-upload-input" accept="image/*" onchange="uploadImg(event,'${section}',${idx})"/>
+        </div>
+      </div>
+    `;
+    // Toggle wiring
+    const tog = card.querySelector(`#tog-${section}-${idx}`);
+    tog.addEventListener('click', () => {
+      const v = !menuData[section][idx].available;
+      menuData[section][idx].available = v;
+      tog.classList.toggle('on', v);
+      document.getElementById(`tog-label-${section}-${idx}`).textContent = v ? 'Available' : 'Unavailable';
+      markDirty();
+    });
+    return card;
+  }
+
+  // ─── MUTATIONS ────────────────────────────────────────
+  function updateField(s, i, f, v) { menuData[s][i][f] = v; markDirty(); }
+  function updateSite(f, v) { menuData.site[f] = v; markDirty(); }
+  function updateHours(d, v) { menuData.site.hours[d] = v; markDirty(); }
+  function addItem(section) {
+    const isIce = section.includes('ice') || section.includes('today');
+    menuData[section].push({ id: section.slice(0,2)+Date.now(), name:'New Item', desc:'Description here.', price: isIce?'from $4.50':'$4.00', emoji: isIce?'🍦':'☕', badge:'', available:true });
+    renderGrid(section, 'grid-' + (section==='icecream_today'?'today':section));
+    markDirty();
+  }
+  function removeItem(section, idx) {
+    if (!confirm('Remove this item?')) return;
+    menuData[section].splice(idx, 1);
+    renderGrid(section, 'grid-' + (section==='icecream_today'?'today':section));
+    markDirty();
+  }
+
+  // ─── IMAGE ────────────────────────────────────────────
+  function uploadImg(event, section, idx) {
+    const file = event.target.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      menuData[section][idx].image = e.target.result;
+      const area = document.getElementById(`img-${section}-${idx}`);
+      area.classList.add('has-image');
+      area.innerHTML = `<img src="${e.target.result}" alt=""/><div class="img-overlay">📷 Change</div><input type="file" class="img-upload-input" accept="image/*" onchange="uploadImg(event,'${section}',${idx})"/>`;
+      markDirty(); showToast('📷 Photo uploaded!');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ─── EMOJI ────────────────────────────────────────────
+  function openEmoji(el, section, idx) {
+    activeEmojiTarget = { el, section, idx };
+    const picker = document.getElementById('emoji-picker');
+    const rect = el.getBoundingClientRect();
+    picker.style.top = (rect.bottom + window.scrollY + 6) + 'px';
+    picker.style.left = rect.left + 'px';
+    picker.classList.add('open');
+  }
+  function pickEmoji(e) {
+    if (!activeEmojiTarget) return;
+    const { el, section, idx } = activeEmojiTarget;
+    el.textContent = e;
+    menuData[section][idx].emoji = e;
+    document.getElementById('emoji-picker').classList.remove('open');
+    activeEmojiTarget = null; markDirty();
+  }
+  document.addEventListener('click', ev => {
+    if (!ev.target.closest('.card-emoji') && !ev.target.closest('#emoji-picker'))
+      document.getElementById('emoji-picker').classList.remove('open');
+  });
+
+  // ─── SAVE ─────────────────────────────────────────────
+  function saveChanges() {
+    const json = JSON.stringify(menuData, null, 2);
+    const blob = new Blob([json], { type:'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'menu.json'; a.click();
+    URL.revokeObjectURL(url);
+    originalData = json; isDirty = false;
+    document.getElementById('save-bar').classList.remove('visible');
+    showToast('✅ Downloaded! Upload to data/ folder on GitHub.');
+  }
+  function discardChanges() {
+    menuData = JSON.parse(originalData); isDirty = false;
+    document.getElementById('save-bar').classList.remove('visible');
+    renderAll(); showToast('↩ Changes discarded.');
+  }
+
+  // ─── TOAST ────────────────────────────────────────────
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 </script>
 </body>
 </html>

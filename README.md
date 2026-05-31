@@ -1,46 +1,1355 @@
-# 🍦 The Beachconers — Website
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Beachconers Microcreamery – Britannia, Ottawa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-Handcrafted ice cream & coffee shop website for **The Beachconers**, Britannia, Ottawa.
+    /* ── DAY THEME (default) ───────────────────── */
+    :root {
+      --bg:       #FDF6EC;
+      --bg-alt:   #FFFFFF;
+      --bg-card:  #FFFFFF;
+      --text:     #2A1A0E;
+      --coral:    #E8527A;
+      --teal:     #1A9090;
+      --butter:   #C4860A;
+      --warm:     #C4863A;
+      --muted:    rgba(42,26,14,0.5);
+      --border:   rgba(42,26,14,0.1);
+      --nav-scrolled: rgba(253,246,236,0.97);
+      --nav-border:   rgba(42,26,14,0.1);
+      --marquee-bg:   rgba(42,26,14,0.04);
+      --review-card:  #FFFFFF;
+    }
 
-## 📁 Project Structure
+    /* ── NIGHT THEME (after 20:00) ─────────────── */
+    body.night-mode {
+      --bg:       #0A0E1A;
+      --bg-alt:   #111827;
+      --bg-card:  rgba(249,243,232,0.05);
+      --text:     #F9F3E8;
+      --coral:    #E8527A;
+      --teal:     #2BBFBF;
+      --butter:   #F5C842;
+      --warm:     #C4863A;
+      --muted:    rgba(249,243,232,0.5);
+      --border:   rgba(249,243,232,0.12);
+      --nav-scrolled: rgba(10,14,26,0.94);
+      --nav-border:   rgba(249,243,232,0.12);
+      --marquee-bg:   rgba(249,243,232,0.04);
+      --review-card:  rgba(249,243,232,0.05);
+    }
 
-```
-thebeachconers/
-├── index.html          ← Public website (customers see this)
-├── admin.html          ← Admin panel (staff only)
-├── data/
-│   └── menu.json       ← ALL prices, names, descriptions live here
-└── assets/             ← Images folder
-```
+    /* Smooth theme transition */
+    body, section, nav, footer, .menu-section, .gallery-section,
+    .reviews-section, .about-section, .jobs-section,
+    .flavour-item, .coffee-item, .gallery-card, .review-card, .job-card,
+    .footer-grid, .time-pill {
+      transition: background-color 1.2s ease, color 1.2s ease, border-color 1.2s ease;
+    }
+    /* Never transition these */
+    .hero-bg, .bar-fill, .reviews-scroll-track, .marquee-track,
+    .reveal, .hero-content * { transition: none !important; }
+    .reveal { transition: opacity 0.8s ease, transform 0.8s ease !important; }
 
-## 🚀 Getting Started (GitHub Pages)
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg); color: var(--text); overflow-x: hidden;
+    }
 
-1. Push this repo to GitHub
-2. Go to **Settings → Pages → Source → main / root**
-3. Site goes live at `https://yourusername.github.io/thebeachconers`
+    /* ── LANG SWITCHER ─────────────────────────── */
+    .lang-fr .en { display: none !important; }
+    .lang-en .fr { display: none !important; }
 
-## ✏️ Updating the Menu
+    /* ── NAV ───────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem; height: 104px;
+      background: transparent;
+    }
+    nav.scrolled {
+      background: var(--nav-scrolled);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 1px 0 var(--nav-border);
+    }
+    .nav-logo img { height: 96px; width: auto; }
+    .nav-right { display: flex; align-items: center; gap: 2.5rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text); text-decoration: none; opacity: 0.75;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .lang-btn {
+      display: flex; gap: 0; align-items: center;
+      background: var(--border); border-radius: 50px;
+      border: 1px solid var(--border); overflow: hidden;
+    }
+    .lang-btn button {
+      background: none; border: none; cursor: pointer;
+      padding: 0.4rem 0.85rem; font-size: 0.72rem;
+      font-weight: 600; letter-spacing: 0.1em;
+      color: var(--text); opacity: 0.45;
+      font-family: inherit; transition: all 0.2s;
+    }
+    .lang-btn button.active { background: var(--coral); opacity: 1; }
+    .nav-cta-btn {
+      background: var(--coral); color: #fff;
+      padding: 0.6rem 1.4rem; border-radius: 50px;
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta-btn:hover { background: var(--teal); transform: translateY(-1px); }
 
-### Option A — Admin Panel (recommended)
-1. Open `yourdomain.ca/admin.html`
-2. Login with your credentials
-3. Edit prices, names, toggle availability, upload photos
-4. Click **Save Changes** → downloads updated `menu.json`
-5. Upload the new `menu.json` to the `data/` folder on GitHub
+    /* ── HERO ──────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh; min-height: 700px;
+      display: flex; align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/hero.jpg');
+      background-size: cover;
+      background-position: center 30%;
+      transform: scale(1.08);
+      transition: transform 12s ease;
+    }
+    .hero-bg.loaded { transform: scale(1); }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(10,14,26,0.05) 0%,
+        rgba(10,14,26,0.0) 25%,
+        rgba(10,14,26,0.35) 60%,
+        rgba(10,14,26,0.85) 100%
+      );
+    }
+    .hero-content {
+      position: relative; z-index: 1;
+      padding: 0 5rem 6rem;
+      max-width: 800px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--butter);
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 1s 0.3s ease forwards;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 28px; height: 1px; background: var(--butter);
+    }
+    .hero-h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 7vw, 7rem);
+      font-weight: 300; line-height: 1.0;
+      letter-spacing: -1px;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 1s 0.5s ease forwards;
+    }
+    .hero-h1 em { font-style: italic; color: var(--coral); }
+    .hero-sub {
+      font-size: 1rem; font-weight: 300;
+      color: var(--muted); line-height: 1.8;
+      max-width: 480px; margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp 1s 0.7s ease forwards;
+    }
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 1s 0.9s ease forwards;
+    }
+    .btn-light {
+      background: var(--text); color: var(--bg);
+      padding: 0.85rem 2rem; border-radius: 4px;
+      font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-light:hover { background: var(--butter); transform: translateY(-2px); }
+    .btn-outline {
+      border: 1px solid rgba(249,243,232,0.4); color: var(--text);
+      padding: 0.85rem 2rem; border-radius: 4px;
+      font-size: 0.8rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--text); background: var(--border); }
 
-### Option B — Edit directly
-Open `data/menu.json` in any text editor and update values.
+    /* Hero scroll indicator */
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; right: 5rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: fadeIn 1s 1.4s ease forwards;
+    }
+    .hero-scroll span {
+      font-size: 0.65rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--muted);
+      writing-mode: vertical-rl;
+    }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, var(--coral), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
 
-## 🔐 Admin Login
+    /* ── MARQUEE ───────────────────────────────── */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-alt);
+      padding: 1rem 0;
+    }
+    .marquee-track {
+      display: flex; width: max-content;
+      animation: marquee 50s linear infinite;
+    }
+    .marquee-item {
+      display: flex; align-items: center; gap: 1.5rem;
+      padding: 0 2.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic; font-size: 1.1rem;
+      color: var(--muted); white-space: nowrap;
+    }
+    .marquee-sep { color: var(--coral); font-style: normal; font-size: 0.5rem; }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
 
-Default credentials (change these!):
-- **Username:** `beachconers`
-- **Password:** `icecream2025`
+    /* ── SECTIONS SHARED ───────────────────────── */
+    .section { padding: 8rem 5rem; }
+    .section-eyebrow {
+      font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--coral);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .section-eyebrow::after { content: ''; flex: 0 0 24px; height: 1px; background: var(--coral); }
+    .section-h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.5rem, 4vw, 4rem);
+      font-weight: 300; line-height: 1.1;
+      color: var(--text); margin-bottom: 1.5rem;
+    }
+    .section-h2 em { font-style: italic; color: var(--teal); }
 
-To change: open `admin.html` and update `ADMIN_USER` and `ADMIN_PASS` in the `<script>` section.
+    /* reveal */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-## 🌐 Custom Domain
+    /* ── MENU SECTION ──────────────────────────── */
+    .menu-section { background: var(--bg); padding: 8rem 5rem; }
+    .menu-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3.5rem; flex-wrap: wrap; gap: 2rem;
+    }
+    .menu-tabs {
+      display: flex; gap: 0;
+      border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+    }
+    .menu-tab {
+      background: none; border: none; border-right: 1px solid var(--border);
+      padding: 0.65rem 1.4rem; font-size: 0.72rem;
+      font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); cursor: pointer; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .menu-tab:last-child { border-right: none; }
+    .menu-tab:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .menu-tab.active { background: var(--text); color: var(--bg); }
+    .menu-panel { display: none; }
+    .menu-panel.active { display: block; }
 
-1. Buy `thebeachconers.ca` on Namecheap (~$15/yr)
-2. Add a `CNAME` file to this repo containing: `thebeachconers.ca`
-3. Point your domain DNS to GitHub Pages (instructions in GitHub Settings → Pages)
+    /* Today note */
+    .today-banner {
+      display: flex; align-items: center; gap: 1rem;
+      background: rgba(245,200,66,0.08);
+      border: 1px solid rgba(245,200,66,0.2);
+      border-radius: 4px; padding: 1rem 1.5rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.82rem; color: var(--butter);
+    }
+
+    /* Ice cream grid */
+    .flavour-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden;
+    }
+    .flavour-item {
+      background: var(--bg);
+      padding: 1.8rem 1.5rem;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .flavour-item:hover { background: var(--bg-card); }
+    .flavour-emoji-sm { font-size: 1.6rem; margin-bottom: 0.8rem; display: block; }
+    .flavour-item img {
+      width: 100%; height: 120px; object-fit: cover;
+      border-radius: 4px; margin-bottom: 0.8rem;
+    }
+    .flavour-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--text); margin-bottom: 0.3rem;
+    }
+    .flavour-item-desc {
+      font-size: 0.75rem; color: var(--muted);
+      line-height: 1.6; margin-bottom: 0.8rem;
+    }
+    .flavour-item-price {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem; color: var(--coral);
+    }
+    .flavour-badge {
+      position: absolute; top: 1rem; right: 1rem;
+      background: var(--butter); color: var(--bg);
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.2rem 0.5rem; border-radius: 2px;
+    }
+
+    /* Coffee list */
+    .coffee-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 4px; overflow: hidden;
+    }
+    .coffee-item {
+      background: var(--bg);
+      display: flex; align-items: center; gap: 1.2rem;
+      padding: 1.6rem 2rem;
+      transition: background 0.2s;
+    }
+    .coffee-item:hover { background: var(--bg-card); }
+    .coffee-item-icon {
+      font-size: 1.8rem; width: 48px; height: 48px;
+      background: var(--bg-card);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .coffee-item-info { flex: 1; }
+    .coffee-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 600; color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .coffee-item-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+    .coffee-item-badge {
+      display: inline-block; background: var(--butter); color: var(--bg);
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em;
+      padding: 0.15rem 0.5rem; border-radius: 2px; margin-top: 0.3rem;
+    }
+    .coffee-item-price {
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem; color: var(--coral); flex-shrink: 0;
+    }
+    .coffee-note {
+      text-align: center; margin-top: 1.5rem;
+      font-size: 0.75rem; color: var(--muted); font-style: italic;
+    }
+
+    /* ── ABOUT ─────────────────────────────────── */
+    .about-section {
+      background: var(--bg-alt);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 8rem 5rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+    }
+    .about-visual { position: relative; }
+    .about-img-wrap {
+      border-radius: 4px; overflow: hidden;
+      aspect-ratio: 4/5;
+    }
+    .about-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: saturate(1.1);
+      transition: transform 0.6s ease;
+    }
+    .about-img-wrap:hover img { transform: scale(1.03); }
+    .about-stat-card {
+      position: absolute; bottom: -2rem; right: -2rem;
+      background: var(--coral);
+      padding: 1.5rem 2rem; border-radius: 4px;
+      text-align: center;
+    }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300; color: #fff;
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.7rem; color: rgba(255,255,255,0.75); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.3rem; }
+    .about-text p {
+      font-size: 0.95rem; font-weight: 300;
+      color: var(--muted); line-height: 1.9;
+      margin-bottom: 1.2rem;
+    }
+    .about-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+    .pill {
+      border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.72rem;
+      font-weight: 500; padding: 0.4rem 0.9rem;
+      border-radius: 2px; letter-spacing: 0.05em;
+    }
+
+    /* ── REVIEWS ───────────────────────────────── */
+    .reviews-section { background: var(--bg); padding: 8rem 5rem; overflow: hidden; }
+    .reviews-top {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 4rem; flex-wrap: wrap; gap: 2rem;
+    }
+    .rating-display { display: flex; align-items: baseline; gap: 0.8rem; }
+    .rating-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem; font-weight: 300; line-height: 1; color: var(--text);
+    }
+    .rating-detail {}
+    .rating-stars { color: var(--butter); font-size: 1rem; letter-spacing: 2px; }
+    .rating-count { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+    .rating-bars { display: flex; flex-direction: column; gap: 0.5rem; max-width: 260px; }
+    .bar-row { display: flex; align-items: center; gap: 0.8rem; }
+    .bar-lbl { font-size: 0.72rem; color: var(--muted); width: 10px; }
+    .bar-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .bar-fill { height: 100%; background: var(--butter); border-radius: 2px; }
+    .bar-pct { font-size: 0.68rem; color: var(--muted); width: 28px; }
+    .write-review {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      border: 1px solid var(--border); color: var(--text);
+      padding: 0.75rem 1.5rem; border-radius: 4px;
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .write-review:hover { border-color: var(--butter); color: var(--butter); }
+
+    /* Scrolling reviews */
+    .reviews-scroll-wrap { overflow: hidden; margin: 0 -5rem; }
+    .reviews-scroll-track {
+      display: flex; gap: 1.5rem;
+      padding: 0.5rem 5rem;
+      animation: reviewsScroll 45s linear infinite;
+      width: max-content;
+    }
+    .reviews-scroll-track:hover { animation-play-state: paused; }
+    @keyframes reviewsScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .review-card {
+      width: 340px; flex-shrink: 0;
+      border: 1px solid var(--border);
+      border-radius: 4px; padding: 2rem;
+      background: var(--bg-alt);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .review-card:hover { background: rgba(128,80,40,0.06); border-color: rgba(249,243,232,0.2); }
+    .rc-top { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+    .rc-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .rc-name { font-size: 0.85rem; font-weight: 500; color: var(--text); }
+    .rc-meta { font-size: 0.68rem; color: var(--muted); margin-top: 0.1rem; }
+    .rc-g { margin-left: auto; width: 24px; height: 24px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 900; color: #4285F4; flex-shrink: 0; }
+    .rc-stars { color: var(--butter); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 0.8rem; }
+    .rc-text { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--muted); line-height: 1.7; margin-bottom: 0.8rem; }
+    .rc-time { font-size: 0.68rem; color: rgba(249,243,232,0.3); }
+    .reviews-footer { text-align: center; margin-top: 3rem; }
+    .reviews-all-link {
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      border-bottom: 1px solid var(--border); padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .reviews-all-link:hover { color: var(--butter); border-color: var(--butter); }
+
+    /* ── FOOTER ────────────────────────────────── */
+    footer {
+      background: var(--bg-alt);
+      border-top: 1px solid var(--border);
+      padding: 5rem 5rem 3rem;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 4rem;
+    }
+    .footer-logo img { height: 56px; margin-bottom: 1.2rem; }
+    body:not(.night-mode) .footer-logo img { mix-blend-mode: multiply; }
+    body.night-mode .footer-logo img { filter: brightness(0) invert(1); opacity: 0.8; }
+    .footer-tagline { font-size: 0.82rem; color: var(--muted); line-height: 1.8; max-width: 280px; }
+    .footer-socials { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+    .footer-social {
+      width: 34px; height: 34px; border: 1px solid var(--border);
+      border-radius: 2px; display: flex; align-items: center; justify-content: center;
+      color: var(--muted); text-decoration: none; font-size: 0.75rem;
+      transition: all 0.2s;
+    }
+    .footer-social:hover { border-color: var(--coral); color: var(--coral); }
+    .footer-col h4 {
+      font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--text); margin-bottom: 1.2rem;
+      opacity: 0.6;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.6rem; }
+    .footer-col a {
+      font-size: 0.82rem; color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--text); }
+    .footer-col p { font-size: 0.82rem; color: var(--muted); line-height: 1.8; }
+    .footer-col .hours-time { font-size: 0.78rem; color: var(--muted); }
+    .footer-col .hours-day { font-size: 0.78rem; color: var(--muted); }
+    .footer-col .hours-time { font-size: 0.78rem; color: rgba(249,243,232,0.5); }
+    .footer-bottom {
+      border-top: 1px solid var(--border); padding-top: 2rem;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: 0.72rem; color: var(--muted); opacity: 0.6; letter-spacing: 0.05em; }
+
+    /* ── ANIMATIONS ────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* Day mode logo */
+    body:not(.night-mode) .nav-logo img { mix-blend-mode: multiply; }
+    body.night-mode .nav-logo img { mix-blend-mode: normal; filter: brightness(0) invert(1) opacity(0.9); }
+
+    /* ── SECTION BACKGROUNDS ───────────────────── */
+    .menu-section    { background: var(--bg); }
+    .gallery-section { background: var(--bg-alt); }
+    .reviews-section { background: var(--bg); }
+    .about-section   { background: var(--bg-alt); border-color: var(--border); }
+    .jobs-section    { background: var(--bg); border-color: var(--border); }
+    footer           { background: var(--bg-alt); border-color: var(--border); }
+    .marquee-wrap    { background: var(--marquee-bg); border-color: var(--border); }
+
+    /* Cards in day mode = white; night = translucent */
+    .flavour-item  { background: var(--bg-card); }
+    .coffee-item   { background: var(--bg-card); }
+    .review-card   { background: var(--review-card); border-color: var(--border); }
+    .job-card      { background: var(--bg-card); border-color: var(--border); }
+    .gallery-card  { border-color: var(--border); }
+    .flavour-item:hover { background: var(--bg-alt); }
+    .coffee-item:hover  { background: var(--bg-alt); }
+
+    /* Flavour grid separator color */
+    .flavour-grid { background: var(--border); border-color: var(--border); }
+    .coffee-list  { background: var(--border); border-color: var(--border); }
+
+    /* Time indicator pill */
+    .time-pill {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 100;
+      background: var(--nav-scrolled); border: 1px solid var(--border);
+      border-radius: 50px; padding: 0.5rem 1rem;
+      font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em;
+      color: var(--muted); backdrop-filter: blur(12px);
+      display: flex; align-items: center; gap: 0.5rem;
+      transition: opacity 0.3s;
+    }
+    .time-pill .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); flex-shrink: 0;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    body.night-mode .time-pill .dot { background: var(--butter); }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+
+    /* ── GALLERY ───────────────────────────────── */
+    .gallery-section { padding: 8rem 5rem; }
+    .gallery-intro { max-width: 560px; margin-bottom: 3.5rem; }
+    .gallery-note {
+      font-size: 0.78rem; color: var(--muted); margin-top: 1rem;
+      font-style: italic;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 12px;
+    }
+    /* Big featured card */
+    .gallery-card {
+      border-radius: 4px; overflow: hidden;
+      position: relative; background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease;
+    }
+    .gallery-card:hover { transform: scale(1.01); z-index: 2; }
+    .gallery-card:hover .gallery-card-overlay { opacity: 1; }
+    .gallery-card-inner {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2.5rem 2rem; text-align: center;
+    }
+    .gallery-card-emoji { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+    .gallery-card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 600; color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .gallery-card-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.8rem; }
+    .gallery-card-price {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem; color: var(--coral);
+    }
+    .gallery-card-badge {
+      position: absolute; top: 0.8rem; left: 0.8rem;
+      background: var(--butter); color: var(--bg);
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px;
+    }
+    /* Color themes per card */
+    .gc-1 { background: linear-gradient(135deg, rgba(232,82,122,0.12), rgba(232,82,122,0.05)); grid-column: span 4; min-height: 260px; }
+    .gc-2 { background: linear-gradient(135deg, rgba(43,191,191,0.12), rgba(43,191,191,0.05)); grid-column: span 4; min-height: 260px; }
+    .gc-3 { background: linear-gradient(135deg, rgba(245,200,66,0.12), rgba(245,200,66,0.05)); grid-column: span 4; min-height: 260px; }
+    .gc-4 { background: linear-gradient(135deg, rgba(196,134,58,0.12), rgba(196,134,58,0.05)); grid-column: span 3; min-height: 220px; }
+    .gc-5 { background: linear-gradient(135deg, rgba(123,94,167,0.12), rgba(123,94,167,0.05)); grid-column: span 3; min-height: 220px; }
+    .gc-6 { background: linear-gradient(135deg, rgba(232,82,122,0.1), rgba(43,191,191,0.1)); grid-column: span 3; min-height: 220px; }
+    .gc-7 { background: linear-gradient(135deg, rgba(245,200,66,0.12), rgba(196,134,58,0.08)); grid-column: span 3; min-height: 220px; }
+    .gc-8 { background: linear-gradient(135deg, rgba(43,191,191,0.12), rgba(0,0,0,0.04)); grid-column: span 4; min-height: 220px; }
+    .gc-9 { background: linear-gradient(135deg, rgba(232,82,122,0.12), rgba(0,0,0,0.04)); grid-column: span 4; min-height: 220px; }
+    .gc-10 { background: linear-gradient(135deg, rgba(123,94,167,0.12), rgba(0,0,0,0.04)); grid-column: span 4; min-height: 220px; }
+
+    /* Upload prompt card */
+    .gc-upload {
+      grid-column: span 12;
+      border: 2px dashed rgba(249,243,232,0.1);
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem; gap: 1.5rem; min-height: 80px;
+      flex-wrap: wrap;
+    }
+    .gc-upload p { font-size: 0.78rem; color: var(--muted); }
+    .gc-upload a {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid var(--teal); padding-bottom: 1px;
+    }
+
+    /* ── JOBS ──────────────────────────────────── */
+    .jobs-section {
+      border-top: 1px solid var(--border);
+      padding: 8rem 5rem;
+      background: rgba(249,243,232,0.02);
+    }
+    .jobs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3.5rem; }
+    .job-card {
+      border: 1px solid var(--border); border-radius: 4px;
+      padding: 2.5rem; transition: border-color 0.2s, background 0.2s;
+    }
+    .job-card:hover { border-color: var(--coral); background: rgba(232,82,122,0.04); }
+    .job-tag {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+      background: rgba(43,191,191,0.1);
+      padding: 0.25rem 0.7rem; border-radius: 2px;
+      display: inline-block; margin-bottom: 1.2rem;
+    }
+    .job-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 600; color: var(--text);
+      margin-bottom: 0.8rem;
+    }
+    .job-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
+    .job-details { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.8rem; }
+    .job-detail {
+      font-size: 0.72rem; color: var(--muted);
+      border: 1px solid var(--border); padding: 0.3rem 0.8rem; border-radius: 2px;
+    }
+    .job-apply {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--coral); color: #fff;
+      padding: 0.7rem 1.5rem; border-radius: 4px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .job-apply:hover { background: var(--teal); transform: translateY(-1px); }
+    .jobs-note {
+      margin-top: 2rem; padding: 1.5rem 2rem;
+      border: 1px solid rgba(245,200,66,0.2);
+      background: rgba(245,200,66,0.04);
+      border-radius: 4px; font-size: 0.82rem; color: var(--muted);
+    }
+    .jobs-note strong { color: var(--butter); }
+
+    /* ── RESPONSIVE ────────────────────────────── */
+    @media (max-width: 1024px) {
+      .section, .menu-section, .about-section, .reviews-section, .gallery-section, .jobs-section, footer { padding-left: 2.5rem; padding-right: 2.5rem; }
+      nav { padding: 0 2rem; }
+      .hero-content { padding: 0 2.5rem 5rem; }
+      .hero-scroll { right: 2.5rem; }
+      .about-section { grid-template-columns: 1fr; gap: 3rem; }
+      .about-stat-card { bottom: 1rem; right: 1rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .coffee-list { grid-template-columns: 1fr; }
+      .gc-1, .gc-2, .gc-3 { grid-column: span 6; }
+      .gc-4, .gc-5, .gc-6, .gc-7 { grid-column: span 6; }
+      .gc-8, .gc-9, .gc-10 { grid-column: span 4; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 1.5rem; height: 72px; }
+      .nav-links { display: none; }
+      .hero-content { padding: 0 1.5rem 4rem; }
+      .hero-scroll { display: none; }
+      .menu-tabs { flex-wrap: wrap; }
+      .reviews-scroll-wrap { margin: 0 -2.5rem; }
+      .reviews-scroll-track { padding: 0.5rem 2.5rem; }
+      footer { padding: 3rem 1.5rem 2rem; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .gc-1,.gc-2,.gc-3,.gc-4,.gc-5,.gc-6,.gc-7,.gc-8,.gc-9,.gc-10 { grid-column: span 12; }
+      .jobs-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="lang-en">
+
+<!-- TIME PILL -->
+<div class="time-pill" id="timePill">
+  <div class="dot"></div>
+  <span id="timePillText"></span>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <img src="assets/logo.png" alt="The Beachconers Microcreamery"/>
+  </a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#menu"><span class="en">Menu</span><span class="fr">Menu</span></a></li>
+      <li><a href="#gallery"><span class="en">Gallery</span><span class="fr">Galerie</span></a></li>
+      <li><a href="#about"><span class="en">Our Story</span><span class="fr">Notre Histoire</span></a></li>
+      <li><a href="#reviews"><span class="en">Reviews</span><span class="fr">Avis</span></a></li>
+      <li><a href="#jobs"><span class="en">Jobs</span><span class="fr">Emplois</span></a></li>
+    </ul>
+    <div class="lang-btn">
+      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+      <button id="btn-fr" onclick="setLang('fr')">FR</button>
+    </div>
+    <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_" target="_blank" class="nav-cta-btn">
+      <span class="en">📍 Visit Us</span>
+      <span class="fr">📍 Nous visiter</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="en">Britannia Beach · Ottawa · Since 2015</span>
+      <span class="fr">Plage Britannia · Ottawa · Depuis 2015</span>
+    </div>
+    <h1 class="hero-h1">
+      <span class="en">Handcrafted<br><em>Ice Cream</em><br>& Coffee.</span>
+      <span class="fr">Crème glacée<br><em>artisanale</em><br>& café.</span>
+    </h1>
+    <p class="hero-sub">
+      <span class="en">Small-batch, made from scratch every morning. 273 Britannia Rd, right by the water.</span>
+      <span class="fr">En petits lots, fait de zéro chaque matin. 273 ch. Britannia, juste au bord de l'eau.</span>
+    </p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-light">
+        <span class="en">See the Menu</span>
+        <span class="fr">Voir le menu</span>
+      </a>
+      <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_" target="_blank" class="btn-outline">
+        <span class="en">Get Directions</span>
+        <span class="fr">Itinéraire</span>
+      </a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marquee">
+    <span class="marquee-item">Vanilla Bean <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Blueberry Lavender <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Snickerdoodle Latte <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Cookie D'OH <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Cold Brew Coffee <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Hong Kong Waffle <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">London Fog <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Maple Walnut <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Oat Milk Mocha <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Peach Cardamom <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Affogato <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Raspberry Lemon <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Vanilla Bean <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Blueberry Lavender <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Snickerdoodle Latte <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Cookie D'OH <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Cold Brew Coffee <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Hong Kong Waffle <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">London Fog <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Maple Walnut <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Oat Milk Mocha <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Peach Cardamom <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Affogato <span class="marquee-sep">✦</span></span>
+    <span class="marquee-item">Raspberry Lemon <span class="marquee-sep">✦</span></span>
+  </div>
+</div>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="menu-header reveal">
+    <div>
+      <div class="section-eyebrow">
+        <span class="en">Full Menu</span><span class="fr">Menu complet</span>
+      </div>
+      <h2 class="section-h2">
+        <span class="en">Everything we <em>make</em></span>
+        <span class="fr">Tout ce que nous <em>faisons</em></span>
+      </h2>
+    </div>
+    <div class="menu-tabs">
+      <button class="menu-tab active" onclick="switchTab('today',this)">
+        <span class="en">✦ Today</span><span class="fr">✦ Aujourd'hui</span>
+      </button>
+      <button class="menu-tab" onclick="switchTab('icecream',this)">
+        <span class="en">Ice Cream</span><span class="fr">Crème glacée</span>
+      </button>
+      <button class="menu-tab" onclick="switchTab('coffee',this)">
+        <span class="en">Coffee</span><span class="fr">Café</span>
+      </button>
+      <button class="menu-tab" onclick="switchTab('food',this)">
+        <span class="en">Food</span><span class="fr">Nourriture</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="menu-panel active" id="panel-today">
+    <div class="today-banner">
+      <span>✨</span>
+      <span class="en">These flavours are freshly made today — they rotate regularly, so come back often!</span>
+      <span class="fr">Ces saveurs sont fraîchement préparées aujourd'hui — elles changent régulièrement !</span>
+    </div>
+    <div class="flavour-grid" id="today-menu"></div>
+  </div>
+  <div class="menu-panel" id="panel-icecream">
+    <div class="flavour-grid" id="icecream-menu"></div>
+  </div>
+  <div class="menu-panel" id="panel-coffee">
+    <div class="coffee-list" id="coffee-menu"></div>
+    <div class="coffee-note en">☀️ All espresso drinks available hot or iced · Oat, almond & soy milk available · +$0.75</div>
+    <div class="coffee-note fr">☀️ Toutes les boissons espresso disponibles chaudes ou glacées · Lait d'avoine, amande & soja disponible · +0,75 $</div>
+  </div>
+  <div class="menu-panel" id="panel-food">
+    <div class="flavour-grid" id="food-menu"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="about-visual reveal">
+    <div class="about-img-wrap">
+      <img src="assets/hero.jpg" alt="The Beachconers patio at night"/>
+    </div>
+    <div class="about-stat-card">
+      <div class="stat-num">4.7</div>
+      <div class="stat-label">
+        <span class="en">Google Rating</span>
+        <span class="fr">Note Google</span>
+      </div>
+    </div>
+  </div>
+  <div class="about-text reveal">
+    <div class="section-eyebrow">
+      <span class="en">Our Story</span><span class="fr">Notre Histoire</span>
+    </div>
+    <h2 class="section-h2" id="about-title">
+      <span class="en">Ice cream &amp; coffee —<br><em>our love language</em></span>
+      <span class="fr">Crème glacée &amp; café —<br><em>notre langage d'amour</em></span>
+    </h2>
+    <p id="about-p1" class="en">The Beachconers was born from a simple belief: ice cream and coffee should be made the way your grandmother would — from scratch, with real ingredients, and a lot of love.</p>
+    <p id="about-p1-fr" class="fr">Les Beachconers sont nés d'une conviction simple : la crème glacée et le café devraient être faits comme votre grand-mère le ferait — de zéro, avec de vrais ingrédients, et beaucoup d'amour.</p>
+    <p id="about-p2" class="en">Nestled steps from Britannia Beach on the Ottawa River, we've been hand-crafting small-batch ice cream and pulling specialty espresso since 2015. Every flavour is developed in-house and made fresh each morning.</p>
+    <p id="about-p2-fr" class="fr">Nichés à quelques pas de la plage Britannia sur la rivière des Outaouais, nous fabriquons artisanalement de la crème glacée en petits lots et préparons des expressos de spécialité depuis 2015.</p>
+    <p id="about-p3" class="en">We source locally whenever possible — Ontario dairy farms, seasonal fruit growers, and independent suppliers who care as much as we do. Come find us by the water.</p>
+    <p id="about-p3-fr" class="fr">Nous nous approvisionnons localement dans la mesure du possible — fermes laitières ontariennes, producteurs de fruits de saison. Venez nous trouver au bord de l'eau.</p>
+    <div class="about-pills">
+      <span class="pill"><span class="en">🥛 Local Dairy</span><span class="fr">🥛 Lait local</span></span>
+      <span class="pill"><span class="en">☕ Specialty Coffee</span><span class="fr">☕ Café de spécialité</span></span>
+      <span class="pill"><span class="en">🫙 Small Batch</span><span class="fr">🫙 Petit lot</span></span>
+      <span class="pill"><span class="en">🌱 Vegan Options</span><span class="fr">🌱 Options véganes</span></span>
+      <span class="pill"><span class="en">🇨🇦 Ottawa Made</span><span class="fr">🇨🇦 Fait à Ottawa</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews-section" id="reviews">
+  <div class="reviews-top reveal">
+    <div>
+      <div class="section-eyebrow">
+        <span class="en">What people say</span><span class="fr">Ce que les gens disent</span>
+      </div>
+      <div class="rating-display">
+        <div class="rating-num">4.7</div>
+        <div class="rating-detail">
+          <div class="rating-stars">★★★★★</div>
+          <div class="rating-count">
+            <span class="en">1,164 Google reviews</span>
+            <span class="fr">1 164 avis Google</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="rating-bars" style="margin-bottom:1.5rem;">
+        <div class="bar-row"><span class="bar-lbl">5</span><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div><span class="bar-pct">78%</span></div>
+        <div class="bar-row"><span class="bar-lbl">4</span><div class="bar-track"><div class="bar-fill" style="width:13%"></div></div><span class="bar-pct">13%</span></div>
+        <div class="bar-row"><span class="bar-lbl">3</span><div class="bar-track"><div class="bar-fill" style="width:5%"></div></div><span class="bar-pct">5%</span></div>
+        <div class="bar-row"><span class="bar-lbl">2</span><div class="bar-track"><div class="bar-fill" style="width:2%"></div></div><span class="bar-pct">2%</span></div>
+        <div class="bar-row"><span class="bar-lbl">1</span><div class="bar-track"><div class="bar-fill" style="width:2%"></div></div><span class="bar-pct">2%</span></div>
+      </div>
+      <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_?entry=ttu" target="_blank" class="write-review">
+        <span class="en">✍ Write a Review</span>
+        <span class="fr">✍ Écrire un avis</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="reviews-scroll-wrap">
+    <div class="reviews-scroll-track" id="reviews-track">
+      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#E8527A">BR</div><div><div class="rc-name">Brenna Roux</div><div class="rc-meta">Local Guide · 123 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"This place is truly a gem. Unique and delicious homemade ice cream. The terrace is super cute and great for people-watching."</p><div class="rc-time">9 months ago</div></div>
+      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#2BBFBF">KL</div><div><div class="rc-name">Kevin L.</div><div class="rc-meta">Ottawa · 47 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"The blueberry lavender is unlike anything I've tasted. You can tell every flavour is made with serious care. Perfect summer destination."</p><div class="rc-time">6 months ago</div></div>
+      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#F5C842;color:#0A0E1A">AM</div><div><div class="rc-name">Aisha M.</div><div class="rc-meta">Kanata · 89 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"Came for the ice cream, stayed for the coffee. The Snickerdoodle Latte is incredible. Will be back weekly."</p><div class="rc-time">4 months ago</div></div>
+      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#7B5EA7">TP</div><div><div class="rc-name">Tom P.</div><div class="rc-meta">Local Guide · 211 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"Best stop on the Ottawa River bike path, hands down. The Cold Brew ice cream cone is a revelation. Generous portions."</p><div class="rc-time">1 year ago</div></div>
+      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#E8527A">SR</div><div><div class="rc-name">Sophie R.</div><div class="rc-meta">Ottawa · 34 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"The vegan options here are genuinely excellent — not an afterthought. A place that truly caters to everyone."</p><div class="rc-time">3 months ago</div></div>
+      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#2BBFBF">JC</div><div><div class="rc-name">James C.</div><div class="rc-meta">Local Guide · 156 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"Cookie D'OH is my daughter's new obsession. The Hong Kong Waffle with a scoop on top is absolutely next level."</p><div class="rc-time">5 months ago</div></div>
+      <div class="review-card"><div class="rc-top"><div class="rc-avatar" style="background:#C4863A">RK</div><div><div class="rc-name">Ravi K.</div><div class="rc-meta">Local Guide · 302 reviews</div></div><div class="rc-g">G</div></div><div class="rc-stars">★★★★★</div><p class="rc-text">"After 50+ ice cream shops in Ottawa, Beachconers is still my #1. Bruce behind the counter is the friendliest barista in the city."</p><div class="rc-time">2 months ago</div></div>
+    </div>
+  </div>
+
+  <div class="reviews-footer reveal">
+    <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_?entry=ttu" target="_blank" class="reviews-all-link">
+      <span class="en">See all 1,164 reviews on Google</span>
+      <span class="fr">Voir tous les 1 164 avis sur Google</span>
+    </a>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-intro reveal">
+    <div class="section-eyebrow">
+      <span class="en">Our Flavours</span><span class="fr">Nos saveurs</span>
+    </div>
+    <h2 class="section-h2">
+      <span class="en">Made fresh,<br><em>every single day</em></span>
+      <span class="fr">Fait frais,<br><em>chaque jour</em></span>
+    </h2>
+    <p class="gallery-note en">📷 Add your own photos via the admin panel — photos appear here automatically.</p>
+    <p class="gallery-note fr">📷 Ajoutez vos propres photos via le panneau d'administration.</p>
+  </div>
+
+  <div class="gallery-grid" id="gallery-grid">
+    <!-- Top row: 3 big cards -->
+    <div class="gallery-card gc-1 reveal">
+      <div class="gallery-card-inner">
+        <div class="gallery-card-badge en">⭐ Fan Fave</div>
+        <div class="gallery-card-badge fr">⭐ Favori</div>
+        <span class="gallery-card-emoji">🍦</span>
+        <div class="gallery-card-name">Madagascar Vanilla Bean</div>
+        <div class="gallery-card-desc en">Real vanilla beans, slow-churned with Ontario cream.</div>
+        <div class="gallery-card-desc fr">Vraies gousses de vanille, barattées lentement.</div>
+        <div class="gallery-card-price">from $4.50</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-2 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🫐</span>
+        <div class="gallery-card-name">Blueberry Lavender</div>
+        <div class="gallery-card-desc en">Wild blueberries with a floral lavender note.</div>
+        <div class="gallery-card-desc fr">Bleuets sauvages avec une note florale de lavande.</div>
+        <div class="gallery-card-price">from $4.75</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-3 reveal">
+      <div class="gallery-card-inner">
+        <div class="gallery-card-badge">⭐ Must Try</div>
+        <span class="gallery-card-emoji">🍪</span>
+        <div class="gallery-card-name">Snickerdoodle Latte</div>
+        <div class="gallery-card-desc en">Cinnamon sugar sweetness in a velvety espresso latte.</div>
+        <div class="gallery-card-desc fr">Douceur de sucre cannelle dans un latte espresso velouté.</div>
+        <div class="gallery-card-price">$6.00</div>
+      </div>
+    </div>
+
+    <!-- Middle row: 4 medium cards -->
+    <div class="gallery-card gc-4 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🍫</span>
+        <div class="gallery-card-name">Cookie D'OH</div>
+        <div class="gallery-card-desc en">Cookie dough chunks in sweet vanilla cream.</div>
+        <div class="gallery-card-desc fr">Morceaux de pâte à biscuits dans une crème vanille.</div>
+        <div class="gallery-card-price">from $5.00</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-5 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🧇</span>
+        <div class="gallery-card-name en">Hong Kong Waffle</div>
+        <div class="gallery-card-name fr">Gaufre Hong Kong</div>
+        <div class="gallery-card-desc en">Crispy bubble waffle + your choice of scoop.</div>
+        <div class="gallery-card-desc fr">Gaufre bulle croustillante + votre choix de boule.</div>
+        <div class="gallery-card-price">$9.00</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-6 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">☕</span>
+        <div class="gallery-card-name">Cold Brew Coffee</div>
+        <div class="gallery-card-desc en">House cold brew churned into ice cream.</div>
+        <div class="gallery-card-desc fr">Cold brew maison transformé en crème glacée.</div>
+        <div class="gallery-card-price">from $4.75</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-7 reveal">
+      <div class="gallery-card-inner">
+        <div class="gallery-card-badge">🌱 Vegan</div>
+        <span class="gallery-card-emoji">🌱</span>
+        <div class="gallery-card-name">Vegan Root Beer</div>
+        <div class="gallery-card-desc en">100% dairy-free. All the flavour, no compromise.</div>
+        <div class="gallery-card-desc fr">100% sans produits laitiers. Toute la saveur.</div>
+        <div class="gallery-card-price">from $4.75</div>
+      </div>
+    </div>
+
+    <!-- Bottom row: 3 cards -->
+    <div class="gallery-card gc-8 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🍁</span>
+        <div class="gallery-card-name">Maple Walnut</div>
+        <div class="gallery-card-desc en">Ontario maple syrup + toasted walnuts.</div>
+        <div class="gallery-card-desc fr">Sirop d'érable ontarien + noix de Grenoble grillées.</div>
+        <div class="gallery-card-price">from $4.75</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-9 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🫖</span>
+        <div class="gallery-card-name">London Fog</div>
+        <div class="gallery-card-desc en">Earl Grey tea-infused cream with vanilla.</div>
+        <div class="gallery-card-desc fr">Crème infusée au thé Earl Grey avec vanille.</div>
+        <div class="gallery-card-price">from $4.75</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-10 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🍦</span>
+        <div class="gallery-card-name">Affogato</div>
+        <div class="gallery-card-desc en">Hot espresso poured over vanilla bean ice cream.</div>
+        <div class="gallery-card-desc fr">Espresso chaud versé sur une boule de vanille.</div>
+        <div class="gallery-card-price">$6.50</div>
+      </div>
+    </div>
+
+    <!-- Upload note -->
+    <div class="gallery-card gc-upload">
+      <p class="en">📸 Have photos of your visit? Share them on Google or Facebook — we'd love to see!</p>
+      <p class="fr">📸 Vous avez des photos de votre visite ? Partagez-les sur Google ou Facebook !</p>
+      <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_?entry=ttu" target="_blank" class="en">Add a photo on Google →</a>
+      <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_?entry=ttu" target="_blank" class="fr">Ajouter une photo sur Google →</a>
+    </div>
+  </div>
+</section>
+
+<!-- JOBS -->
+<section class="jobs-section" id="jobs">
+  <div class="reveal">
+    <div class="section-eyebrow">
+      <span class="en">Join Our Team</span><span class="fr">Rejoignez notre équipe</span>
+    </div>
+    <h2 class="section-h2">
+      <span class="en">Work somewhere<br><em>worth waking up for</em></span>
+      <span class="fr">Travaillez quelque part<br><em>qui en vaut la peine</em></span>
+    </h2>
+  </div>
+
+  <div class="jobs-grid">
+    <div class="job-card reveal">
+      <div class="job-tag en">🍦 Ice Cream</div>
+      <div class="job-tag fr">🍦 Crème glacée</div>
+      <div class="job-title en">Scoop Shop Team Member</div>
+      <div class="job-title fr">Membre de l'équipe</div>
+      <div class="job-desc en">Join our front-of-house team serving handcrafted ice cream, coffee and food to the Ottawa community. We're looking for friendly, enthusiastic people who love great food and great people.</div>
+      <div class="job-desc fr">Rejoignez notre équipe pour servir de la crème glacée artisanale, du café et de la nourriture à la communauté d'Ottawa. Nous cherchons des personnes amicales et enthousiastes.</div>
+      <div class="job-details">
+        <span class="job-detail en">🕐 Part-time & Full-time</span>
+        <span class="job-detail fr">🕐 Temps partiel & plein</span>
+        <span class="job-detail en">📍 273 Britannia Rd</span>
+        <span class="job-detail fr">📍 273 ch. Britannia</span>
+        <span class="job-detail en">☀️ Seasonal</span>
+        <span class="job-detail fr">☀️ Saisonnier</span>
+      </div>
+      <a href="mailto:hello@thebeachconers.ca?subject=Job Application - Scoop Shop" class="job-apply">
+        <span class="en">Apply Now →</span>
+        <span class="fr">Postuler →</span>
+      </a>
+    </div>
+
+    <div class="job-card reveal">
+      <div class="job-tag en">☕ Coffee</div>
+      <div class="job-tag fr">☕ Café</div>
+      <div class="job-title en">Barista</div>
+      <div class="job-title fr">Barista</div>
+      <div class="job-desc en">We're looking for a skilled and passionate barista to craft specialty espresso drinks alongside our ice cream service. Experience with specialty coffee is preferred, but a genuine love for the craft is essential.</div>
+      <div class="job-desc fr">Nous cherchons un barista qualifié et passionné pour préparer des boissons espresso de spécialité. L'expérience est préférée, mais la passion est essentielle.</div>
+      <div class="job-details">
+        <span class="job-detail en">🕐 Part-time</span>
+        <span class="job-detail fr">🕐 Temps partiel</span>
+        <span class="job-detail en">📍 273 Britannia Rd</span>
+        <span class="job-detail fr">📍 273 ch. Britannia</span>
+        <span class="job-detail en">☀️ Seasonal</span>
+        <span class="job-detail fr">☀️ Saisonnier</span>
+      </div>
+      <a href="mailto:hello@thebeachconers.ca?subject=Job Application - Barista" class="job-apply">
+        <span class="en">Apply Now →</span>
+        <span class="fr">Postuler →</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="jobs-note reveal">
+    <strong class="en">How to apply:</strong>
+    <strong class="fr">Comment postuler :</strong>
+    <span class="en"> Send your resume and a short note about why you'd love to work with us to <a href="mailto:hello@thebeachconers.ca" style="color:var(--teal)">hello@thebeachconers.ca</a>. We read every application personally.</span>
+    <span class="fr"> Envoyez votre CV et une courte note sur pourquoi vous aimeriez travailler avec nous à <a href="mailto:hello@thebeachconers.ca" style="color:var(--teal)">hello@thebeachconers.ca</a>. Nous lisons chaque candidature personnellement.</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">
+        <img src="assets/logo.png" alt="The Beachconers"/>
+      </div>
+      <p class="footer-tagline en">Handcrafted ice cream & coffee made from scratch in Britannia, Ottawa. Every scoop made with real ingredients and a whole lot of love.</p>
+      <p class="footer-tagline fr">Crème glacée et café artisanaux faits de zéro à Britannia, Ottawa. Chaque boule préparée avec de vrais ingrédients.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/thebeachconers/" target="_blank" class="footer-social">f</a>
+        <a href="#" class="footer-social">ig</a>
+        <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_" target="_blank" class="footer-social">📍</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4><span class="en">Menu</span><span class="fr">Menu</span></h4>
+      <ul>
+        <li><a href="#menu"><span class="en">Today's Flavours</span><span class="fr">Saveurs du jour</span></a></li>
+        <li><a href="#menu"><span class="en">All Ice Cream</span><span class="fr">Toute la crème glacée</span></a></li>
+        <li><a href="#menu"><span class="en">Coffee</span><span class="fr">Café</span></a></li>
+        <li><a href="#menu"><span class="en">Food & Treats</span><span class="fr">Nourriture</span></a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4><span class="en">Hours</span><span class="fr">Heures</span></h4>
+      <div id="footer-hours">
+        <div class="hours-row"><span class="hours-day en">Monday</span><span class="hours-day fr">Lundi</span><span class="hours-time">Closed / Fermé</span></div>
+        <div class="hours-row"><span class="hours-day en">Tue – Fri</span><span class="hours-day fr">Mar – Ven</span><span class="hours-time">8am – 5pm</span></div>
+        <div class="hours-row"><span class="hours-day en">Saturday</span><span class="hours-day fr">Samedi</span><span class="hours-time">9am – 5pm</span></div>
+        <div class="hours-row"><span class="hours-day en">Sunday</span><span class="hours-day fr">Dimanche</span><span class="hours-time">9am – 4pm</span></div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4><span class="en">Contact</span><span class="fr">Contact</span></h4>
+      <p>
+        273 Britannia Rd<br>Ottawa, ON K2B 6W7<br><br>
+        <a href="tel:+16138299696" id="footer-phone">+1 (613) 829-9696</a><br>
+        <a href="mailto:hello@thebeachconers.ca" id="footer-email">hello@thebeachconers.ca</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 The Beachconers Microcreamery. <span class="en">All rights reserved.</span><span class="fr">Tous droits réservés.</span></p>
+    <p><span class="en">Made with ❤️ in Ottawa</span><span class="fr">Fait avec ❤️ à Ottawa</span></p>
+  </div>
+</footer>
+
+<script>
+  // ── TIME-BASED THEME ─────────────────────────
+  function applyTheme() {
+    const hour = new Date().getHours();
+    const isNight = hour >= 20 || hour < 6; // night: 8pm – 6am
+    document.body.classList.toggle('night-mode', isNight);
+
+    // Update time pill
+    const pill = document.getElementById('timePillText');
+    if (pill) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-CA', { hour:'2-digit', minute:'2-digit' });
+      if (isNight) {
+        pill.textContent = `${timeStr} — Evening mode 🌙`;
+      } else {
+        pill.textContent = `${timeStr} — Day mode ☀️`;
+      }
+    }
+  }
+  applyTheme();
+  setInterval(applyTheme, 60000); // check every minute
+
+  // ── LANG ─────────────────────────────────────
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+    localStorage.setItem('bc-lang', lang);
+  }
+  // Restore preference
+  const savedLang = localStorage.getItem('bc-lang');
+  if (savedLang) setLang(savedLang);
+
+  // ── NAV SCROLL ───────────────────────────────
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
+
+  // ── HERO PARALLAX ────────────────────────────
+  const heroBg = document.getElementById('heroBg');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight) heroBg.style.transform = `translateY(${y * 0.3}px)`;
+  });
+  // Trigger zoom-out on load
+  setTimeout(() => heroBg.classList.add('loaded'), 100);
+
+  // ── REVEAL ON SCROLL ─────────────────────────
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 100);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // ── MENU TABS ────────────────────────────────
+  function switchTab(name, btn) {
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + name).classList.add('active');
+  }
+
+  // ── DUPLICATE REVIEWS ────────────────────────
+  const rt = document.getElementById('reviews-track');
+  if (rt) rt.innerHTML += rt.innerHTML;
+
+  // ── LOAD MENU FROM JSON ──────────────────────
+  async function loadMenu() {
+    let data;
+    try {
+      const res = await fetch('data/menu.json?t=' + Date.now());
+      data = await res.json();
+    } catch(e) { return; }
+
+    function icCard(item) {
+      return `<div class="flavour-item">
+        ${item.badge ? `<div class="flavour-badge">${item.badge}</div>` : ''}
+        ${item.image
+          ? `<img src="${item.image}" alt="${item.name}"/>`
+          : `<span class="flavour-emoji-sm">${item.emoji}</span>`}
+        <div class="flavour-item-name">${item.name}</div>
+        <div class="flavour-item-desc">${item.desc}</div>
+        <div class="flavour-item-price">${item.price}</div>
+      </div>`;
+    }
+
+    function cfCard(item) {
+      return `<div class="coffee-item">
+        <div class="coffee-item-icon">${item.emoji}</div>
+        <div class="coffee-item-info">
+          <div class="coffee-item-name">${item.name}</div>
+          <div class="coffee-item-desc">${item.desc}</div>
+          ${item.badge ? `<span class="coffee-item-badge">${item.badge}</span>` : ''}
+        </div>
+        <div class="coffee-item-price">${item.price}</div>
+      </div>`;
+    }
+
+    const sets = [
+      ['icecream_today', 'today-menu', icCard],
+      ['icecream', 'icecream-menu', icCard],
+      ['coffee', 'coffee-menu', cfCard],
+      ['food', 'food-menu', icCard],
+    ];
+    sets.forEach(([key, id, fn]) => {
+      const el = document.getElementById(id);
+      if (el && data[key]) el.innerHTML = data[key].filter(i=>i.available).map(fn).join('');
+    });
+
+    // Site content from JSON
+    if (data.site) {
+      const s = data.site;
+      ['p1','p2','p3'].forEach(k => {
+        const el = document.getElementById('about-' + k);
+        if (el && s['about_' + k]) el.textContent = s['about_' + k];
+      });
+      const fp = document.getElementById('footer-phone');
+      if (fp && s.phone) { fp.textContent = s.phone; fp.href = 'tel:' + s.phone.replace(/\D/g,''); }
+      const fe = document.getElementById('footer-email');
+      if (fe && s.email) { fe.textContent = s.email; fe.href = 'mailto:' + s.email; }
+    }
+
+    // Re-observe new elements
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
+  }
+  loadMenu();
+</script>
+</body>
+</html>
