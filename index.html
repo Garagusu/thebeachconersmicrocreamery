@@ -93,10 +93,10 @@
       position: absolute; inset: 0;
       background: linear-gradient(
         to bottom,
-        rgba(10,14,26,0.15) 0%,
-        rgba(10,14,26,0.05) 35%,
-        rgba(10,14,26,0.55) 65%,
-        rgba(10,14,26,0.92) 100%
+        rgba(10,14,26,0.05) 0%,
+        rgba(10,14,26,0.0) 25%,
+        rgba(10,14,26,0.35) 60%,
+        rgba(10,14,26,0.85) 100%
       );
     }
     .hero-content {
@@ -508,9 +508,129 @@
       from { opacity: 0; } to { opacity: 1; }
     }
 
+    /* ── GALLERY ───────────────────────────────── */
+    .gallery-section { background: var(--night); padding: 8rem 5rem; }
+    .gallery-intro { max-width: 560px; margin-bottom: 3.5rem; }
+    .gallery-note {
+      font-size: 0.78rem; color: var(--muted); margin-top: 1rem;
+      font-style: italic;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 12px;
+    }
+    /* Big featured card */
+    .gallery-card {
+      border-radius: 4px; overflow: hidden;
+      position: relative; background: rgba(249,243,232,0.04);
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease;
+    }
+    .gallery-card:hover { transform: scale(1.01); z-index: 2; }
+    .gallery-card:hover .gallery-card-overlay { opacity: 1; }
+    .gallery-card-inner {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2.5rem 2rem; text-align: center;
+    }
+    .gallery-card-emoji { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
+    .gallery-card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 600; color: var(--cream);
+      margin-bottom: 0.4rem;
+    }
+    .gallery-card-desc { font-size: 0.75rem; color: var(--muted); line-height: 1.6; margin-bottom: 0.8rem; }
+    .gallery-card-price {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem; color: var(--coral);
+    }
+    .gallery-card-badge {
+      position: absolute; top: 0.8rem; left: 0.8rem;
+      background: var(--butter); color: var(--night);
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px;
+    }
+    /* Color themes per card */
+    .gc-1 { background: linear-gradient(135deg, rgba(232,82,122,0.15), rgba(232,82,122,0.05)); grid-column: span 4; min-height: 260px; }
+    .gc-2 { background: linear-gradient(135deg, rgba(43,191,191,0.15), rgba(43,191,191,0.05)); grid-column: span 4; min-height: 260px; }
+    .gc-3 { background: linear-gradient(135deg, rgba(245,200,66,0.15), rgba(245,200,66,0.05)); grid-column: span 4; min-height: 260px; }
+    .gc-4 { background: linear-gradient(135deg, rgba(196,134,58,0.15), rgba(196,134,58,0.05)); grid-column: span 3; min-height: 220px; }
+    .gc-5 { background: linear-gradient(135deg, rgba(123,94,167,0.15), rgba(123,94,167,0.05)); grid-column: span 3; min-height: 220px; }
+    .gc-6 { background: linear-gradient(135deg, rgba(232,82,122,0.1), rgba(43,191,191,0.1)); grid-column: span 3; min-height: 220px; }
+    .gc-7 { background: linear-gradient(135deg, rgba(245,200,66,0.12), rgba(196,134,58,0.08)); grid-column: span 3; min-height: 220px; }
+    .gc-8 { background: linear-gradient(135deg, rgba(43,191,191,0.12), rgba(10,14,26,0.2)); grid-column: span 4; min-height: 220px; }
+    .gc-9 { background: linear-gradient(135deg, rgba(232,82,122,0.12), rgba(10,14,26,0.2)); grid-column: span 4; min-height: 220px; }
+    .gc-10 { background: linear-gradient(135deg, rgba(123,94,167,0.15), rgba(10,14,26,0.2)); grid-column: span 4; min-height: 220px; }
+
+    /* Upload prompt card */
+    .gc-upload {
+      grid-column: span 12;
+      border: 2px dashed rgba(249,243,232,0.1);
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem; gap: 1.5rem; min-height: 80px;
+      flex-wrap: wrap;
+    }
+    .gc-upload p { font-size: 0.78rem; color: var(--muted); }
+    .gc-upload a {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--teal); text-decoration: none;
+      border-bottom: 1px solid var(--teal); padding-bottom: 1px;
+    }
+
+    /* ── JOBS ──────────────────────────────────── */
+    .jobs-section {
+      border-top: 1px solid var(--border);
+      padding: 8rem 5rem;
+      background: rgba(249,243,232,0.02);
+    }
+    .jobs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3.5rem; }
+    .job-card {
+      border: 1px solid var(--border); border-radius: 4px;
+      padding: 2.5rem; transition: border-color 0.2s, background 0.2s;
+    }
+    .job-card:hover { border-color: var(--coral); background: rgba(232,82,122,0.04); }
+    .job-tag {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+      background: rgba(43,191,191,0.1);
+      padding: 0.25rem 0.7rem; border-radius: 2px;
+      display: inline-block; margin-bottom: 1.2rem;
+    }
+    .job-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 600; color: var(--cream);
+      margin-bottom: 0.8rem;
+    }
+    .job-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
+    .job-details { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 1.8rem; }
+    .job-detail {
+      font-size: 0.72rem; color: var(--muted);
+      border: 1px solid var(--border); padding: 0.3rem 0.8rem; border-radius: 2px;
+    }
+    .job-apply {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--coral); color: white;
+      padding: 0.7rem 1.5rem; border-radius: 4px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .job-apply:hover { background: var(--teal); transform: translateY(-1px); }
+    .jobs-note {
+      margin-top: 2rem; padding: 1.5rem 2rem;
+      border: 1px solid rgba(245,200,66,0.2);
+      background: rgba(245,200,66,0.04);
+      border-radius: 4px; font-size: 0.82rem; color: var(--muted);
+    }
+    .jobs-note strong { color: var(--butter); }
+
     /* ── RESPONSIVE ────────────────────────────── */
     @media (max-width: 1024px) {
-      .section, .menu-section, .about-section, .reviews-section, footer { padding-left: 2.5rem; padding-right: 2.5rem; }
+      .section, .menu-section, .about-section, .reviews-section, .gallery-section, .jobs-section, footer { padding-left: 2.5rem; padding-right: 2.5rem; }
       nav { padding: 0 2rem; }
       .hero-content { padding: 0 2.5rem 5rem; }
       .hero-scroll { right: 2.5rem; }
@@ -518,6 +638,9 @@
       .about-stat-card { bottom: 1rem; right: 1rem; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
       .coffee-list { grid-template-columns: 1fr; }
+      .gc-1, .gc-2, .gc-3 { grid-column: span 6; }
+      .gc-4, .gc-5, .gc-6, .gc-7 { grid-column: span 6; }
+      .gc-8, .gc-9, .gc-10 { grid-column: span 4; }
     }
     @media (max-width: 768px) {
       nav { padding: 0 1.5rem; height: 72px; }
@@ -530,6 +653,8 @@
       footer { padding: 3rem 1.5rem 2rem; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; text-align: center; }
+      .gc-1,.gc-2,.gc-3,.gc-4,.gc-5,.gc-6,.gc-7,.gc-8,.gc-9,.gc-10 { grid-column: span 12; }
+      .jobs-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -543,8 +668,10 @@
   <div class="nav-right">
     <ul class="nav-links">
       <li><a href="#menu"><span class="en">Menu</span><span class="fr">Menu</span></a></li>
+      <li><a href="#gallery"><span class="en">Gallery</span><span class="fr">Galerie</span></a></li>
       <li><a href="#about"><span class="en">Our Story</span><span class="fr">Notre Histoire</span></a></li>
       <li><a href="#reviews"><span class="en">Reviews</span><span class="fr">Avis</span></a></li>
+      <li><a href="#jobs"><span class="en">Jobs</span><span class="fr">Emplois</span></a></li>
     </ul>
     <div class="lang-btn">
       <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
@@ -758,6 +885,196 @@
       <span class="en">See all 1,164 reviews on Google</span>
       <span class="fr">Voir tous les 1 164 avis sur Google</span>
     </a>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-intro reveal">
+    <div class="section-eyebrow">
+      <span class="en">Our Flavours</span><span class="fr">Nos saveurs</span>
+    </div>
+    <h2 class="section-h2">
+      <span class="en">Made fresh,<br><em>every single day</em></span>
+      <span class="fr">Fait frais,<br><em>chaque jour</em></span>
+    </h2>
+    <p class="gallery-note en">📷 Add your own photos via the admin panel — photos appear here automatically.</p>
+    <p class="gallery-note fr">📷 Ajoutez vos propres photos via le panneau d'administration.</p>
+  </div>
+
+  <div class="gallery-grid" id="gallery-grid">
+    <!-- Top row: 3 big cards -->
+    <div class="gallery-card gc-1 reveal">
+      <div class="gallery-card-inner">
+        <div class="gallery-card-badge en">⭐ Fan Fave</div>
+        <div class="gallery-card-badge fr">⭐ Favori</div>
+        <span class="gallery-card-emoji">🍦</span>
+        <div class="gallery-card-name">Madagascar Vanilla Bean</div>
+        <div class="gallery-card-desc en">Real vanilla beans, slow-churned with Ontario cream.</div>
+        <div class="gallery-card-desc fr">Vraies gousses de vanille, barattées lentement.</div>
+        <div class="gallery-card-price">from $4.50</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-2 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🫐</span>
+        <div class="gallery-card-name">Blueberry Lavender</div>
+        <div class="gallery-card-desc en">Wild blueberries with a floral lavender note.</div>
+        <div class="gallery-card-desc fr">Bleuets sauvages avec une note florale de lavande.</div>
+        <div class="gallery-card-price">from $4.75</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-3 reveal">
+      <div class="gallery-card-inner">
+        <div class="gallery-card-badge">⭐ Must Try</div>
+        <span class="gallery-card-emoji">🍪</span>
+        <div class="gallery-card-name">Snickerdoodle Latte</div>
+        <div class="gallery-card-desc en">Cinnamon sugar sweetness in a velvety espresso latte.</div>
+        <div class="gallery-card-desc fr">Douceur de sucre cannelle dans un latte espresso velouté.</div>
+        <div class="gallery-card-price">$6.00</div>
+      </div>
+    </div>
+
+    <!-- Middle row: 4 medium cards -->
+    <div class="gallery-card gc-4 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🍫</span>
+        <div class="gallery-card-name">Cookie D'OH</div>
+        <div class="gallery-card-desc en">Cookie dough chunks in sweet vanilla cream.</div>
+        <div class="gallery-card-desc fr">Morceaux de pâte à biscuits dans une crème vanille.</div>
+        <div class="gallery-card-price">from $5.00</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-5 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🧇</span>
+        <div class="gallery-card-name en">Hong Kong Waffle</div>
+        <div class="gallery-card-name fr">Gaufre Hong Kong</div>
+        <div class="gallery-card-desc en">Crispy bubble waffle + your choice of scoop.</div>
+        <div class="gallery-card-desc fr">Gaufre bulle croustillante + votre choix de boule.</div>
+        <div class="gallery-card-price">$9.00</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-6 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">☕</span>
+        <div class="gallery-card-name">Cold Brew Coffee</div>
+        <div class="gallery-card-desc en">House cold brew churned into ice cream.</div>
+        <div class="gallery-card-desc fr">Cold brew maison transformé en crème glacée.</div>
+        <div class="gallery-card-price">from $4.75</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-7 reveal">
+      <div class="gallery-card-inner">
+        <div class="gallery-card-badge">🌱 Vegan</div>
+        <span class="gallery-card-emoji">🌱</span>
+        <div class="gallery-card-name">Vegan Root Beer</div>
+        <div class="gallery-card-desc en">100% dairy-free. All the flavour, no compromise.</div>
+        <div class="gallery-card-desc fr">100% sans produits laitiers. Toute la saveur.</div>
+        <div class="gallery-card-price">from $4.75</div>
+      </div>
+    </div>
+
+    <!-- Bottom row: 3 cards -->
+    <div class="gallery-card gc-8 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🍁</span>
+        <div class="gallery-card-name">Maple Walnut</div>
+        <div class="gallery-card-desc en">Ontario maple syrup + toasted walnuts.</div>
+        <div class="gallery-card-desc fr">Sirop d'érable ontarien + noix de Grenoble grillées.</div>
+        <div class="gallery-card-price">from $4.75</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-9 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🫖</span>
+        <div class="gallery-card-name">London Fog</div>
+        <div class="gallery-card-desc en">Earl Grey tea-infused cream with vanilla.</div>
+        <div class="gallery-card-desc fr">Crème infusée au thé Earl Grey avec vanille.</div>
+        <div class="gallery-card-price">from $4.75</div>
+      </div>
+    </div>
+    <div class="gallery-card gc-10 reveal">
+      <div class="gallery-card-inner">
+        <span class="gallery-card-emoji">🍦</span>
+        <div class="gallery-card-name">Affogato</div>
+        <div class="gallery-card-desc en">Hot espresso poured over vanilla bean ice cream.</div>
+        <div class="gallery-card-desc fr">Espresso chaud versé sur une boule de vanille.</div>
+        <div class="gallery-card-price">$6.50</div>
+      </div>
+    </div>
+
+    <!-- Upload note -->
+    <div class="gallery-card gc-upload">
+      <p class="en">📸 Have photos of your visit? Share them on Google or Facebook — we'd love to see!</p>
+      <p class="fr">📸 Vous avez des photos de votre visite ? Partagez-les sur Google ou Facebook !</p>
+      <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_?entry=ttu" target="_blank" class="en">Add a photo on Google →</a>
+      <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_?entry=ttu" target="_blank" class="fr">Ajouter une photo sur Google →</a>
+    </div>
+  </div>
+</section>
+
+<!-- JOBS -->
+<section class="jobs-section" id="jobs">
+  <div class="reveal">
+    <div class="section-eyebrow">
+      <span class="en">Join Our Team</span><span class="fr">Rejoignez notre équipe</span>
+    </div>
+    <h2 class="section-h2">
+      <span class="en">Work somewhere<br><em>worth waking up for</em></span>
+      <span class="fr">Travaillez quelque part<br><em>qui en vaut la peine</em></span>
+    </h2>
+  </div>
+
+  <div class="jobs-grid">
+    <div class="job-card reveal">
+      <div class="job-tag en">🍦 Ice Cream</div>
+      <div class="job-tag fr">🍦 Crème glacée</div>
+      <div class="job-title en">Scoop Shop Team Member</div>
+      <div class="job-title fr">Membre de l'équipe</div>
+      <div class="job-desc en">Join our front-of-house team serving handcrafted ice cream, coffee and food to the Ottawa community. We're looking for friendly, enthusiastic people who love great food and great people.</div>
+      <div class="job-desc fr">Rejoignez notre équipe pour servir de la crème glacée artisanale, du café et de la nourriture à la communauté d'Ottawa. Nous cherchons des personnes amicales et enthousiastes.</div>
+      <div class="job-details">
+        <span class="job-detail en">🕐 Part-time & Full-time</span>
+        <span class="job-detail fr">🕐 Temps partiel & plein</span>
+        <span class="job-detail en">📍 273 Britannia Rd</span>
+        <span class="job-detail fr">📍 273 ch. Britannia</span>
+        <span class="job-detail en">☀️ Seasonal</span>
+        <span class="job-detail fr">☀️ Saisonnier</span>
+      </div>
+      <a href="mailto:hello@thebeachconers.ca?subject=Job Application - Scoop Shop" class="job-apply">
+        <span class="en">Apply Now →</span>
+        <span class="fr">Postuler →</span>
+      </a>
+    </div>
+
+    <div class="job-card reveal">
+      <div class="job-tag en">☕ Coffee</div>
+      <div class="job-tag fr">☕ Café</div>
+      <div class="job-title en">Barista</div>
+      <div class="job-title fr">Barista</div>
+      <div class="job-desc en">We're looking for a skilled and passionate barista to craft specialty espresso drinks alongside our ice cream service. Experience with specialty coffee is preferred, but a genuine love for the craft is essential.</div>
+      <div class="job-desc fr">Nous cherchons un barista qualifié et passionné pour préparer des boissons espresso de spécialité. L'expérience est préférée, mais la passion est essentielle.</div>
+      <div class="job-details">
+        <span class="job-detail en">🕐 Part-time</span>
+        <span class="job-detail fr">🕐 Temps partiel</span>
+        <span class="job-detail en">📍 273 Britannia Rd</span>
+        <span class="job-detail fr">📍 273 ch. Britannia</span>
+        <span class="job-detail en">☀️ Seasonal</span>
+        <span class="job-detail fr">☀️ Saisonnier</span>
+      </div>
+      <a href="mailto:hello@thebeachconers.ca?subject=Job Application - Barista" class="job-apply">
+        <span class="en">Apply Now →</span>
+        <span class="fr">Postuler →</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="jobs-note reveal">
+    <strong class="en">How to apply:</strong>
+    <strong class="fr">Comment postuler :</strong>
+    <span class="en"> Send your resume and a short note about why you'd love to work with us to <a href="mailto:hello@thebeachconers.ca" style="color:var(--teal)">hello@thebeachconers.ca</a>. We read every application personally.</span>
+    <span class="fr"> Envoyez votre CV et une courte note sur pourquoi vous aimeriez travailler avec nous à <a href="mailto:hello@thebeachconers.ca" style="color:var(--teal)">hello@thebeachconers.ca</a>. Nous lisons chaque candidature personnellement.</span>
   </div>
 </section>
 
