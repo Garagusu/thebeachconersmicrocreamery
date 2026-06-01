@@ -420,11 +420,17 @@ function makeCard(item, section, idx) {
       <div class="fg"><div class="field-lbl">Badge</div><input class="field" value="${esc(item.badge||'')}" placeholder="e.g. ⭐ Fave" oninput="uf('${section}',${idx},'badge',this.value)"/></div>
     </div>
     <div class="fg">
-      <div class="field-lbl">Photo</div>
-      <div class="photo-area ${item.image?'has-photo':''}" id="pa-${section}-${idx}">
-        ${item.image
-          ? `<img src="${item.image}" alt=""/><div class="photo-overlay"><button onclick="openPicker('${section}',${idx})">🖼 Change</button><button onclick="removePhoto('${section}',${idx})">✕ Remove</button></div>`
-          : `<div class="photo-area-inner"><span>🖼️</span><div style="margin-bottom:0.4rem;font-size:0.75rem">No photo</div><button class="choose-btn" onclick="openPicker('${section}',${idx})">📸 Choose from Library</button></div>`}
+      <div class="field-lbl">Photo filename</div>
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        <input class="field" 
+          value="${esc(item.image||'')}" 
+          placeholder="e.g. vanilla.jpg" 
+          oninput="uf('${section}',${idx},'image','assets/'+this.value.replace('assets/',''))"
+          style="flex:1;font-size:0.8rem;"/>
+        ${item.image ? `<img src="${item.image}" style="width:48px;height:48px;object-fit:cover;border-radius:6px;flex-shrink:0;" onerror="this.style.display='none'"/>` : ''}
+      </div>
+      <div style="font-size:0.7rem;color:#aaa;margin-top:0.3rem;">
+        Type filename only (e.g. <code>vanilla.jpg</code>) — make sure it's uploaded to GitHub <code>assets/</code> folder
       </div>
     </div>
   `;
