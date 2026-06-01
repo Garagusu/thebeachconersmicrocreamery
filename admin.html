@@ -544,13 +544,17 @@ document.getElementById('picker').addEventListener('click', e => { if (e.target 
 function pickAsset(i) {
   if (!pickerTarget) return;
   const { section, idx } = pickerTarget;
-  data[section][idx].image = assets[i].data;
+
+  // Save BOTH: base64 for preview in admin, and filename for the site
+  data[section][idx].image = assets[i].data;       // base64 — admin preview
+  data[section][idx].imagePath = 'assets/' + assets[i].name; // path — site uses this
+
   const pa = document.getElementById(`pa-${section}-${idx}`);
   if (pa) {
     pa.classList.add('has-photo');
     pa.innerHTML = `<img src="${assets[i].data}" alt=""/><div class="photo-overlay"><button onclick="openPicker('${section}',${idx})">🖼 Change</button><button onclick="removePhoto('${section}',${idx})">✕ Remove</button></div>`;
   }
-  closePicker(); markDirty(); toast('✅ Photo assigned!');
+  closePicker(); markDirty(); toast('✅ Photo assigned! Remember to upload the image file to assets/ on GitHub too.');
 }
 
 // EMOJI
@@ -578,13 +582,50 @@ document.addEventListener('click', e => {
 
 // SAVE / DISCARD
 function save() {
-  const json = JSON.stringify(data, null, 2);
+  // Deep clone — replace base64 with file path for site
+  const clean = JSON.parse(JSON.stringify(data));
+  const sections = ['icecream_today','icecream','icecream_vegan','coffee','food'];
+  const toDownload = [];
+
+  sections.forEach(key => {
+    (clean[key]||[]).forEach(item => {
+      if (item.imagePath) {
+        item.image = item.imagePath; // site reads this path
+        // collect for download
+        const orig_item = (data[key]||[]).find(i=>i.id===item.id);
+        if (orig_item && orig_item.image && orig_item.image.startsWith('data:')) {
+          toDownload.push({ name: item.imagePath.replace('assets/',''), data: orig_item.image });
+        }
+        delete item.imagePath;
+      } else if (item.image && item.image.startsWith('data:')) {
+        delete item.image; // don't embed huge base64
+      }
+    });
+  });
+
+  // Download menu.json
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([json], {type:'application/json'}));
-  a.download = 'menu.json'; a.click();
-  orig = json; dirty = false;
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(clean, null, 2)], {type:'application/json'}));
+  a.download = 'menu.json';
+  a.click();
+
+  // Download each image file with delay
+  if (toDownload.length > 0) {
+    toDownload.forEach((img, i) => {
+      setTimeout(() => {
+        const a2 = document.createElement('a');
+        a2.href = img.data;
+        a2.download = img.name;
+        a2.click();
+      }, (i + 1) * 500);
+    });
+    toast(`✅ Downloading menu.json + ${toDownload.length} image(s). Upload ALL to GitHub: menu.json → data/, images → assets/`);
+  } else {
+    toast('✅ menu.json downloaded! Upload to data/ folder on GitHub.');
+  }
+
+  orig = JSON.stringify(data); dirty = false;
   document.getElementById('save-bar').classList.remove('show');
-  toast('✅ Downloaded! Upload menu.json to data/ folder on GitHub.');
 }
 function discard() {
   data = JSON.parse(orig); dirty = false;
