@@ -290,22 +290,16 @@
       display: flex; justify-content: space-between; align-items: flex-end;
       margin-bottom: 3.5rem; flex-wrap: wrap; gap: 2rem;
     }
-    .menu-tabs {
-      display: flex; gap: 0;
-      border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+    /* MENU SUB HEADERS */
+    .menu-sub-header {
+      display: flex; align-items: center; gap: 1.5rem;
+      margin-bottom: 2rem; flex-wrap: wrap;
     }
-    .menu-tab {
-      background: none; border: none; border-right: 1px solid var(--border);
-      padding: 0.65rem 1.4rem; font-size: 0.72rem;
-      font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--muted); cursor: pointer; font-family: inherit;
-      transition: all 0.2s;
+    .menu-sub-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; letter-spacing: 3px;
+      color: var(--text); flex-shrink: 0;
     }
-    .menu-tab:last-child { border-right: none; }
-    .menu-tab:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-    .menu-tab.active { background: var(--text); color: var(--bg); }
-    .menu-panel { display: none; }
-    .menu-panel.active { display: block; }
 
     /* Today note */
     .today-banner {
@@ -836,23 +830,49 @@
       .about-stat-card { bottom: 1rem; right: 1rem; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
       .coffee-list { grid-template-columns: 1fr; }
-      .gc-1, .gc-2, .gc-3 { grid-column: span 6; }
-      .gc-4, .gc-5, .gc-6, .gc-7 { grid-column: span 6; }
-      .gc-8, .gc-9, .gc-10 { grid-column: span 4; }
     }
     @media (max-width: 768px) {
-      nav { padding: 0 1.5rem; height: 72px; }
+      nav { padding: 0 1.2rem; height: 64px; }
+      .nav-logo img { height: 56px; }
       .nav-links { display: none; }
+      .lang-btn { display: none; }
+
+      /* Mobile nav bottom bar */
+      .mobile-nav {
+        display: flex !important;
+        position: fixed; bottom: 0; left: 0; right: 0; z-index: 500;
+        background: var(--nav-scrolled);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid var(--border);
+        padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
+      }
+      .mobile-nav a {
+        flex: 1; display: flex; flex-direction: column; align-items: center;
+        gap: 0.2rem; text-decoration: none; color: var(--muted);
+        font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em;
+        text-transform: uppercase; padding: 0.3rem 0;
+        transition: color 0.2s;
+      }
+      .mobile-nav a:hover, .mobile-nav a.active { color: var(--coral); }
+      .mobile-nav .mn-icon { font-size: 1.3rem; }
+      /* push content above mobile nav */
+      body { padding-bottom: 64px; }
+
       .hero-content { padding: 0 1.5rem 4rem; }
+      .hero-h1 { font-size: clamp(2.8rem, 12vw, 4rem); }
       .hero-scroll { display: none; }
-      .menu-tabs { flex-wrap: wrap; }
-      .reviews-scroll-wrap { margin: 0 -2.5rem; }
-      .reviews-scroll-track { padding: 0.5rem 2.5rem; }
-      footer { padding: 3rem 1.5rem 2rem; }
+      .pricing-bar { flex-direction: column; gap: 0; }
+      .pricing-divider { width: 100%; height: 1px; }
+      .menu-section, .gallery-section, .reviews-section, .about-section, .jobs-section, footer { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .menu-section { padding-top: 4rem; }
+      .reviews-scroll-wrap { margin: 0 -1.2rem; }
+      .reviews-scroll-track { padding: 0.5rem 1.2rem; }
+      footer { padding: 3rem 1.2rem 2rem; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; text-align: center; }
-      .gc-1,.gc-2,.gc-3,.gc-4,.gc-5,.gc-6,.gc-7,.gc-8,.gc-9,.gc-10 { grid-column: span 12; }
       .jobs-grid { grid-template-columns: 1fr; }
+      .menu-tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+      .menu-tab { flex-shrink: 0; font-size: 0.68rem; padding: 0.5rem 0.9rem; }
     }
   </style>
 </head>
@@ -895,6 +915,15 @@
     </a>
   </div>
 </nav>
+
+<!-- MOBILE BOTTOM NAV -->
+<div class="mobile-nav" style="display:none;">
+  <a href="#menu" class="mn-item"><span class="mn-icon">🍦</span><span class="en">Menu</span><span class="fr">Menu</span></a>
+  <a href="#gallery" class="mn-item"><span class="mn-icon">📸</span><span class="en">Gallery</span><span class="fr">Galerie</span></a>
+  <a href="#about" class="mn-item"><span class="mn-icon">📖</span><span class="en">Story</span><span class="fr">Histoire</span></a>
+  <a href="#reviews" class="mn-item"><span class="mn-icon">⭐</span><span class="en">Reviews</span><span class="fr">Avis</span></a>
+  <a href="https://www.google.com/maps/place/The+Beachconers+Microcreamery/@45.3656131,-75.7986747,17z/data=!3m1!4b1!4m6!3m5!1s0x4cce01237874e761:0xc3cbb1c760bfce5f!8m2!3d45.3656094!4d-75.7960998!16s%2Fg%2F11c142pcx_" target="_blank" class="mn-item"><span class="mn-icon">📍</span><span class="en">Visit</span><span class="fr">Visiter</span></a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -976,26 +1005,9 @@
         <span class="fr">Tout ce que nous <em>faisons</em></span>
       </h2>
     </div>
-    <div class="menu-tabs">
-      <button class="menu-tab active" onclick="switchTab('today',this)">
-        <span class="en">✦ Today</span><span class="fr">✦ Aujourd'hui</span>
-      </button>
-      <button class="menu-tab" onclick="switchTab('icecream',this)">
-        <span class="en">🍦 Ice Cream</span><span class="fr">🍦 Crème glacée</span>
-      </button>
-      <button class="menu-tab" onclick="switchTab('vegan',this)">
-        <span class="en">🌱 Vegan</span><span class="fr">🌱 Végane</span>
-      </button>
-      <button class="menu-tab" onclick="switchTab('coffee',this)">
-        <span class="en">☕ Coffee</span><span class="fr">☕ Café</span>
-      </button>
-      <button class="menu-tab" onclick="switchTab('food',this)">
-        <span class="en">🥪 Food</span><span class="fr">🥪 Nourriture</span>
-      </button>
-    </div>
   </div>
 
-  <!-- Vessel & Pricing info bar -->
+  <!-- Pricing bar -->
   <div class="pricing-bar reveal">
     <div class="pricing-item">
       <div class="pricing-label en">Choose Your Vessel</div>
@@ -1023,45 +1035,58 @@
     </div>
   </div>
 
-  <div class="menu-panel active" id="panel-today">
-    <div class="today-banner">
+  <!-- ICE CREAM -->
+  <div class="menu-sub-header reveal">
+    <div class="menu-sub-title">
+      <span class="en">🍦 Ice Cream</span><span class="fr">🍦 Crème Glacée</span>
+    </div>
+    <div class="today-banner" style="margin:0;flex:1;max-width:500px;">
       <span>✨</span>
-      <span class="en">Freshly made today — flavours rotate daily, come back often!</span>
-      <span class="fr">Fraîchement préparées aujourd'hui — les saveurs changent régulièrement !</span>
-    </div>
-    <div class="flavour-grid" id="today-menu"></div>
-  </div>
-
-  <div class="menu-panel" id="panel-icecream">
-    <div class="flavour-grid" id="icecream-menu"></div>
-    <div class="allergen-note">
-      <span class="en">⚠️ Common allergens: Eggs · Wheat · Nuts · Dairy</span>
-      <span class="fr">⚠️ Allergènes courants : Œufs · Blé · Noix · Produits laitiers</span>
+      <span class="en">Flavours rotate daily — come back often!</span>
+      <span class="fr">Les saveurs changent régulièrement !</span>
     </div>
   </div>
+  <div class="flavour-grid" id="icecream-menu"></div>
+  <div class="allergen-note" style="margin-top:1.5rem;">
+    <span class="en">⚠️ Common allergens: Eggs · Wheat · Nuts · Dairy</span>
+    <span class="fr">⚠️ Allergènes courants : Œufs · Blé · Noix · Produits laitiers</span>
+  </div>
 
-  <div class="menu-panel" id="panel-vegan">
-    <div class="today-banner" style="background:rgba(0,180,166,0.1);color:var(--teal);">
+  <!-- VEGAN -->
+  <div class="menu-sub-header reveal" style="margin-top:4rem;">
+    <div class="menu-sub-title" style="color:var(--teal);">
+      <span class="en">🌱 Vegan Scoops</span><span class="fr">🌱 Boules Véganes</span>
+    </div>
+    <div class="today-banner" style="margin:0;flex:1;max-width:500px;background:rgba(0,180,166,0.1);color:var(--teal);">
       <span>🌱</span>
-      <span class="en">100% dairy-free. Single $6.75 · Double $10.50 · All vessels available!</span>
-      <span class="fr">100% sans produits laitiers. Simple 6,75 $ · Double 10,50 $</span>
-    </div>
-    <div class="flavour-grid" id="vegan-menu"></div>
-  </div>
-
-  <div class="menu-panel" id="panel-coffee">
-    <div class="coffee-list" id="coffee-menu"></div>
-    <div class="coffee-note en">Add maple · vanilla · mocha syrup to any latte +$1.10 · Alternative milks available · Ask about seasonal specials</div>
-    <div class="coffee-note fr">Ajoutez sirop d'érable, vanille ou mocha à tout latte +1,10 $ · Laits alternatifs disponibles</div>
-  </div>
-
-  <div class="menu-panel" id="panel-food">
-    <div class="flavour-grid" id="food-menu"></div>
-    <div class="allergen-note">
-      <span class="en">🌱 Gluten-free & vegan options sometimes available — if you're lucky! Ask us today.</span>
-      <span class="fr">🌱 Options sans gluten et véganes parfois disponibles — demandez-nous !</span>
+      <span class="en">100% dairy-free · Single $6.75 · Double $10.50</span>
+      <span class="fr">100% sans lait · Simple 6,75 $ · Double 10,50 $</span>
     </div>
   </div>
+  <div class="flavour-grid" id="vegan-menu"></div>
+
+  <!-- COFFEE & DRINKS -->
+  <div class="menu-sub-header reveal" style="margin-top:4rem;">
+    <div class="menu-sub-title">
+      <span class="en">☕ Coffee & Drinks</span><span class="fr">☕ Café & Boissons</span>
+    </div>
+  </div>
+  <div class="coffee-list" id="coffee-menu"></div>
+  <div class="coffee-note en" style="margin-top:1.2rem;">Add maple · vanilla · mocha syrup to any latte +$1.10 · Alternative milks available</div>
+  <div class="coffee-note fr" style="margin-top:1.2rem;">Ajoutez sirop d'érable, vanille ou mocha +1,10 $ · Laits alternatifs disponibles</div>
+
+  <!-- FOOD & SWEETS -->
+  <div class="menu-sub-header reveal" style="margin-top:4rem;">
+    <div class="menu-sub-title">
+      <span class="en">🥪 Food & Sweets</span><span class="fr">🥪 Nourriture & Douceurs</span>
+    </div>
+  </div>
+  <div class="flavour-grid" id="food-menu"></div>
+  <div class="allergen-note" style="margin-top:1.5rem;">
+    <span class="en">🌱 Gluten-free & vegan options sometimes available — if you're lucky! Ask us.</span>
+    <span class="fr">🌱 Options sans gluten et véganes parfois disponibles — demandez-nous !</span>
+  </div>
+
 </section>
 
 <!-- ABOUT -->
@@ -1437,8 +1462,11 @@
     // Helper to get lightbox index
     function getLbIdx(name) { return lbItems.findIndex(l => l.name === name); }
 
+    // Helper: get current language
+    function lang() { return document.body.classList.contains('lang-fr') ? 'fr' : 'en'; }
+
     // Render ice cream sections
-    ['icecream_today','icecream','icecream_vegan'].forEach(key => {
+    ['icecream','icecream_vegan'].forEach(key => {
       const idMap = { icecream_today:'today-menu', icecream:'icecream-menu', icecream_vegan:'vegan-menu' };
       const el = document.getElementById(idMap[key]);
       if (!el || !data[key]) return;
@@ -1454,12 +1482,36 @@
                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"/>
                </div>`
             : `<span class="flavour-emoji-sm">${item.emoji}</span>`}
-          <div class="flavour-item-name">${item.name}</div>
-          <div class="flavour-item-desc">${item.desc}</div>
+          <div class="flavour-item-name">
+            <span class="en">${item.name}</span>
+            <span class="fr">${item.name_fr || item.name}</span>
+          </div>
+          <div class="flavour-item-desc">
+            <span class="en">${item.desc}</span>
+            <span class="fr">${item.desc_fr || item.desc}</span>
+          </div>
           <div class="flavour-item-price">${item.price}</div>
         </div>`;
       }).join('');
     });
+
+    function cfCard(item) {
+      return `<div class="coffee-item">
+        <div class="coffee-item-icon">${item.emoji}</div>
+        <div class="coffee-item-info">
+          <div class="coffee-item-name">
+            <span class="en">${item.name}</span>
+            <span class="fr">${item.name_fr || item.name}</span>
+          </div>
+          <div class="coffee-item-desc">
+            <span class="en">${item.desc}</span>
+            <span class="fr">${item.desc_fr || item.desc}</span>
+          </div>
+          ${item.badge ? `<span class="coffee-item-badge">${item.badge}</span>` : ''}
+        </div>
+        <div class="coffee-item-price">${item.price}</div>
+      </div>`;
+    }
 
     // Render coffee
     const el1 = document.getElementById('coffee-menu');
@@ -1472,8 +1524,14 @@
       return `<div class="flavour-item">
         ${item.badge ? `<div class="flavour-badge">${item.badge}</div>` : ''}
         ${imgSrc ? `<img src="${imgSrc}" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:0.8rem;"/>` : `<span class="flavour-emoji-sm">${item.emoji}</span>`}
-        <div class="flavour-item-name">${item.name}</div>
-        <div class="flavour-item-desc">${item.desc}</div>
+        <div class="flavour-item-name">
+          <span class="en">${item.name}</span>
+          <span class="fr">${item.name_fr || item.name}</span>
+        </div>
+        <div class="flavour-item-desc">
+          <span class="en">${item.desc}</span>
+          <span class="fr">${item.desc_fr || item.desc}</span>
+        </div>
         <div class="flavour-item-price">${item.price}</div>
       </div>`;
     }).join('');
@@ -1491,7 +1549,8 @@
             background:linear-gradient(transparent,rgba(0,0,0,0.7));
             padding:1.5rem 0.8rem 0.6rem;
             color:white;font-size:0.75rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">
-            ${item.name}
+            <span class="en">${item.name}</span>
+            <span class="fr">${item.name_fr || item.name}</span>
           </div>
           ${item.badge ? `<div style="position:absolute;top:0.5rem;left:0.5rem;background:var(--coral);color:white;font-size:0.58rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:3px;letter-spacing:0.06em;text-transform:uppercase;">${item.badge}</div>` : ''}
         </div>
