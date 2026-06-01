@@ -1,864 +1,594 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Beachconers Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --cream: #FFF8EE; --sand: #FFF0F4; --coral: #E8527A;
-      --teal: #2BBFBF; --butter: #F5C842; --choc: #3B1F0E;
-      --bg: #F7F4F0; --card: #FFFFFF; --border: #E8E0D5;
-      --text: #1E1208; --muted: #8B7355;
-    }
-    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Beachconers Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#f7f7f7;color:#111}
 
-    /* LOGIN */
-    #login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; background:var(--choc); position:relative; z-index:9999; }
-    .login-box { background:var(--cream); border-radius:24px; padding:3rem; width:100%; max-width:420px; text-align:center; box-shadow:0 24px 80px rgba(0,0,0,0.3); position:relative; z-index:10000; }
-    .login-logo { font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--choc); margin-bottom:0.3rem; }
-    .login-logo span { color:var(--coral); }
-    .login-sub { font-size:0.85rem; color:var(--muted); margin-bottom:2rem; }
-    .login-box input { width:100%; padding:0.9rem 1.2rem; border:2px solid var(--border); border-radius:12px; font-size:1rem; font-family:inherit; background:var(--bg); color:var(--text); margin-bottom:1rem; transition:border-color 0.2s; }
-    .login-box input:focus { outline:none; border-color:var(--teal); }
-    .btn { width:100%; padding:0.9rem; background:var(--coral); color:white; border:none; border-radius:12px; font-size:0.95rem; font-weight:600; font-family:inherit; cursor:pointer; transition:background 0.2s; position:relative; z-index:10001; }
-    .btn:hover { background:var(--teal); }
-    .login-error { color:var(--coral); font-size:0.82rem; margin-top:0.8rem; display:none; }
+/* LOGIN */
+#login{position:fixed;inset:0;background:#1a0a2e;display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-box{background:#fff;border-radius:16px;padding:2.5rem;width:360px;text-align:center}
+.login-box h2{font-size:1.4rem;margin-bottom:0.3rem;color:#1a0a2e}
+.login-box p{font-size:0.82rem;color:#888;margin-bottom:1.5rem}
+.login-box input{display:block;width:100%;padding:0.75rem 1rem;border:1.5px solid #ddd;border-radius:8px;font-size:0.95rem;margin-bottom:0.8rem;font-family:inherit}
+.login-box input:focus{outline:none;border-color:#FF3E6C}
+#login-btn{display:block;width:100%;padding:0.85rem;background:#FF3E6C;color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;font-family:inherit}
+#login-btn:hover{background:#e02355}
+#login-err{color:#FF3E6C;font-size:0.8rem;margin-top:0.5rem;display:none}
 
-    /* LAYOUT */
-    #admin-app { display:none; }
-    .sidebar { position:fixed; top:0; left:0; bottom:0; width:240px; background:var(--choc); padding:2rem 1.5rem; display:flex; flex-direction:column; overflow-y:auto; }
-    .sidebar-logo { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--cream); margin-bottom:0.2rem; }
-    .sidebar-logo span { color:var(--coral); }
-    .sidebar-sub { font-size:0.7rem; color:rgba(255,248,238,0.35); margin-bottom:2rem; letter-spacing:0.1em; }
-    .nav-group { font-size:0.65rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,248,238,0.3); margin:1.2rem 0 0.5rem 0.5rem; }
-    .nav-item { display:flex; align-items:center; gap:0.8rem; padding:0.65rem 1rem; border-radius:10px; cursor:pointer; color:rgba(255,248,238,0.6); font-size:0.85rem; font-weight:500; transition:all 0.2s; margin-bottom:0.2rem; user-select:none; }
-    .nav-item:hover { background:rgba(255,255,255,0.07); color:var(--cream); }
-    .nav-item.active { background:var(--coral); color:white; }
-    .nav-icon { font-size:1rem; width:20px; text-align:center; }
-    .sidebar-footer { margin-top:auto; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.08); }
-    .preview-btn { display:flex; align-items:center; gap:0.7rem; padding:0.7rem 1rem; border-radius:10px; background:rgba(255,255,255,0.08); color:var(--butter); font-size:0.82rem; text-decoration:none; transition:background 0.2s; }
-    .preview-btn:hover { background:rgba(255,255,255,0.14); }
-    .logout-btn { display:flex; align-items:center; gap:0.7rem; padding:0.7rem 1rem; border-radius:10px; color:rgba(255,248,238,0.4); font-size:0.82rem; cursor:pointer; margin-top:0.4rem; transition:color 0.2s; }
-    .logout-btn:hover { color:var(--coral); }
+/* APP */
+#app{display:none;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:220px;background:#1a0a2e;padding:1.5rem 1rem;overflow-y:auto}
+.sidebar h3{color:rgba(255,255,255,0.4);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;margin:1.2rem 0 0.4rem 0.5rem}
+.sidebar h3:first-child{margin-top:0.2rem}
+.s-btn{display:flex;align-items:center;gap:0.7rem;width:100%;padding:0.6rem 0.9rem;border:none;border-radius:8px;background:none;color:rgba(255,255,255,0.6);font-size:0.85rem;font-weight:500;cursor:pointer;font-family:inherit;text-align:left;margin-bottom:0.2rem}
+.s-btn:hover{background:rgba(255,255,255,0.08);color:#fff}
+.s-btn.active{background:#FF3E6C;color:#fff}
+.main{margin-left:220px;padding:2rem}
+.tab{display:none}.tab.active{display:block}
+.page-h{font-size:1.5rem;font-weight:700;margin-bottom:0.3rem;color:#1a0a2e}
+.page-sub{font-size:0.82rem;color:#888;margin-bottom:1.5rem}
 
-    /* MAIN */
-    .main { margin-left:240px; padding:2.5rem; min-height:100vh; padding-bottom:6rem; }
-    .page-header { margin-bottom:2rem; }
-    .page-title { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--choc); }
-    .page-sub { font-size:0.85rem; color:var(--muted); margin-top:0.3rem; }
-    .tab { display:none; }
-    .tab.active { display:block; }
+/* CARDS */
+.card{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1rem;border:1px solid #eee}
+.field-lbl{font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#888;margin-bottom:0.3rem}
+.field{width:100%;padding:0.6rem 0.85rem;border:1.5px solid #ddd;border-radius:8px;font-size:0.88rem;font-family:inherit}
+.field:focus{outline:none;border-color:#00B4A6}
+textarea.field{min-height:75px;resize:vertical;line-height:1.6}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem}
+.fg{margin-bottom:0.9rem}
+.fg:last-child{margin-bottom:0}
 
-    /* SAVE BAR */
-    .save-bar { position:fixed; bottom:0; left:240px; right:0; background:white; border-top:1px solid var(--border); padding:1rem 2.5rem; display:flex; align-items:center; justify-content:space-between; z-index:50; transform:translateY(100%); transition:transform 0.3s; }
-    .save-bar.visible { transform:translateY(0); }
-    .save-bar.visible { transform:translateY(0); }
-    .save-bar-msg { font-size:0.85rem; color:var(--muted); }
-    .save-bar-msg span { color:var(--coral); font-weight:600; }
-    .save-actions { display:flex; gap:0.8rem; }
-    .btn-save { padding:0.6rem 1.5rem; background:var(--teal); color:white; border:none; border-radius:8px; font-size:0.85rem; font-weight:600; font-family:inherit; cursor:pointer; }
-    .btn-save:hover { background:#1D9494; }
-    .btn-discard { padding:0.6rem 1.5rem; background:transparent; color:var(--muted); border:1px solid var(--border); border-radius:8px; font-size:0.85rem; font-family:inherit; cursor:pointer; }
-    .btn-discard:hover { border-color:var(--coral); color:var(--coral); }
+/* MENU GRID */
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:1rem}
+.menu-card{background:#fff;border:1.5px solid #eee;border-radius:12px;padding:1.2rem}
+.mc-top{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.9rem}
+.mc-emoji{width:42px;height:42px;background:#f5f5f5;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;cursor:pointer;border:none;flex-shrink:0}
+.mc-toggle{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:#888;cursor:pointer}
+.tog{width:32px;height:18px;background:#ddd;border-radius:9px;position:relative;flex-shrink:0}
+.tog::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;background:#fff;border-radius:50%;transition:transform 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.tog.on{background:#00B4A6}.tog.on::after{transform:translateX(14px)}
+.del-btn{margin-left:auto;background:none;border:none;cursor:pointer;color:#ccc;font-size:1rem}
+.del-btn:hover{color:#FF3E6C}
+.add-btn{display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.9rem;border:2px dashed #ddd;border-radius:12px;background:none;color:#aaa;font-size:0.85rem;cursor:pointer;width:100%;font-family:inherit}
+.add-btn:hover{border-color:#00B4A6;color:#00B4A6}
 
-    /* FORM FIELDS */
-    .section-label { font-size:0.72rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:1rem; margin-top:2rem; }
-    .section-label:first-child { margin-top:0; }
-    .card { background:var(--card); border:1.5px solid var(--border); border-radius:16px; padding:1.8rem; margin-bottom:1.2rem; transition:border-color 0.2s; }
-    .card:focus-within { border-color:var(--teal); }
-    .field-group { margin-bottom:1rem; }
-    .field-group:last-child { margin-bottom:0; }
-    .field-label { font-size:0.72rem; font-weight:600; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:0.35rem; }
-    .field-input { width:100%; padding:0.65rem 0.9rem; border:1.5px solid var(--border); border-radius:8px; font-size:0.9rem; font-family:inherit; color:var(--text); background:var(--bg); transition:border-color 0.2s; }
-    .field-input:focus { outline:none; border-color:var(--teal); }
-    textarea.field-input { resize:vertical; min-height:80px; line-height:1.6; }
-    .field-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-    .field-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+/* PHOTO */
+.photo-area{border:2px dashed #ddd;border-radius:8px;padding:1rem;text-align:center;position:relative;margin-top:0.3rem}
+.photo-area.has-photo{border-color:#00B4A6;padding:0}
+.photo-area img{width:100%;height:110px;object-fit:cover;border-radius:6px;display:block}
+.photo-area-inner{color:#aaa;font-size:0.78rem}
+.photo-area-inner span{font-size:1.4rem;display:block;margin-bottom:0.3rem}
+.choose-btn{background:#00B4A6;color:#fff;border:none;border-radius:6px;padding:0.4rem 0.9rem;font-size:0.75rem;font-weight:600;cursor:pointer;margin-top:0.4rem;font-family:inherit}
+.photo-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;gap:0.5rem;border-radius:6px;opacity:0;transition:opacity 0.2s}
+.photo-area.has-photo:hover .photo-overlay{opacity:1}
+.photo-overlay button{background:rgba(255,255,255,0.9);border:none;border-radius:6px;padding:0.3rem 0.7rem;font-size:0.72rem;font-weight:600;cursor:pointer}
 
-    /* HOURS TABLE */
-    .hours-table { width:100%; border-collapse:collapse; }
-    .hours-table td { padding:0.5rem 0.4rem; }
-    .hours-table td:first-child { font-size:0.85rem; font-weight:500; color:var(--choc); width:110px; }
-    .hours-table .field-input { padding:0.5rem 0.8rem; font-size:0.85rem; }
+/* ASSETS TAB */
+.upload-zone{border:2px dashed #ddd;border-radius:12px;padding:2.5rem;text-align:center;cursor:pointer;position:relative;background:#fff;transition:all 0.2s;margin-bottom:1.5rem}
+.upload-zone:hover,.upload-zone.drag-over{border-color:#00B4A6;background:#f0fffe}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-zone .icon{font-size:2.5rem;margin-bottom:0.6rem}
+.upload-zone h3{font-size:1rem;color:#1a0a2e;margin-bottom:0.3rem}
+.upload-zone p{font-size:0.78rem;color:#aaa}
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:0.8rem}
+.lib-item{border:1.5px solid #eee;border-radius:8px;overflow:hidden;position:relative;background:#f5f5f5}
+.lib-item img{width:100%;height:100px;object-fit:cover;display:block}
+.lib-item-name{font-size:0.65rem;color:#888;padding:0.3rem 0.5rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lib-del{position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.65);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:0.65rem;cursor:pointer;display:none;align-items:center;justify-content:center}
+.lib-item:hover .lib-del{display:flex}
+.lib-count{font-size:0.8rem;color:#888;margin-bottom:1rem}
 
-    /* MENU CARDS */
-    .menu-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:1.2rem; margin-bottom:1.5rem; }
-    .menu-card { background:var(--card); border:1.5px solid var(--border); border-radius:16px; padding:1.4rem; transition:border-color 0.2s; }
-    .menu-card:focus-within { border-color:var(--teal); }
-    .menu-card-top { display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem; }
-    .card-emoji { font-size:1.8rem; width:46px; height:46px; background:var(--bg); border-radius:10px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:background 0.2s; }
-    .card-emoji:hover { background:var(--sand); }
-    .available-toggle { display:flex; align-items:center; gap:0.5rem; font-size:0.78rem; color:var(--muted); cursor:pointer; }
-    .toggle { width:34px; height:18px; background:var(--border); border-radius:9px; position:relative; transition:background 0.2s; flex-shrink:0; }
-    .toggle::after { content:''; position:absolute; top:2px; left:2px; width:14px; height:14px; background:white; border-radius:50%; transition:transform 0.2s; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
-    .toggle.on { background:var(--teal); }
-    .toggle.on::after { transform:translateX(16px); }
-    .remove-btn { margin-left:auto; background:none; border:none; cursor:pointer; color:#ddd; font-size:1.1rem; padding:4px; transition:color 0.2s; }
-    .remove-btn:hover { color:var(--coral); }
-    .add-item-btn { display:flex; align-items:center; justify-content:center; gap:0.6rem; padding:1rem; border:2px dashed var(--border); border-radius:14px; background:transparent; color:var(--muted); font-size:0.85rem; font-family:inherit; cursor:pointer; width:100%; transition:all 0.2s; }
-    .add-item-btn:hover { border-color:var(--teal); color:var(--teal); background:rgba(43,191,191,0.04); }
+/* PICKER MODAL */
+#picker{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:8000;align-items:center;justify-content:center}
+#picker.open{display:flex}
+.picker-box{background:#fff;border-radius:16px;padding:1.5rem;width:90%;max-width:640px;max-height:80vh;overflow-y:auto}
+.picker-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.picker-top h3{font-size:1rem;font-weight:600}
+.picker-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:#aaa;line-height:1}
+.picker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:0.7rem}
+.picker-item{border:2px solid #eee;border-radius:8px;overflow:hidden;cursor:pointer;transition:all 0.15s}
+.picker-item:hover{border-color:#00B4A6;transform:scale(1.02)}
+.picker-item img{width:100%;height:90px;object-fit:cover;display:block}
+.picker-item span{font-size:0.65rem;color:#888;padding:0.25rem 0.4rem;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.picker-empty{text-align:center;padding:2rem;color:#aaa;font-size:0.88rem}
 
-    /* ASSET LIBRARY */
-    .asset-upload-zone {
-      border: 2px dashed var(--border); border-radius: 14px;
-      padding: 3rem 2rem; text-align: center; cursor: pointer;
-      transition: all 0.2s; position: relative; margin-bottom: 2rem;
-      background: var(--bg);
-    }
-    .asset-upload-zone:hover, .asset-upload-zone.drag-over {
-      border-color: var(--teal); background: rgba(43,191,191,0.04);
-    }
-    .asset-upload-zone input { position:absolute;inset:0;opacity:0;cursor:pointer; }
-    .asset-upload-zone .icon { font-size: 2.5rem; margin-bottom: 0.8rem; }
-    .asset-upload-zone h3 { font-size: 1rem; font-weight: 600; color: var(--choc); margin-bottom: 0.4rem; }
-    .asset-upload-zone p { font-size: 0.8rem; color: var(--muted); }
+/* SAVE BAR */
+.save-bar{position:fixed;bottom:0;left:220px;right:0;background:#fff;border-top:1px solid #eee;padding:0.9rem 2rem;display:flex;align-items:center;justify-content:space-between;z-index:100;transform:translateY(100%);transition:transform 0.3s}
+.save-bar.show{transform:translateY(0)}
+.save-msg{font-size:0.82rem;color:#888}
+.save-msg b{color:#FF3E6C}
+.save-actions{display:flex;gap:0.6rem}
+.btn-save{padding:0.55rem 1.3rem;background:#00B4A6;color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-discard{padding:0.55rem 1.3rem;background:none;color:#aaa;border:1px solid #ddd;border-radius:8px;font-size:0.82rem;cursor:pointer;font-family:inherit}
+.btn-discard:hover{border-color:#FF3E6C;color:#FF3E6C}
 
-    .asset-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 1rem;
-    }
-    .asset-item {
-      border: 1.5px solid var(--border); border-radius: 10px;
-      overflow: hidden; position: relative; cursor: pointer;
-      transition: border-color 0.2s, transform 0.2s;
-      background: var(--card);
-    }
-    .asset-item:hover { border-color: var(--teal); transform: translateY(-2px); }
-    .asset-item.selected { border-color: var(--coral); border-width: 2.5px; }
-    .asset-item img { width:100%; height: 120px; object-fit: cover; display:block; }
-    .asset-item-name {
-      font-size: 0.72rem; color: var(--muted); padding: 0.4rem 0.6rem;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .asset-item-del {
-      position: absolute; top: 4px; right: 4px;
-      background: rgba(0,0,0,0.6); color: white;
-      border: none; border-radius: 50%; width: 22px; height: 22px;
-      font-size: 0.7rem; cursor: pointer; display: flex;
-      align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.2s;
-    }
-    .asset-item:hover .asset-item-del { opacity: 1; }
-    .asset-count { font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; }
+/* HOURS TABLE */
+.hours-table{width:100%;border-collapse:collapse}
+.hours-table td{padding:0.4rem 0.3rem}
+.hours-table td:first-child{font-size:0.85rem;font-weight:500;width:100px}
 
-    /* ASSET PICKER MODAL */
-    .asset-modal-bg {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-      z-index: 500; display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.2s;
-    }
-    .asset-modal-bg.open { opacity: 1; pointer-events: all; }
-    .asset-modal {
-      background: white; border-radius: 20px; padding: 2rem;
-      width: 90%; max-width: 700px; max-height: 80vh;
-      overflow-y: auto;
-      transform: translateY(20px); transition: transform 0.2s;
-    }
-    .asset-modal-bg.open .asset-modal { transform: translateY(0); }
-    .asset-modal-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-    .asset-modal-header h3 { font-size: 1.1rem; font-weight: 600; color: var(--choc); }
-    .asset-modal-close {
-      background: none; border: none; font-size: 1.4rem; cursor: pointer;
-      color: var(--muted); line-height: 1;
-    }
-    .asset-modal-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 0.8rem;
-    }
-    .asset-modal-item {
-      border: 2px solid var(--border); border-radius: 8px;
-      overflow: hidden; cursor: pointer; transition: all 0.15s;
-    }
-    .asset-modal-item:hover { border-color: var(--teal); transform: scale(1.02); }
-    .asset-modal-item img { width: 100%; height: 100px; object-fit: cover; display: block; }
-    .asset-modal-item span { font-size: 0.68rem; color: var(--muted); padding: 0.3rem 0.5rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .asset-modal-empty { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.9rem; }
+/* TOAST */
+.toast{position:fixed;bottom:4rem;right:1.5rem;background:#1a0a2e;color:#fff;padding:0.7rem 1.2rem;border-radius:8px;font-size:0.82rem;font-weight:500;opacity:0;transform:translateY(8px);transition:all 0.3s;z-index:9000;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
 
-    /* IMG UPLOAD */
-    .img-upload-area { border:2px dashed var(--border); border-radius:10px; padding:1.2rem; text-align:center; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; }
-    .img-upload-area:hover { border-color:var(--teal); }
-    .img-upload-area.has-image { padding:0; border-style:solid; border-color:var(--teal); }
-    .img-upload-area img { width:100%; height:130px; object-fit:cover; border-radius:8px; display:block; }
-    .img-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; color:white; font-size:0.82rem; gap:0.5rem; }
-    .img-upload-area.has-image:hover .img-overlay { opacity:1; }
-    .img-placeholder { color:var(--muted); font-size:0.8rem; }
-    .img-placeholder-icon { font-size:1.6rem; margin-bottom:0.3rem; }
-
-    /* EMOJI PICKER */
-    .emoji-picker { position:fixed; background:white; border:1.5px solid var(--border); border-radius:12px; padding:0.8rem; box-shadow:0 8px 32px rgba(0,0,0,0.12); display:none; z-index:200; width:230px; flex-wrap:wrap; gap:0.25rem; }
-    .emoji-picker.open { display:flex; }
-    .ep-emoji { font-size:1.4rem; padding:0.3rem; border-radius:6px; cursor:pointer; }
-    .ep-emoji:hover { background:var(--sand); }
-
-    /* TOAST */
-    .toast { position:fixed; bottom:5rem; right:2rem; background:var(--choc); color:var(--cream); padding:0.8rem 1.4rem; border-radius:10px; font-size:0.85rem; font-weight:500; transform:translateY(20px); opacity:0; transition:all 0.3s; z-index:600; pointer-events:none; }
-    .toast.show { transform:translateY(0); opacity:1; }
-
-    @media (max-width:768px) { .sidebar { display:none; } .main { margin-left:0; } .save-bar { left:0; } }
-  </style>
+/* EMOJI PICKER */
+.epicker{position:fixed;background:#fff;border:1px solid #eee;border-radius:10px;padding:0.7rem;box-shadow:0 6px 24px rgba(0,0,0,0.12);display:none;z-index:7000;width:220px;flex-wrap:wrap;gap:0.2rem}
+.epicker.open{display:flex}
+.ep{font-size:1.3rem;padding:0.25rem;border-radius:5px;cursor:pointer;border:none;background:none}
+.ep:hover{background:#f5f5f5}
+</style>
 </head>
 <body>
 
-<div id="login-screen">
+<!-- LOGIN -->
+<div id="login">
   <div class="login-box">
-    <div class="login-logo">Beach<span>coners</span></div>
-    <div class="login-sub">Admin Panel · Staff Only</div>
-    <form onsubmit="doLogin(event)">
-      <input type="text" id="login-user" placeholder="Username" autocomplete="username"/>
-      <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password"/>
-      <button type="submit" class="btn">Sign In →</button>
+    <h2>🍦 Beachconers</h2>
+    <p>Admin Panel · Staff Only</p>
+    <form id="login-form">
+      <input type="text" id="lu" placeholder="Username" autocomplete="username"/>
+      <input type="password" id="lp" placeholder="Password" autocomplete="current-password"/>
+      <button type="submit" id="login-btn">Sign In →</button>
     </form>
-    <div class="login-error" id="login-error">Incorrect username or password.</div>
+    <div id="login-err">Wrong username or password.</div>
   </div>
 </div>
 
-<div id="admin-app">
+<!-- APP -->
+<div id="app">
   <div class="sidebar">
-    <div class="sidebar-logo">Beach<span>coners</span></div>
-    <div class="sidebar-sub">ADMIN PANEL</div>
-
-    <div class="nav-group">Menu</div>
-    <div class="nav-item active" onclick="showTab('today',this)"><span class="nav-icon">🌟</span> Today's Flavours</div>
-    <div class="nav-item" onclick="showTab('icecream',this)"><span class="nav-icon">🍦</span> All Ice Cream</div>
-    <div class="nav-item" onclick="showTab('coffee',this)"><span class="nav-icon">☕</span> Coffee</div>
-    <div class="nav-item" onclick="showTab('food',this)"><span class="nav-icon">🥪</span> Food & Treats</div>
-
-    <div class="nav-group">Media</div>
-    <div class="nav-item" onclick="showTab('assets',this)"><span class="nav-icon">🖼️</span> Photo Library</div>
-
-    <div class="nav-group">Site Content</div>
-    <div class="nav-item" onclick="showTab('about',this)"><span class="nav-icon">📖</span> Our Story</div>
-    <div class="nav-item" onclick="showTab('contact',this)"><span class="nav-icon">📍</span> Contact & Hours</div>
-    <div class="nav-item" onclick="showTab('social',this)"><span class="nav-icon">📱</span> Social & Links</div>
-    <div class="nav-item" onclick="showTab('password',this)"><span class="nav-icon">🔐</span> Change Password</div>
-
-    <div class="sidebar-footer">
-      <a href="index.html" target="_blank" class="preview-btn">👁 Preview Site</a>
-      <div class="logout-btn" onclick="doLogout()">↩ Logout</div>
-    </div>
+    <h3>Menu</h3>
+    <button class="s-btn active" onclick="go('today',this)">🌟 Today's Flavours</button>
+    <button class="s-btn" onclick="go('icecream',this)">🍦 All Ice Cream</button>
+    <button class="s-btn" onclick="go('coffee',this)">☕ Coffee</button>
+    <button class="s-btn" onclick="go('food',this)">🥪 Food & Treats</button>
+    <h3>Photos</h3>
+    <button class="s-btn" onclick="go('assets',this)">🖼️ Photo Library</button>
+    <h3>Site</h3>
+    <button class="s-btn" onclick="go('about',this)">📖 Our Story</button>
+    <button class="s-btn" onclick="go('contact',this)">📍 Contact & Hours</button>
+    <button class="s-btn" onclick="go('social',this)">📱 Social Links</button>
+    <button class="s-btn" onclick="go('password',this)">🔐 Password</button>
+    <h3>Actions</h3>
+    <a href="index.html" target="_blank" style="display:flex;align-items:center;gap:0.7rem;padding:0.6rem 0.9rem;color:rgba(255,255,255,0.5);font-size:0.82rem;text-decoration:none">👁 View Site</a>
+    <button class="s-btn" onclick="doLogout()" style="color:rgba(255,100,100,0.7)">↩ Logout</button>
   </div>
 
   <div class="main">
 
-    <!-- TODAY -->
     <div class="tab active" id="tab-today">
-      <div class="page-header">
-        <div class="page-title">Today's Flavours</div>
-        <div class="page-sub">These rotate daily. Update every morning with what's fresh.</div>
-      </div>
-      <div class="menu-grid" id="grid-today"></div>
-      <button class="add-item-btn" onclick="addItem('icecream_today')">＋ Add Today's Flavour</button>
+      <div class="page-h">🌟 Today's Flavours</div>
+      <div class="page-sub">Update these every morning with what's fresh.</div>
+      <div class="menu-grid" id="g-today"></div>
+      <button class="add-btn" onclick="addItem('icecream_today')">＋ Add Today's Flavour</button>
     </div>
 
-    <!-- ALL ICE CREAM -->
     <div class="tab" id="tab-icecream">
-      <div class="page-header">
-        <div class="page-title">All Ice Cream</div>
-        <div class="page-sub">Your full ice cream menu. Toggle availability anytime.</div>
-      </div>
-      <div class="menu-grid" id="grid-icecream"></div>
-      <button class="add-item-btn" onclick="addItem('icecream')">＋ Add Flavour</button>
+      <div class="page-h">🍦 All Ice Cream</div>
+      <div class="page-sub">Full ice cream menu. Toggle to show/hide items.</div>
+      <div class="menu-grid" id="g-icecream"></div>
+      <button class="add-btn" onclick="addItem('icecream')">＋ Add Flavour</button>
     </div>
 
-    <!-- COFFEE -->
     <div class="tab" id="tab-coffee">
-      <div class="page-header">
-        <div class="page-title">Coffee Menu</div>
-        <div class="page-sub">Update drinks, prices and availability.</div>
-      </div>
-      <div class="menu-grid" id="grid-coffee"></div>
-      <button class="add-item-btn" onclick="addItem('coffee')">＋ Add Drink</button>
+      <div class="page-h">☕ Coffee Menu</div>
+      <div class="page-sub">Update drinks, prices and availability.</div>
+      <div class="menu-grid" id="g-coffee"></div>
+      <button class="add-btn" onclick="addItem('coffee')">＋ Add Drink</button>
     </div>
 
-    <!-- FOOD -->
     <div class="tab" id="tab-food">
-      <div class="page-header">
-        <div class="page-title">Food & Treats</div>
-        <div class="page-sub">Sandwiches, waffles, baked goods and more.</div>
-      </div>
-      <div class="menu-grid" id="grid-food"></div>
-      <button class="add-item-btn" onclick="addItem('food')">＋ Add Item</button>
+      <div class="page-h">🥪 Food & Treats</div>
+      <div class="page-sub">Waffles, sandwiches, baked goods.</div>
+      <div class="menu-grid" id="g-food"></div>
+      <button class="add-btn" onclick="addItem('food')">＋ Add Item</button>
     </div>
 
-    <!-- ABOUT -->
+    <div class="tab" id="tab-assets">
+      <div class="page-h">🖼️ Photo Library</div>
+      <div class="page-sub">Upload photos here first, then assign them to menu items.</div>
+      <div class="upload-zone" id="dropzone">
+        <input type="file" multiple accept="image/*" id="file-input" onchange="handleFiles(this.files)"/>
+        <div class="icon">📁</div>
+        <h3>Drop photos here or click to browse</h3>
+        <p>Select multiple photos at once · JPG, PNG, WebP</p>
+      </div>
+      <div class="lib-count" id="lib-count">0 photos</div>
+      <div class="lib-grid" id="lib-grid"></div>
+    </div>
+
     <div class="tab" id="tab-about">
-      <div class="page-header">
-        <div class="page-title">Our Story</div>
-        <div class="page-sub">Edit the text that appears in the "Our Story" section.</div>
-      </div>
+      <div class="page-h">📖 Our Story</div>
+      <div class="page-sub">Text shown in the About section.</div>
       <div class="card">
-        <div class="field-group">
-          <div class="field-label">Section Heading</div>
-          <input class="field-input" id="about_title" oninput="updateSite('about_title',this.value)" placeholder="Ice cream & coffee — our love language"/>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Paragraph 1</div>
-          <textarea class="field-input" id="about_p1" oninput="updateSite('about_p1',this.value)"></textarea>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Paragraph 2</div>
-          <textarea class="field-input" id="about_p2" oninput="updateSite('about_p2',this.value)"></textarea>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Paragraph 3</div>
-          <textarea class="field-input" id="about_p3" oninput="updateSite('about_p3',this.value)"></textarea>
-        </div>
+        <div class="fg"><div class="field-lbl">Heading</div><input class="field" id="a_title" oninput="us('about_title',this.value)"/></div>
+        <div class="fg"><div class="field-lbl">Paragraph 1</div><textarea class="field" id="a_p1" oninput="us('about_p1',this.value)"></textarea></div>
+        <div class="fg"><div class="field-lbl">Paragraph 2</div><textarea class="field" id="a_p2" oninput="us('about_p2',this.value)"></textarea></div>
+        <div class="fg"><div class="field-lbl">Paragraph 3</div><textarea class="field" id="a_p3" oninput="us('about_p3',this.value)"></textarea></div>
       </div>
     </div>
 
-    <!-- CONTACT & HOURS -->
     <div class="tab" id="tab-contact">
-      <div class="page-header">
-        <div class="page-title">Contact & Hours</div>
-        <div class="page-sub">Update your address, phone, email and opening hours.</div>
-      </div>
+      <div class="page-h">📍 Contact & Hours</div>
       <div class="card">
-        <div class="section-label" style="margin-top:0">Contact Info</div>
-        <div class="field-row">
-          <div class="field-group">
-            <div class="field-label">Phone</div>
-            <input class="field-input" id="s_phone" oninput="updateSite('phone',this.value)"/>
-          </div>
-          <div class="field-group">
-            <div class="field-label">Email</div>
-            <input class="field-input" id="s_email" oninput="updateSite('email',this.value)"/>
-          </div>
+        <div class="row2">
+          <div class="fg"><div class="field-lbl">Phone</div><input class="field" id="s_phone" oninput="us('phone',this.value)"/></div>
+          <div class="fg"><div class="field-lbl">Email</div><input class="field" id="s_email" oninput="us('email',this.value)"/></div>
         </div>
-        <div class="field-group">
-          <div class="field-label">Address</div>
-          <input class="field-input" id="s_address" oninput="updateSite('address',this.value)"/>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Address Note (e.g. parking info)</div>
-          <input class="field-input" id="s_address_note" oninput="updateSite('address_note',this.value)"/>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Google Maps Embed URL</div>
-          <input class="field-input" id="s_maps" oninput="updateSite('maps_embed',this.value)" placeholder="https://www.google.com/maps/embed?..."/>
-        </div>
+        <div class="fg"><div class="field-lbl">Address</div><input class="field" id="s_addr" oninput="us('address',this.value)"/></div>
       </div>
-      <div class="card">
-        <div class="section-label" style="margin-top:0">Opening Hours</div>
+      <div class="card" style="margin-top:1rem">
+        <div class="field-lbl" style="margin-bottom:0.8rem">Opening Hours</div>
         <table class="hours-table">
-          <tr><td>Monday</td><td><input class="field-input" id="h_monday" oninput="updateHours('monday',this.value)"/></td></tr>
-          <tr><td>Tuesday</td><td><input class="field-input" id="h_tuesday" oninput="updateHours('tuesday',this.value)"/></td></tr>
-          <tr><td>Wednesday</td><td><input class="field-input" id="h_wednesday" oninput="updateHours('wednesday',this.value)"/></td></tr>
-          <tr><td>Thursday</td><td><input class="field-input" id="h_thursday" oninput="updateHours('thursday',this.value)"/></td></tr>
-          <tr><td>Friday</td><td><input class="field-input" id="h_friday" oninput="updateHours('friday',this.value)"/></td></tr>
-          <tr><td>Saturday</td><td><input class="field-input" id="h_saturday" oninput="updateHours('saturday',this.value)"/></td></tr>
-          <tr><td>Sunday</td><td><input class="field-input" id="h_sunday" oninput="updateHours('sunday',this.value)"/></td></tr>
+          <tr><td>Monday</td><td><input class="field" id="h_monday" oninput="uh('monday',this.value)"/></td></tr>
+          <tr><td>Tuesday</td><td><input class="field" id="h_tuesday" oninput="uh('tuesday',this.value)"/></td></tr>
+          <tr><td>Wednesday</td><td><input class="field" id="h_wednesday" oninput="uh('wednesday',this.value)"/></td></tr>
+          <tr><td>Thursday</td><td><input class="field" id="h_thursday" oninput="uh('thursday',this.value)"/></td></tr>
+          <tr><td>Friday</td><td><input class="field" id="h_friday" oninput="uh('friday',this.value)"/></td></tr>
+          <tr><td>Saturday</td><td><input class="field" id="h_saturday" oninput="uh('saturday',this.value)"/></td></tr>
+          <tr><td>Sunday</td><td><input class="field" id="h_sunday" oninput="uh('sunday',this.value)"/></td></tr>
         </table>
       </div>
     </div>
 
-    <!-- SOCIAL -->
     <div class="tab" id="tab-social">
-      <div class="page-header">
-        <div class="page-title">Social & Links</div>
-        <div class="page-sub">Update your social media links and site tagline.</div>
-      </div>
+      <div class="page-h">📱 Social Links</div>
       <div class="card">
-        <div class="field-group">
-          <div class="field-label">Site Tagline</div>
-          <input class="field-input" id="s_tagline" oninput="updateSite('tagline',this.value)"/>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Facebook URL</div>
-          <input class="field-input" id="s_facebook" oninput="updateSite('facebook',this.value)"/>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Instagram URL</div>
-          <input class="field-input" id="s_instagram" oninput="updateSite('instagram',this.value)"/>
-        </div>
+        <div class="fg"><div class="field-lbl">Facebook URL</div><input class="field" id="s_fb" oninput="us('facebook',this.value)"/></div>
+        <div class="fg"><div class="field-lbl">Instagram URL</div><input class="field" id="s_ig" oninput="us('instagram',this.value)"/></div>
+        <div class="fg"><div class="field-lbl">Tagline</div><input class="field" id="s_tag" oninput="us('tagline',this.value)"/></div>
       </div>
     </div>
 
-    <!-- ASSETS -->
-    <div class="tab" id="tab-assets">
-      <div class="page-header">
-        <div class="page-title">📸 Photo Library</div>
-        <div class="page-sub">Upload all your photos here first, then assign them to menu items.</div>
-      </div>
-      <div class="asset-upload-zone" id="asset-drop-zone">
-        <input type="file" multiple accept="image/*" onchange="handleAssetUpload(event)"/>
-        <div class="icon">📁</div>
-        <h3>Drop photos here or click to browse</h3>
-        <p>Upload multiple photos at once · JPG, PNG, WebP supported</p>
-      </div>
-      <div class="asset-count" id="asset-count">0 photos in library</div>
-      <div class="asset-grid" id="asset-grid"></div>
-    </div>
-
-    <!-- PASSWORD -->
     <div class="tab" id="tab-password">
-      <div class="page-header">
-        <div class="page-title">Change Password</div>
-        <div class="page-sub">Update your admin login credentials.</div>
-      </div>
-      <div class="card" style="max-width:400px;">
-        <div class="field-group">
-          <div class="field-label">New Username</div>
-          <input class="field-input" id="new-user" placeholder="beachconers"/>
-        </div>
-        <div class="field-group">
-          <div class="field-label">New Password</div>
-          <input class="field-input" type="password" id="new-pass" placeholder="••••••••"/>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Confirm Password</div>
-          <input class="field-input" type="password" id="new-pass2" placeholder="••••••••"/>
-        </div>
-        <button class="btn-save" style="margin-top:0.5rem;" onclick="changePassword()">Update Credentials</button>
-        <p style="font-size:0.78rem;color:var(--muted);margin-top:0.8rem;">⚠️ Note: credentials are saved in the browser on this device.</p>
+      <div class="page-h">🔐 Change Password</div>
+      <div class="card" style="max-width:380px">
+        <div class="fg"><div class="field-lbl">New Username</div><input class="field" id="nu"/></div>
+        <div class="fg"><div class="field-lbl">New Password</div><input class="field" type="password" id="np"/></div>
+        <div class="fg"><div class="field-lbl">Confirm</div><input class="field" type="password" id="np2"/></div>
+        <button onclick="changePwd()" style="background:#00B4A6;color:#fff;border:none;border-radius:8px;padding:0.65rem 1.4rem;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:inherit">Update Password</button>
+        <p style="font-size:0.72rem;color:#aaa;margin-top:0.7rem">Saved in this browser only.</p>
       </div>
     </div>
 
   </div>
 
   <div class="save-bar" id="save-bar">
-    <div class="save-bar-msg">
-      You have <span>unsaved changes</span>
-      <div style="font-size:0.72rem;color:#aaa;margin-top:0.2rem;" id="img-reminder"></div>
-    </div>
+    <div class="save-msg">You have <b>unsaved changes</b></div>
     <div class="save-actions">
-      <button class="btn-discard" onclick="discardChanges()">Discard</button>
-      <button class="btn-save" onclick="saveChanges()">💾 Save & Download menu.json</button>
+      <button class="btn-discard" onclick="discard()">Discard</button>
+      <button class="btn-save" onclick="save()">💾 Save & Download</button>
     </div>
-  </div>
-
-  <!-- IMAGE UPLOAD GUIDE -->
-  <div id="img-guide" style="display:none;position:fixed;bottom:5rem;left:240px;right:0;background:#FFF9E6;border-top:2px solid #F5C842;padding:1rem 2.5rem;z-index:49;font-size:0.82rem;color:#3B1F0E;">
-    <strong>📸 Photo upload steps:</strong>
-    1. Upload photo above → it auto-downloads to your computer &nbsp;|&nbsp;
-    2. Go to GitHub → <code>assets/</code> folder → upload that file &nbsp;|&nbsp;
-    3. Click "Save & Download menu.json" → upload that too &nbsp;|&nbsp;
-    4. Site updates in ~1 min ✅
-    <button onclick="document.getElementById('img-guide').style.display='none'" style="float:right;background:none;border:none;cursor:pointer;font-size:1rem;">✕</button>
   </div>
 </div>
 
 <!-- ASSET PICKER MODAL -->
-<div class="asset-modal-bg" id="asset-modal-bg" onclick="closeAssetModal(event)">
-  <div class="asset-modal">
-    <div class="asset-modal-header">
-      <h3>📸 Choose a photo from your library</h3>
-      <button class="asset-modal-close" onclick="closeAssetModal()">✕</button>
+<div id="picker">
+  <div class="picker-box">
+    <div class="picker-top">
+      <h3>📸 Choose a photo</h3>
+      <button class="picker-close" onclick="closePicker()">✕</button>
     </div>
-    <div class="asset-modal-grid" id="asset-modal-grid">
-      <div class="asset-modal-empty">No photos yet — go to Photo Library to upload some first!</div>
+    <div class="picker-grid" id="picker-grid">
+      <div class="picker-empty">No photos yet — go to Photo Library first!</div>
     </div>
   </div>
 </div>
 
-<div class="emoji-picker" id="emoji-picker">
-  <span class="ep-emoji" onclick="pickEmoji('🍦')">🍦</span><span class="ep-emoji" onclick="pickEmoji('🍓')">🍓</span>
-  <span class="ep-emoji" onclick="pickEmoji('🍃')">🍃</span><span class="ep-emoji" onclick="pickEmoji('🍫')">🍫</span>
-  <span class="ep-emoji" onclick="pickEmoji('🥭')">🥭</span><span class="ep-emoji" onclick="pickEmoji('🫐')">🫐</span>
-  <span class="ep-emoji" onclick="pickEmoji('🍋')">🍋</span><span class="ep-emoji" onclick="pickEmoji('🍑')">🍑</span>
-  <span class="ep-emoji" onclick="pickEmoji('🍁')">🍁</span><span class="ep-emoji" onclick="pickEmoji('🍯')">🍯</span>
-  <span class="ep-emoji" onclick="pickEmoji('🌿')">🌿</span><span class="ep-emoji" onclick="pickEmoji('🌱')">🌱</span>
-  <span class="ep-emoji" onclick="pickEmoji('☕')">☕</span><span class="ep-emoji" onclick="pickEmoji('🥛')">🥛</span>
-  <span class="ep-emoji" onclick="pickEmoji('🧊')">🧊</span><span class="ep-emoji" onclick="pickEmoji('🧋')">🧋</span>
-  <span class="ep-emoji" onclick="pickEmoji('🫧')">🫧</span><span class="ep-emoji" onclick="pickEmoji('🍊')">🍊</span>
-  <span class="ep-emoji" onclick="pickEmoji('🥪')">🥪</span><span class="ep-emoji" onclick="pickEmoji('🧇')">🧇</span>
-  <span class="ep-emoji" onclick="pickEmoji('🍪')">🍪</span><span class="ep-emoji" onclick="pickEmoji('🥐')">🥐</span>
-  <span class="ep-emoji" onclick="pickEmoji('🍰')">🍰</span><span class="ep-emoji" onclick="pickEmoji('🫖')">🫖</span>
+<!-- EMOJI PICKER -->
+<div class="epicker" id="epicker">
+  <button class="ep" onclick="pe('🍦')">🍦</button><button class="ep" onclick="pe('🍓')">🍓</button>
+  <button class="ep" onclick="pe('🍫')">🍫</button><button class="ep" onclick="pe('🫐')">🫐</button>
+  <button class="ep" onclick="pe('🥭')">🥭</button><button class="ep" onclick="pe('🍁')">🍁</button>
+  <button class="ep" onclick="pe('🍃')">🍃</button><button class="ep" onclick="pe('🍋')">🍋</button>
+  <button class="ep" onclick="pe('🍑')">🍑</button><button class="ep" onclick="pe('🍯')">🍯</button>
+  <button class="ep" onclick="pe('🌱')">🌱</button><button class="ep" onclick="pe('🌿')">🌿</button>
+  <button class="ep" onclick="pe('☕')">☕</button><button class="ep" onclick="pe('🥛')">🥛</button>
+  <button class="ep" onclick="pe('🧊')">🧊</button><button class="ep" onclick="pe('🧋')">🧋</button>
+  <button class="ep" onclick="pe('🫧')">🫧</button><button class="ep" onclick="pe('🍊')">🍊</button>
+  <button class="ep" onclick="pe('🥪')">🥪</button><button class="ep" onclick="pe('🧇')">🧇</button>
+  <button class="ep" onclick="pe('🍪')">🍪</button><button class="ep" onclick="pe('🥐')">🥐</button>
+  <button class="ep" onclick="pe('🫖')">🫖</button><button class="ep" onclick="pe('🍰')">🍰</button>
 </div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-  // ─── AUTH ─────────────────────────────────────────────
-  let ADMIN_USER = localStorage.getItem('bc_user') || 'beachconers';
-  let ADMIN_PASS = localStorage.getItem('bc_pass') || 'icecream2025';
+// AUTH
+let USER = localStorage.getItem('bc_u') || 'beachconers';
+let PASS = localStorage.getItem('bc_p') || 'icecream2025';
 
-  function doLogin(e) {
-    if (e) e.preventDefault();
-    const u = document.getElementById('login-user').value;
-    const p = document.getElementById('login-pass').value;
-    if (u === ADMIN_USER && p === ADMIN_PASS) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('admin-app').style.display = 'block';
-      init();
-    } else {
-      document.getElementById('login-error').style.display = 'block';
-    }
+document.getElementById('login-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const u = document.getElementById('lu').value;
+  const p = document.getElementById('lp').value;
+  if (u === USER && p === PASS) {
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    init();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
   }
-  document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-  function doLogout() {
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('admin-app').style.display = 'none';
-    document.getElementById('login-user').value = '';
-    document.getElementById('login-pass').value = '';
-  }
-  function changePassword() {
-    const u = document.getElementById('new-user').value.trim();
-    const p = document.getElementById('new-pass').value;
-    const p2 = document.getElementById('new-pass2').value;
-    if (!u || !p) return showToast('⚠️ Fill in all fields.');
-    if (p !== p2) return showToast('⚠️ Passwords don\'t match.');
-    ADMIN_USER = u; ADMIN_PASS = p;
-    localStorage.setItem('bc_user', u);
-    localStorage.setItem('bc_pass', p);
-    showToast('✅ Credentials updated!');
-  }
+});
 
-  // ─── DATA ─────────────────────────────────────────────
-  let menuData = null, originalData = null, isDirty = false, activeEmojiTarget = null;
+function doLogout() {
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
 
-  async function init() {
-    try {
-      const res = await fetch('data/menu.json?t=' + Date.now());
-      menuData = await res.json();
-    } catch(e) {
-      showToast('⚠️ Could not load menu.json — using defaults.');
-      menuData = { site:{name:'',tagline:'',phone:'',email:'',address:'',address_note:'',facebook:'',instagram:'',maps_embed:'',about_title:'',about_p1:'',about_p2:'',about_p3:'',hours:{monday:'',tuesday:'',wednesday:'',thursday:'',friday:'',saturday:'',sunday:''}}, icecream_today:[], icecream:[], coffee:[], food:[] };
-    }
-    originalData = JSON.stringify(menuData);
-    renderAll();
-    renderAssetGrid();
-  }
+function changePwd() {
+  const u = document.getElementById('nu').value.trim();
+  const p = document.getElementById('np').value;
+  const p2 = document.getElementById('np2').value;
+  if (!u || !p) return toast('Fill all fields');
+  if (p !== p2) return toast('Passwords do not match');
+  USER = u; PASS = p;
+  localStorage.setItem('bc_u', u);
+  localStorage.setItem('bc_p', p);
+  toast('✅ Password updated!');
+}
 
-  function markDirty() { isDirty = true; document.getElementById('save-bar').classList.add('visible'); }
+// DATA
+let data = null, orig = null, dirty = false;
 
-  // ─── TABS ─────────────────────────────────────────────
-  function showTab(name, el) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
-    el.classList.add('active');
-  }
-
-  // ─── RENDER ALL ───────────────────────────────────────
-  function renderAll() {
-    renderGrid('icecream_today', 'grid-today');
-    renderGrid('icecream', 'grid-icecream');
-    renderGrid('coffee', 'grid-coffee');
-    renderGrid('food', 'grid-food');
-    renderSiteFields();
-  }
-
-  function renderSiteFields() {
-    const s = menuData.site;
-    const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val || ''; };
-    set('about_title', s.about_title); set('about_p1', s.about_p1); set('about_p2', s.about_p2); set('about_p3', s.about_p3);
-    set('s_phone', s.phone); set('s_email', s.email); set('s_address', s.address); set('s_address_note', s.address_note); set('s_maps', s.maps_embed);
-    set('s_tagline', s.tagline); set('s_facebook', s.facebook); set('s_instagram', s.instagram);
-    const h = s.hours || {};
-    ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'].forEach(d => set('h_'+d, h[d]));
-  }
-
-  // ─── MENU GRID ────────────────────────────────────────
-  function renderGrid(key, gridId) {
-    const grid = document.getElementById(gridId);
-    if (!grid) return;
-    grid.innerHTML = '';
-    (menuData[key] || []).forEach((item, idx) => grid.appendChild(makeCard(item, key, idx)));
-  }
-
-  function makeCard(item, section, idx) {
-    const card = document.createElement('div');
-    card.className = 'menu-card';
-    card.innerHTML = `
-      <div class="menu-card-top">
-        <div class="card-emoji" title="Change emoji" onclick="openEmoji(this,'${section}',${idx})">${item.emoji||'🍦'}</div>
-        <label class="available-toggle">
-          <div class="toggle ${item.available?'on':''}" id="tog-${section}-${idx}"></div>
-          <span id="tog-label-${section}-${idx}">${item.available?'Available':'Unavailable'}</span>
-        </label>
-        <button class="remove-btn" onclick="removeItem('${section}',${idx})" title="Remove">✕</button>
-      </div>
-      <div class="field-group">
-        <div class="field-label">Name</div>
-        <input class="field-input" value="${esc(item.name)}" oninput="updateField('${section}',${idx},'name',this.value)"/>
-      </div>
-      <div class="field-group">
-        <div class="field-label">Description</div>
-        <input class="field-input" value="${esc(item.desc)}" oninput="updateField('${section}',${idx},'desc',this.value)"/>
-      </div>
-      <div class="field-row">
-        <div class="field-group">
-          <div class="field-label">Price</div>
-          <input class="field-input" value="${esc(item.price)}" oninput="updateField('${section}',${idx},'price',this.value)"/>
-        </div>
-        <div class="field-group">
-          <div class="field-label">Badge</div>
-          <input class="field-input" value="${esc(item.badge)}" placeholder="e.g. ⭐ Fan Fave" oninput="updateField('${section}',${idx},'badge',this.value)"/>
-        </div>
-      </div>
-      <div class="field-group">
-        <div class="field-label">Photo</div>
-        <div class="img-upload-area ${item.image ? 'has-image' : ''}" id="img-${section}-${idx}">
-          ${item.image
-            ? `<img src="${item.image}" alt=""/>
-               <div class="img-overlay">
-                 <span onclick="openAssetPicker('${section}',${idx})" style="cursor:pointer;">🖼 Change</span>
-                 &nbsp;
-                 <span onclick="removeImg('${section}',${idx})" style="cursor:pointer;">✕ Remove</span>
-               </div>`
-            : `<div class="img-placeholder">
-                 <div class="img-placeholder-icon">🖼️</div>
-                 <div style="margin-bottom:0.6rem;font-size:0.75rem;">No photo</div>
-                 <button type="button" onclick="openAssetPicker('${section}',${idx})"
-                   style="background:var(--teal);color:white;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit;">
-                   📸 Choose from Library
-                 </button>
-               </div>`}
-        </div>
-      </div>
-    `;
-    // Toggle wiring
-    const tog = card.querySelector(`#tog-${section}-${idx}`);
-    tog.addEventListener('click', () => {
-      const v = !menuData[section][idx].available;
-      menuData[section][idx].available = v;
-      tog.classList.toggle('on', v);
-      document.getElementById(`tog-label-${section}-${idx}`).textContent = v ? 'Available' : 'Unavailable';
-      markDirty();
-    });
-    return card;
-  }
-
-  // ─── MUTATIONS ────────────────────────────────────────
-  function updateField(s, i, f, v) { menuData[s][i][f] = v; markDirty(); }
-  function updateSite(f, v) { menuData.site[f] = v; markDirty(); }
-  function updateHours(d, v) { menuData.site.hours[d] = v; markDirty(); }
-  function addItem(section) {
-    const isIce = section.includes('ice') || section.includes('today');
-    menuData[section].push({ id: section.slice(0,2)+Date.now(), name:'New Item', desc:'Description here.', price: isIce?'from $4.50':'$4.00', emoji: isIce?'🍦':'☕', badge:'', available:true });
-    renderGrid(section, 'grid-' + (section==='icecream_today'?'today':section));
-    markDirty();
-  }
-  function removeItem(section, idx) {
-    if (!confirm('Remove this item?')) return;
-    menuData[section].splice(idx, 1);
-    renderGrid(section, 'grid-' + (section==='icecream_today'?'today':section));
-    markDirty();
-  }
-
-  // ─── IMAGE ────────────────────────────────────────────
-  function uploadImg(event, section, idx) {
-    const file = event.target.files[0]; if (!file) return;
-
-    // Clean filename: lowercase, no spaces
-    const ext = file.name.split('.').pop().toLowerCase();
-    const cleanName = (menuData[section][idx].name || 'item')
-      .toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g,'-') + '.' + ext;
-    const filePath = 'assets/' + cleanName;
-
-    const reader = new FileReader();
-    reader.onload = e => {
-      // Store path (not base64) in JSON
-      menuData[section][idx].image = filePath;
-
-      // Show preview
-      const area = document.getElementById(`img-${section}-${idx}`);
-      area.classList.add('has-image');
-      area.innerHTML = `
-        <img src="${e.target.result}" alt="" style="width:100%;height:130px;object-fit:cover;border-radius:8px;display:block;"/>
-        <div class="img-overlay">📷 Change</div>
-        <input type="file" class="img-upload-input" accept="image/*" onchange="uploadImg(event,'${section}',${idx})"/>
-      `;
-
-      // Auto-download image file so user can upload to assets/
-      const a = document.createElement('a');
-      a.href = e.target.result;
-      a.download = cleanName;
-      a.click();
-
-      markDirty();
-      document.getElementById('img-guide').style.display = 'block';
-      showToast(`📥 "${cleanName}" downloaded! Now upload it to assets/ on GitHub.`);
+async function init() {
+  try {
+    const r = await fetch('data/menu.json?t=' + Date.now());
+    data = await r.json();
+  } catch(e) {
+    data = {
+      site: { name:'The Beachconers', tagline:'', phone:'+1 (613) 829-9696', email:'thebeachconers@gmail.com',
+              address:'273 Britannia Rd, Ottawa', facebook:'https://www.facebook.com/thebeachconers/',
+              instagram:'https://www.instagram.com/beachconers/',
+              about_title:'', about_p1:'', about_p2:'', about_p3:'',
+              hours:{monday:'Closed',tuesday:'8am–5pm',wednesday:'8am–5pm',thursday:'8am–5pm',
+                     friday:'8am–5pm',saturday:'9am–5pm',sunday:'9am–4pm'} },
+      icecream_today:[], icecream:[], coffee:[], food:[]
     };
-    reader.readAsDataURL(file);
   }
-  }
+  orig = JSON.stringify(data);
+  renderAll();
+  fillSiteFields();
+  renderLib();
+}
 
-  // ─── EMOJI ────────────────────────────────────────────
-  function openEmoji(el, section, idx) {
-    activeEmojiTarget = { el, section, idx };
-    const picker = document.getElementById('emoji-picker');
-    const rect = el.getBoundingClientRect();
-    picker.style.top = (rect.bottom + window.scrollY + 6) + 'px';
-    picker.style.left = rect.left + 'px';
-    picker.classList.add('open');
-  }
-  function pickEmoji(e) {
-    if (!activeEmojiTarget) return;
-    const { el, section, idx } = activeEmojiTarget;
-    el.textContent = e;
-    menuData[section][idx].emoji = e;
-    document.getElementById('emoji-picker').classList.remove('open');
-    activeEmojiTarget = null; markDirty();
-  }
-  document.addEventListener('click', ev => {
-    if (!ev.target.closest('.card-emoji') && !ev.target.closest('#emoji-picker'))
-      document.getElementById('emoji-picker').classList.remove('open');
-  });
+function markDirty() {
+  dirty = true;
+  document.getElementById('save-bar').classList.add('show');
+}
 
-  // ─── SAVE ─────────────────────────────────────────────
-  function saveChanges() {
-    const json = JSON.stringify(menuData, null, 2);
-    const blob = new Blob([json], { type:'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'menu.json'; a.click();
-    URL.revokeObjectURL(url);
-    originalData = json; isDirty = false;
-    document.getElementById('save-bar').classList.remove('visible');
-    showToast('✅ Downloaded! Upload to data/ folder on GitHub.');
-  }
-  function discardChanges() {
-    menuData = JSON.parse(originalData); isDirty = false;
-    document.getElementById('save-bar').classList.remove('visible');
-    renderAll(); showToast('↩ Changes discarded.');
-  }
+// TABS
+function go(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.s-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
 
-  // ─── TOAST ────────────────────────────────────────────
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
-  }
+// RENDER
+function renderAll() {
+  renderSection('icecream_today', 'g-today');
+  renderSection('icecream', 'g-icecream');
+  renderSection('coffee', 'g-coffee');
+  renderSection('food', 'g-food');
+}
 
-  function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function renderSection(key, gridId) {
+  const el = document.getElementById(gridId);
+  if (!el) return;
+  el.innerHTML = '';
+  (data[key] || []).forEach((item, idx) => el.appendChild(makeCard(item, key, idx)));
+}
 
-  // ─── ASSET LIBRARY ────────────────────────────────────
-  // Assets stored in localStorage as {name, dataUrl}
-  let assets = JSON.parse(localStorage.getItem('bc_assets') || '[]');
-  let assetPickerTarget = null; // {section, idx}
-
-  function saveAssets() {
-    localStorage.setItem('bc_assets', JSON.stringify(assets));
-  }
-
-  function renderAssetGrid() {
-    const grid = document.getElementById('asset-grid');
-    const count = document.getElementById('asset-count');
-    const modalGrid = document.getElementById('asset-modal-grid');
-    if (!grid) return;
-
-    count.textContent = `${assets.length} photo${assets.length !== 1 ? 's' : ''} in library`;
-
-    if (assets.length === 0) {
-      grid.innerHTML = '<p style="color:var(--muted);font-size:0.85rem;">No photos yet. Upload some above!</p>';
-      modalGrid.innerHTML = '<div class="asset-modal-empty">No photos yet — go to Photo Library tab to upload some first!</div>';
-      return;
-    }
-
-    grid.innerHTML = assets.map((a, i) => `
-      <div class="asset-item">
-        <img src="${a.dataUrl}" alt="${a.name}"/>
-        <div class="asset-item-name">${a.name}</div>
-        <button class="asset-item-del" onclick="deleteAsset(${i})" title="Remove">✕</button>
+function makeCard(item, section, idx) {
+  const d = document.createElement('div');
+  d.className = 'menu-card';
+  d.innerHTML = `
+    <div class="mc-top">
+      <button class="mc-emoji" id="em-${section}-${idx}" onclick="openEmoji('${section}',${idx})">${item.emoji||'🍦'}</button>
+      <label class="mc-toggle">
+        <div class="tog ${item.available?'on':''}" id="tog-${section}-${idx}"></div>
+        <span id="tl-${section}-${idx}">${item.available?'Available':'Unavailable'}</span>
+      </label>
+      <button class="del-btn" onclick="delItem('${section}',${idx})">✕</button>
+    </div>
+    <div class="fg"><div class="field-lbl">Name</div><input class="field" value="${esc(item.name)}" oninput="uf('${section}',${idx},'name',this.value)"/></div>
+    <div class="fg"><div class="field-lbl">Description</div><input class="field" value="${esc(item.desc)}" oninput="uf('${section}',${idx},'desc',this.value)"/></div>
+    <div class="row2">
+      <div class="fg"><div class="field-lbl">Price</div><input class="field" value="${esc(item.price)}" oninput="uf('${section}',${idx},'price',this.value)"/></div>
+      <div class="fg"><div class="field-lbl">Badge</div><input class="field" value="${esc(item.badge||'')}" placeholder="e.g. ⭐ Fave" oninput="uf('${section}',${idx},'badge',this.value)"/></div>
+    </div>
+    <div class="fg">
+      <div class="field-lbl">Photo</div>
+      <div class="photo-area ${item.image?'has-photo':''}" id="pa-${section}-${idx}">
+        ${item.image
+          ? `<img src="${item.image}" alt=""/><div class="photo-overlay"><button onclick="openPicker('${section}',${idx})">🖼 Change</button><button onclick="removePhoto('${section}',${idx})">✕ Remove</button></div>`
+          : `<div class="photo-area-inner"><span>🖼️</span><div style="margin-bottom:0.4rem;font-size:0.75rem">No photo</div><button class="choose-btn" onclick="openPicker('${section}',${idx})">📸 Choose from Library</button></div>`}
       </div>
-    `).join('');
-
-    modalGrid.innerHTML = assets.map((a, i) => `
-      <div class="asset-modal-item" onclick="selectAsset(${i})">
-        <img src="${a.dataUrl}" alt="${a.name}"/>
-        <span>${a.name}</span>
-      </div>
-    `).join('');
-  }
-
-  function handleAssetUpload(event) {
-    const files = Array.from(event.target.files);
-    if (!files.length) return;
-    let loaded = 0;
-    files.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = e => {
-        // Check not duplicate
-        const name = file.name;
-        if (!assets.find(a => a.name === name)) {
-          assets.push({ name, dataUrl: e.target.result });
-        }
-        loaded++;
-        if (loaded === files.length) {
-          saveAssets();
-          renderAssetGrid();
-          showToast(`✅ ${files.length} photo${files.length > 1 ? 's' : ''} added to library!`);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-    event.target.value = ''; // reset input
-  }
-
-  function deleteAsset(idx) {
-    if (!confirm('Remove this photo from library?')) return;
-    assets.splice(idx, 1);
-    saveAssets();
-    renderAssetGrid();
-    showToast('🗑️ Photo removed.');
-  }
-
-  // ─── ASSET PICKER ─────────────────────────────────────
-  function openAssetPicker(section, idx) {
-    assetPickerTarget = { section, idx };
-    renderAssetGrid(); // refresh modal grid
-    document.getElementById('asset-modal-bg').classList.add('open');
-  }
-
-  function closeAssetModal(event) {
-    if (event && event.target !== document.getElementById('asset-modal-bg')) return;
-    document.getElementById('asset-modal-bg').classList.remove('open');
-    assetPickerTarget = null;
-  }
-
-  function selectAsset(assetIdx) {
-    if (!assetPickerTarget) return;
-    const { section, idx } = assetPickerTarget;
-    const asset = assets[assetIdx];
-
-    // Save dataUrl to menu item
-    menuData[section][idx].image = asset.dataUrl;
-
-    // Update the card preview
-    const area = document.getElementById(`img-${section}-${idx}`);
-    if (area) {
-      area.classList.add('has-image');
-      area.innerHTML = `
-        <img src="${asset.dataUrl}" alt=""/>
-        <div class="img-overlay">
-          <span onclick="openAssetPicker('${section}',${idx})">🖼 Change</span>
-          <span onclick="removeImg('${section}',${idx})" style="margin-left:0.5rem;">✕ Remove</span>
-        </div>
-      `;
-    }
-
-    document.getElementById('asset-modal-bg').classList.remove('open');
-    assetPickerTarget = null;
+    </div>
+  `;
+  // wire toggle
+  d.querySelector(`#tog-${section}-${idx}`).addEventListener('click', () => {
+    const v = !data[section][idx].available;
+    data[section][idx].available = v;
+    d.querySelector(`#tog-${section}-${idx}`).classList.toggle('on', v);
+    d.querySelector(`#tl-${section}-${idx}`).textContent = v ? 'Available' : 'Unavailable';
     markDirty();
-    showToast('✅ Photo assigned!');
-  }
-
-  function removeImg(section, idx) {
-    menuData[section][idx].image = '';
-    renderGrid(section, 'grid-' + (section === 'icecream_today' ? 'today' : section));
-    markDirty();
-  }
-
-  // Drag & drop on asset zone
-  document.addEventListener('DOMContentLoaded', () => {
-    const zone = document.getElementById('asset-drop-zone');
-    if (!zone) return;
-    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-    zone.addEventListener('drop', e => {
-      e.preventDefault(); zone.classList.remove('drag-over');
-      const fakeEvent = { target: { files: e.dataTransfer.files, value: '' } };
-      handleAssetUpload(fakeEvent);
-    });
   });
+  return d;
+}
 
+// MUTATIONS
+function uf(s, i, f, v) { data[s][i][f] = v; markDirty(); }
+function us(f, v) { data.site[f] = v; markDirty(); }
+function uh(d2, v) { data.site.hours[d2] = v; markDirty(); }
+
+function addItem(section) {
+  const isIce = section.includes('ice') || section.includes('today');
+  data[section].push({ id: section+Date.now(), name:'New Item', desc:'Description.', price: isIce?'from $4.50':'$4.00', emoji:isIce?'🍦':'☕', badge:'', available:true });
+  renderSection(section, 'g-' + (section==='icecream_today'?'today':section));
+  markDirty();
+}
+
+function delItem(section, idx) {
+  if (!confirm('Remove this item?')) return;
+  data[section].splice(idx, 1);
+  renderSection(section, 'g-' + (section==='icecream_today'?'today':section));
+  markDirty();
+}
+
+function removePhoto(section, idx) {
+  data[section][idx].image = '';
+  renderSection(section, 'g-' + (section==='icecream_today'?'today':section));
+  markDirty();
+}
+
+// SITE FIELDS
+function fillSiteFields() {
+  const s = data.site;
+  const set = (id, v) => { const el = document.getElementById(id); if(el) el.value = v||''; };
+  set('a_title', s.about_title); set('a_p1', s.about_p1); set('a_p2', s.about_p2); set('a_p3', s.about_p3);
+  set('s_phone', s.phone); set('s_email', s.email); set('s_addr', s.address);
+  set('s_fb', s.facebook); set('s_ig', s.instagram); set('s_tag', s.tagline);
+  const h = s.hours || {};
+  ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'].forEach(d => set('h_'+d, h[d]));
+}
+
+// ASSET LIBRARY
+let assets = JSON.parse(localStorage.getItem('bc_assets') || '[]');
+let pickerTarget = null;
+
+function saveAssets() { localStorage.setItem('bc_assets', JSON.stringify(assets)); }
+
+function renderLib() {
+  const grid = document.getElementById('lib-grid');
+  const count = document.getElementById('lib-count');
+  const pg = document.getElementById('picker-grid');
+  if (!grid) return;
+  count.textContent = assets.length + ' photo' + (assets.length!==1?'s':'') + ' in library';
+  if (!assets.length) {
+    grid.innerHTML = '<p style="color:#aaa;font-size:0.85rem">No photos yet.</p>';
+    pg.innerHTML = '<div class="picker-empty">No photos yet — upload some in Photo Library first!</div>';
+    return;
+  }
+  grid.innerHTML = assets.map((a,i) => `
+    <div class="lib-item">
+      <img src="${a.data}" alt="${a.name}"/>
+      <div class="lib-item-name">${a.name}</div>
+      <button class="lib-del" onclick="delAsset(${i})">✕</button>
+    </div>
+  `).join('');
+  pg.innerHTML = assets.map((a,i) => `
+    <div class="picker-item" onclick="pickAsset(${i})">
+      <img src="${a.data}" alt="${a.name}"/>
+      <span>${a.name}</span>
+    </div>
+  `).join('');
+}
+
+function handleFiles(files) {
+  let done = 0;
+  Array.from(files).forEach(file => {
+    const r = new FileReader();
+    r.onload = e => {
+      if (!assets.find(a => a.name === file.name)) assets.push({ name: file.name, data: e.target.result });
+      done++;
+      if (done === files.length) { saveAssets(); renderLib(); toast('✅ ' + files.length + ' photo(s) added!'); }
+    };
+    r.readAsDataURL(file);
+  });
+}
+
+function delAsset(i) {
+  if (!confirm('Remove photo?')) return;
+  assets.splice(i, 1); saveAssets(); renderLib(); toast('Removed.');
+}
+
+// Drag & drop
+document.addEventListener('DOMContentLoaded', () => {
+  const dz = document.getElementById('dropzone');
+  if (!dz) return;
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+  dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+  dz.addEventListener('drop', e => {
+    e.preventDefault(); dz.classList.remove('drag-over');
+    handleFiles(e.dataTransfer.files);
+  });
+});
+
+// PICKER
+function openPicker(section, idx) {
+  pickerTarget = { section, idx };
+  renderLib();
+  document.getElementById('picker').classList.add('open');
+}
+function closePicker() { document.getElementById('picker').classList.remove('open'); pickerTarget = null; }
+document.getElementById('picker').addEventListener('click', e => { if (e.target === document.getElementById('picker')) closePicker(); });
+
+function pickAsset(i) {
+  if (!pickerTarget) return;
+  const { section, idx } = pickerTarget;
+  data[section][idx].image = assets[i].data;
+  const pa = document.getElementById(`pa-${section}-${idx}`);
+  if (pa) {
+    pa.classList.add('has-photo');
+    pa.innerHTML = `<img src="${assets[i].data}" alt=""/><div class="photo-overlay"><button onclick="openPicker('${section}',${idx})">🖼 Change</button><button onclick="removePhoto('${section}',${idx})">✕ Remove</button></div>`;
+  }
+  closePicker(); markDirty(); toast('✅ Photo assigned!');
+}
+
+// EMOJI
+let emojiTarget = null;
+function openEmoji(section, idx) {
+  emojiTarget = { section, idx };
+  const btn = document.getElementById(`em-${section}-${idx}`);
+  const ep = document.getElementById('epicker');
+  const r = btn.getBoundingClientRect();
+  ep.style.top = (r.bottom + window.scrollY + 6) + 'px';
+  ep.style.left = r.left + 'px';
+  ep.classList.add('open');
+}
+function pe(emoji) {
+  if (!emojiTarget) return;
+  const { section, idx } = emojiTarget;
+  data[section][idx].emoji = emoji;
+  document.getElementById(`em-${section}-${idx}`).textContent = emoji;
+  document.getElementById('epicker').classList.remove('open');
+  emojiTarget = null; markDirty();
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('.mc-emoji') && !e.target.closest('#epicker')) document.getElementById('epicker').classList.remove('open');
+});
+
+// SAVE / DISCARD
+function save() {
+  const json = JSON.stringify(data, null, 2);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([json], {type:'application/json'}));
+  a.download = 'menu.json'; a.click();
+  orig = json; dirty = false;
+  document.getElementById('save-bar').classList.remove('show');
+  toast('✅ Downloaded! Upload menu.json to data/ folder on GitHub.');
+}
+function discard() {
+  data = JSON.parse(orig); dirty = false;
+  document.getElementById('save-bar').classList.remove('show');
+  renderAll(); fillSiteFields(); toast('↩ Changes discarded.');
+}
+
+// TOAST
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 </script>
 </body>
 </html>
