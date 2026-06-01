@@ -1414,6 +1414,8 @@
       const res = await fetch('data/menu.json?t=' + Date.now());
       data = await res.json();
     } catch(e) { return; }
+
+    function cfCard(item) {
       return `<div class="coffee-item">
         <div class="coffee-item-icon">${item.emoji}</div>
         <div class="coffee-item-info">
