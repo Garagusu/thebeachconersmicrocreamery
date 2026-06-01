@@ -5,44 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>The Beachconers Microcreamery – Britannia, Ottawa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Instrument+Sans:wght@300;400;500&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── DAY THEME (default) ───────────────────── */
+    /* ── DAY THEME ─────────────────────────────── */
     :root {
-      --bg:       #FDF6EC;
-      --bg-alt:   #FFFFFF;
+      --bg:       #FFFFFF;
+      --bg-alt:   #F5F0FF;
       --bg-card:  #FFFFFF;
-      --text:     #2A1A0E;
-      --coral:    #E8527A;
-      --teal:     #1A9090;
-      --butter:   #C4860A;
-      --warm:     #C4863A;
-      --muted:    rgba(42,26,14,0.5);
-      --border:   rgba(42,26,14,0.1);
-      --nav-scrolled: rgba(253,246,236,0.97);
-      --nav-border:   rgba(42,26,14,0.1);
-      --marquee-bg:   rgba(42,26,14,0.04);
+      --text:     #1A0A2E;
+      --coral:    #FF3E6C;
+      --teal:     #00B4A6;
+      --butter:   #FF9F1C;
+      --warm:     #FF6B35;
+      --muted:    rgba(26,10,46,0.5);
+      --border:   rgba(26,10,46,0.1);
+      --nav-scrolled: rgba(255,255,255,0.97);
+      --nav-border:   rgba(26,10,46,0.08);
+      --marquee-bg:   #F5F0FF;
       --review-card:  #FFFFFF;
     }
 
-    /* ── NIGHT THEME (after 20:00) ─────────────── */
+    /* ── NIGHT THEME ───────────────────────────── */
     body.night-mode {
-      --bg:       #0A0E1A;
-      --bg-alt:   #111827;
-      --bg-card:  rgba(249,243,232,0.05);
-      --text:     #F9F3E8;
-      --coral:    #E8527A;
-      --teal:     #2BBFBF;
-      --butter:   #F5C842;
-      --warm:     #C4863A;
-      --muted:    rgba(249,243,232,0.5);
-      --border:   rgba(249,243,232,0.12);
-      --nav-scrolled: rgba(10,14,26,0.94);
-      --nav-border:   rgba(249,243,232,0.12);
-      --marquee-bg:   rgba(249,243,232,0.04);
-      --review-card:  rgba(249,243,232,0.05);
+      --bg:       #12082A;
+      --bg-alt:   #1C0F3A;
+      --bg-card:  rgba(255,255,255,0.05);
+      --text:     #F0EAF8;
+      --coral:    #FF3E6C;
+      --teal:     #00D4C4;
+      --butter:   #FFB347;
+      --warm:     #FF6B35;
+      --muted:    rgba(240,234,248,0.5);
+      --border:   rgba(240,234,248,0.12);
+      --nav-scrolled: rgba(18,8,42,0.95);
+      --nav-border:   rgba(240,234,248,0.1);
+      --marquee-bg:   rgba(240,234,248,0.04);
+      --review-card:  rgba(255,255,255,0.05);
     }
 
     /* Smooth theme transition */
@@ -59,7 +59,7 @@
 
     html { scroll-behavior: smooth; }
     body {
-      font-family: 'Instrument Sans', sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       background: var(--bg); color: var(--text); overflow-x: hidden;
     }
 
@@ -176,15 +176,18 @@
       content: ''; width: 28px; height: 1px; background: var(--butter);
     }
     .hero-h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3.5rem, 7vw, 7rem);
-      font-weight: 300; line-height: 1.0;
-      letter-spacing: -1px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 8vw, 9rem);
+      font-weight: 400; line-height: 0.95;
+      letter-spacing: 3px;
       color: var(--text);
       margin-bottom: 1.5rem;
       opacity: 0; animation: fadeUp 1s 0.5s ease forwards;
     }
-    .hero-h1 em { font-style: italic; color: var(--coral); }
+    .hero-h1 em {
+      font-style: normal;
+      color: var(--coral);
+    }
     .hero-sub {
       font-size: 1rem; font-weight: 300;
       color: var(--muted); line-height: 1.8;
@@ -250,8 +253,8 @@
     .marquee-item {
       display: flex; align-items: center; gap: 1.5rem;
       padding: 0 2.5rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic; font-size: 1.1rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-style: normal; letter-spacing: 2px; font-size: 1.1rem;
       color: var(--muted); white-space: nowrap;
     }
     .marquee-sep { color: var(--coral); font-style: normal; font-size: 0.5rem; }
@@ -270,12 +273,12 @@
     }
     .section-eyebrow::after { content: ''; flex: 0 0 24px; height: 1px; background: var(--coral); }
     .section-h2 {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(2.5rem, 4vw, 4rem);
       font-weight: 300; line-height: 1.1;
       color: var(--text); margin-bottom: 1.5rem;
     }
-    .section-h2 em { font-style: italic; color: var(--teal); }
+    .section-h2 em { font-style: normal; color: var(--teal); }
 
     /* reveal */
     .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
@@ -336,7 +339,7 @@
       border-radius: 4px; margin-bottom: 0.8rem;
     }
     .flavour-item-name {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Bebas Neue', sans-serif;
       font-size: 1.05rem; font-weight: 600;
       color: var(--text); margin-bottom: 0.3rem;
     }
@@ -381,7 +384,7 @@
     }
     .coffee-item-info { flex: 1; }
     .coffee-item-name {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Bebas Neue', sans-serif;
       font-size: 1.05rem; font-weight: 600; color: var(--text);
       margin-bottom: 0.2rem;
     }
@@ -426,7 +429,7 @@
       text-align: center;
     }
     .stat-num {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Bebas Neue', sans-serif;
       font-size: 3rem; font-weight: 300; color: #fff;
       line-height: 1;
     }
@@ -453,7 +456,7 @@
     }
     .rating-display { display: flex; align-items: baseline; gap: 0.8rem; }
     .rating-num {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Bebas Neue', sans-serif;
       font-size: 5rem; font-weight: 300; line-height: 1; color: var(--text);
     }
     .rating-detail {}
@@ -506,7 +509,7 @@
     .rc-meta { font-size: 0.68rem; color: var(--muted); margin-top: 0.1rem; }
     .rc-g { margin-left: auto; width: 24px; height: 24px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 900; color: #4285F4; flex-shrink: 0; }
     .rc-stars { color: var(--butter); font-size: 0.85rem; letter-spacing: 1px; margin-bottom: 0.8rem; }
-    .rc-text { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; color: var(--muted); line-height: 1.7; margin-bottom: 0.8rem; }
+    .rc-text { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; font-style: italic; color: var(--muted); line-height: 1.7; margin-bottom: 0.8rem; }
     .rc-time { font-size: 0.68rem; color: rgba(249,243,232,0.3); }
     .reviews-footer { text-align: center; margin-top: 3rem; }
     .reviews-all-link {
@@ -621,6 +624,54 @@
     }
 
 
+    /* ── UNIQUE PERSONALITY ────────────────────── */
+    /* Thick colored left border on section eyebrows */
+    .section-eyebrow {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--coral);
+      margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.8rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .section-eyebrow::before { content: ''; width: 4px; height: 18px; background: var(--coral); border-radius: 2px; }
+    .section-eyebrow::after { display: none; }
+
+    /* Alternating section accent colors */
+    #menu .section-eyebrow { color: var(--coral); }
+    #menu .section-eyebrow::before { background: var(--coral); }
+    #gallery .section-eyebrow { color: var(--teal); }
+    #gallery .section-eyebrow::before { background: var(--teal); }
+    #about .section-eyebrow { color: var(--butter); }
+    #about .section-eyebrow::before { background: var(--butter); }
+    #reviews .section-eyebrow { color: var(--coral); }
+    #jobs .section-eyebrow { color: var(--teal); }
+    #jobs .section-eyebrow::before { background: var(--teal); }
+
+    /* Bold stat card */
+    .about-stat-card { background: var(--coral); border-radius: 0; }
+    .stat-num { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; }
+
+    /* Gallery card names use Bebas */
+    .gallery-card-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px; }
+
+    /* Coffee item names use Bebas */
+    .coffee-item-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 2px; }
+
+    /* Flavour item names use Bebas */
+    .flavour-item-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 1px; }
+
+    /* Review quote font - use Caveat for handwritten vibe */
+    .rc-text { font-family: 'Caveat', cursive; font-size: 1.1rem; }
+
+    /* Job title - bold Bebas */
+    .job-title { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 2px; }
+
+    /* Rating number */
+    .rating-num { font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; }
+
+    /* Hero price tags use Caveat still */
+    .flavour-item-price, .coffee-item-price, .gallery-card-price { font-family: 'Caveat', cursive; }
+
     /* ── GALLERY ───────────────────────────────── */
     .gallery-section { padding: 8rem 5rem; }
     .gallery-intro { max-width: 560px; margin-bottom: 3.5rem; }
@@ -651,7 +702,7 @@
     }
     .gallery-card-emoji { font-size: 3.5rem; margin-bottom: 1rem; display: block; }
     .gallery-card-name {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Bebas Neue', sans-serif;
       font-size: 1.3rem; font-weight: 600; color: var(--text);
       margin-bottom: 0.4rem;
     }
@@ -714,7 +765,7 @@
       display: inline-block; margin-bottom: 1.2rem;
     }
     .job-title {
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Bebas Neue', sans-serif;
       font-size: 1.6rem; font-weight: 600; color: var(--text);
       margin-bottom: 0.8rem;
     }
