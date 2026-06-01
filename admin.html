@@ -192,11 +192,21 @@ textarea.field{min-height:75px;resize:vertical;line-height:1.6}
     <div class="tab" id="tab-assets">
       <div class="page-h">🖼️ Photo Library</div>
       <div class="page-sub">Upload photos here first, then assign them to menu items.</div>
-      <div class="upload-zone" id="dropzone">
-        <input type="file" multiple accept="image/*" id="file-input" onchange="handleFiles(this.files)"/>
+
+      <!-- Hidden file input -->
+      <input type="file" multiple accept="image/*" id="file-input"
+        style="display:none" onchange="handleFiles(this.files)"/>
+
+      <!-- Upload zone - clicking triggers the hidden input -->
+      <div class="upload-zone" id="dropzone" onclick="document.getElementById('file-input').click()">
         <div class="icon">📁</div>
-        <h3>Drop photos here or click to browse</h3>
-        <p>Select multiple photos at once · JPG, PNG, WebP</p>
+        <h3>Click here to browse photos</h3>
+        <p>Or drag & drop · Multiple photos at once · JPG, PNG, WebP</p>
+        <button type="button"
+          style="margin-top:1rem;background:#FF3E6C;color:#fff;border:none;border-radius:8px;padding:0.6rem 1.5rem;font-size:0.88rem;font-weight:600;cursor:pointer;"
+          onclick="event.stopPropagation(); document.getElementById('file-input').click()">
+          📸 Choose Photos
+        </button>
       </div>
       <div class="lib-count" id="lib-count">0 photos</div>
       <div class="lib-grid" id="lib-grid"></div>
@@ -513,11 +523,12 @@ function delAsset(i) {
 document.addEventListener('DOMContentLoaded', () => {
   const dz = document.getElementById('dropzone');
   if (!dz) return;
-  dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
-  dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+  dz.addEventListener('dragover', e => { e.preventDefault(); e.stopPropagation(); dz.classList.add('drag-over'); });
+  dz.addEventListener('dragleave', e => { e.stopPropagation(); dz.classList.remove('drag-over'); });
   dz.addEventListener('drop', e => {
-    e.preventDefault(); dz.classList.remove('drag-over');
-    handleFiles(e.dataTransfer.files);
+    e.preventDefault(); e.stopPropagation();
+    dz.classList.remove('drag-over');
+    if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
   });
 });
 
