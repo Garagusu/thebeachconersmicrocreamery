@@ -624,6 +624,11 @@
     }
 
 
+    /* LIGHTBOX */
+    #lb { opacity: 0; transition: opacity 0.3s ease; }
+    #lb.open { opacity: 1; }
+    #lb img { transition: opacity 0.2s ease; }
+
     /* ── UNIQUE PERSONALITY ────────────────────── */
     /* Thick colored left border on section eyebrows */
     .section-eyebrow {
@@ -1467,12 +1472,61 @@
       data = await res.json();
     } catch(e) { return; }
 
-    function icCard(item) {
+    // Global lightbox items array
+    let lbItems = [];
+    let lbIdx = 0;
+
+    function openLightbox(idx) {
+      if (idx < 0) return;
+      lbIdx = idx;
+      showLb();
+      const lb = document.getElementById('lb');
+      lb.style.display = 'flex';
+      setTimeout(() => lb.classList.add('open'), 10);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const lb = document.getElementById('lb');
+      lb.classList.remove('open');
+      setTimeout(() => lb.style.display = 'none', 300);
+      document.body.style.overflow = '';
+    }
+
+    function showLb() {
+      const item = lbItems[lbIdx];
+      if (!item) return;
+      document.getElementById('lb-img').src = item.image;
+      document.getElementById('lb-name').textContent = item.name;
+      document.getElementById('lb-desc').textContent = item.desc;
+      document.getElementById('lb-price').textContent = item.price;
+      document.getElementById('lb-badge').textContent = item.badge || '';
+      document.getElementById('lb-badge').style.display = item.badge ? 'inline-block' : 'none';
+      document.getElementById('lb-counter').textContent = `${lbIdx + 1} / ${lbItems.length}`;
+      document.getElementById('lb-prev').style.opacity = lbIdx === 0 ? '0.3' : '1';
+      document.getElementById('lb-next').style.opacity = lbIdx === lbItems.length - 1 ? '0.3' : '1';
+    }
+
+    function lbPrev() { if (lbIdx > 0) { lbIdx--; showLb(); } }
+    function lbNext() { if (lbIdx < lbItems.length - 1) { lbIdx++; showLb(); } }
+
+    document.addEventListener('keydown', e => {
+      const lb = document.getElementById('lb');
+      if (!lb || !lb.classList.contains('open')) return;
+      if (e.key === 'ArrowLeft') lbPrev();
+      if (e.key === 'ArrowRight') lbNext();
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    function icCard(item, globalIdx) {
       const imgSrc = item.image || item.imagePath || '';
+      const clickable = imgSrc ? `onclick="openLightbox(${globalIdx})" style="cursor:zoom-in;"` : '';
       return `<div class="flavour-item">
         ${item.badge ? `<div class="flavour-badge">${item.badge}</div>` : ''}
         ${imgSrc
-          ? `<img src="${imgSrc}" alt="${item.name}" style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:0.8rem;"/>`
+          ? `<img src="${imgSrc}" alt="${item.name}" ${clickable}
+               style="width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:0.8rem;transition:transform 0.2s;"
+               onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'"/>`
           : `<span class="flavour-emoji-sm">${item.emoji}</span>`}
         <div class="flavour-item-name">${item.name}</div>
         <div class="flavour-item-desc">${item.desc}</div>
@@ -1493,16 +1547,33 @@
     }
 
     const sets = [
-      ['icecream_today', 'today-menu', icCard],
-      ['icecream', 'icecream-menu', icCard],
-      ['icecream_vegan', 'vegan-menu', icCard],
-      ['coffee', 'coffee-menu', cfCard],
-      ['food', 'food-menu', icCard],
+      ['icecream_today', 'today-menu'],
+      ['icecream', 'icecream-menu'],
+      ['icecream_vegan', 'vegan-menu'],
     ];
-    sets.forEach(([key, id, fn]) => {
-      const el = document.getElementById(id);
-      if (el && data[key]) el.innerHTML = data[key].filter(i=>i.available).map(fn).join('');
+
+    // Build global lightbox items from all ice cream sections
+    sets.forEach(([key]) => {
+      (data[key] || []).filter(i => i.available && (i.image || i.imagePath)).forEach(item => {
+        lbItems.push(item);
+      });
     });
+
+    // Render ice cream with global index for lightbox
+    sets.forEach(([key, id]) => {
+      const el = document.getElementById(id);
+      if (!el || !data[key]) return;
+      el.innerHTML = data[key].filter(i => i.available).map(item => {
+        const gIdx = lbItems.findIndex(l => l.name === item.name);
+        return icCard(item, gIdx);
+      }).join('');
+    });
+
+    // Render coffee and food normally
+    const el1 = document.getElementById('coffee-menu');
+    if (el1 && data.coffee) el1.innerHTML = data.coffee.filter(i=>i.available).map(cfCard).join('');
+    const el2 = document.getElementById('food-menu');
+    if (el2 && data.food) el2.innerHTML = data.food.filter(i=>i.available).map(i => icCard(i, -1)).join('');
 
     // Update marquee with real items
     const marqueeTrack = document.getElementById('marquee');
@@ -1538,5 +1609,32 @@
   }
   loadMenu();
 </script>
+<!-- LIGHTBOX -->
+<div id="lb" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;flex-direction:column;" onclick="if(event.target===this)closeLightbox()">
+
+  <!-- Close -->
+  <button onclick="closeLightbox()" style="position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,0.1);border:none;color:white;width:44px;height:44px;border-radius:50%;font-size:1.3rem;cursor:pointer;z-index:1;">✕</button>
+
+  <!-- Counter -->
+  <div id="lb-counter" style="position:absolute;top:1.5rem;left:50%;transform:translateX(-50%);color:rgba(255,255,255,0.5);font-size:0.78rem;letter-spacing:0.1em;"></div>
+
+  <!-- Image -->
+  <div style="position:relative;display:flex;align-items:center;gap:1rem;max-width:90vw;">
+    <button id="lb-prev" onclick="lbPrev()" style="background:rgba(255,255,255,0.1);border:none;color:white;width:48px;height:48px;border-radius:50%;font-size:1.4rem;cursor:pointer;flex-shrink:0;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">‹</button>
+
+    <img id="lb-img" src="" alt="" style="max-width:70vw;max-height:65vh;object-fit:contain;border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,0.5);"/>
+
+    <button id="lb-next" onclick="lbNext()" style="background:rgba(255,255,255,0.1);border:none;color:white;width:48px;height:48px;border-radius:50%;font-size:1.4rem;cursor:pointer;flex-shrink:0;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">›</button>
+  </div>
+
+  <!-- Info -->
+  <div style="text-align:center;margin-top:1.5rem;max-width:500px;padding:0 2rem;">
+    <span id="lb-badge" style="background:#FF3E6C;color:white;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.2rem 0.7rem;border-radius:4px;margin-bottom:0.6rem;display:inline-block;"></span>
+    <div id="lb-name" style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:2px;color:white;margin-bottom:0.5rem;"></div>
+    <div id="lb-desc" style="font-size:0.88rem;color:rgba(255,255,255,0.6);line-height:1.6;margin-bottom:0.8rem;"></div>
+    <div id="lb-price" style="font-family:'Caveat',cursive;font-size:1.4rem;color:#FF3E6C;"></div>
+  </div>
+</div>
+
 </body>
 </html>
