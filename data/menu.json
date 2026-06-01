@@ -32,7 +32,9 @@
       "emoji": "💥",
       "badge": "🌟 Today",
       "available": true,
-      "image": "assets/BakeryX-Plosion.png"
+      "image": "assets/BakeryX-Plosion.png",
+      "name_fr": "Explosion Boulangerie",
+      "desc_fr": "Un mélange fou de pièces de boulangerie locale."
     },
     {
       "id": "t2",
@@ -42,7 +44,9 @@
       "emoji": "🍫",
       "badge": "🌟 Today",
       "available": true,
-      "image": "assets/BrittaniaBrownie.png"
+      "image": "assets/BrittaniaBrownie.png",
+      "name_fr": "Brownie Britannia",
+      "desc_fr": "Morceaux de brownie fondant dans une crème glacée crémeuse."
     },
     {
       "id": "t3",
@@ -52,7 +56,9 @@
       "emoji": "🍵",
       "badge": "🌟 Today",
       "available": true,
-      "image": "assets/VanillaMatcha.png"
+      "image": "assets/VanillaMatcha.png",
+      "name_fr": "Vanille Matcha",
+      "desc_fr": "La douce vanille rencontre le matcha japonais."
     },
     {
       "id": "t4",
@@ -62,7 +68,9 @@
       "emoji": "🍬",
       "badge": "🌟 Today",
       "available": true,
-      "image": "assets/CandyAisle.png"
+      "image": "assets/CandyAisle.png",
+      "name_fr": "Allée des Bonbons",
+      "desc_fr": "Saveurs nostalgiques de bonbons d'enfance."
     },
     {
       "id": "t5",
@@ -72,7 +80,9 @@
       "emoji": "🫐",
       "badge": "🌟 Today",
       "available": true,
-      "image": "assets/BlueberryLavender.png"
+      "image": "assets/BlueberryLavender.png",
+      "name_fr": "Bleuet Lavande",
+      "desc_fr": "Bleuets sauvages avec une note florale de lavande."
     },
     {
       "id": "t6",
@@ -82,7 +92,9 @@
       "emoji": "🍓",
       "badge": "🌟 Today",
       "available": true,
-      "image": "assets/Strawberry.png"
+      "image": "assets/Strawberry.png",
+      "name_fr": "Fraise",
+      "desc_fr": "Fraises fraîches de l'Ontario, barattées à la perfection."
     }
   ],
   "icecream": [
@@ -94,7 +106,9 @@
       "emoji": "🍦",
       "badge": "⭐ Classic",
       "available": true,
-      "image": "assets/Vanilla.png"
+      "image": "assets/Vanilla.png",
+      "name_fr": "Vanille",
+      "desc_fr": "Vanille de Madagascar classique, barattée lentement avec de la crème ontarienne."
     },
     {
       "id": "ic2",
@@ -104,7 +118,9 @@
       "emoji": "🍫",
       "badge": "",
       "available": true,
-      "image": "assets/Chocolate.png"
+      "image": "assets/Chocolate.png",
+      "name_fr": "Chocolat",
+      "desc_fr": "Chocolat belge intense. Le rêve d'un puriste."
     },
     {
       "id": "ic3",
@@ -114,7 +130,9 @@
       "emoji": "🫐",
       "badge": "💜 Popular",
       "available": true,
-      "image": "assets/BlueberryLavender.png"
+      "image": "assets/BlueberryLavender.png",
+      "name_fr": "Bleuet Lavande",
+      "desc_fr": "Bleuets sauvages avec une note florale de lavande."
     },
     {
       "id": "ic4",
@@ -124,7 +142,9 @@
       "emoji": "🍓",
       "badge": "",
       "available": true,
-      "image": "assets/Strawberry.png"
+      "image": "assets/Strawberry.png",
+      "name_fr": "Fraise",
+      "desc_fr": "Fraises fraîches de l'Ontario, barattées à la perfection."
     },
     {
       "id": "ic5",
@@ -133,7 +153,10 @@
       "price": "Single $6.00 · Double $9.25",
       "emoji": "🥤",
       "badge": "",
-      "available": true
+      "available": true,
+      "image": "assets/RootBeerFloat.png",
+      "name_fr": "Float à la Bière Mousse",
+      "desc_fr": "Les saveurs d'un float à la bière mousse dans une boule crémeuse."
     },
     {
       "id": "ic6",
@@ -143,7 +166,9 @@
       "emoji": "🦌",
       "badge": "🇨🇦 Local",
       "available": true,
-      "image": "assets/MooseTrails.png"
+      "image": "assets/MooseTrails.png",
+      "name_fr": "Sentiers d'Orignal",
+      "desc_fr": "Une aventure canadienne dans chaque boule — riche, noisette, indulgent."
     },
     {
       "id": "ic7",
@@ -153,7 +178,9 @@
       "emoji": "💥",
       "badge": "",
       "available": true,
-      "image": "assets/BakeryX-Plosion.png"
+      "image": "assets/BakeryX-Plosion.png",
+      "name_fr": "Explosion Boulangerie",
+      "desc_fr": "Un mélange fou de pièces de boulangerie locale."
     },
     {
       "id": "ic8",
@@ -163,7 +190,9 @@
       "emoji": "🍫",
       "badge": "",
       "available": true,
-      "image": "assets/BrittaniaBrownie.png"
+      "image": "assets/BrittaniaBrownie.png",
+      "name_fr": "Brownie Britannia",
+      "desc_fr": "Morceaux de brownie fondant dans une crème glacée crémeuse."
     },
     {
       "id": "ic9",
@@ -173,7 +202,9 @@
       "emoji": "🍵",
       "badge": "🍃 New",
       "available": true,
-      "image": "assets/VanillaMatcha.png"
+      "image": "assets/VanillaMatcha.png",
+      "name_fr": "Vanille Matcha",
+      "desc_fr": "La douce vanille rencontre le matcha japonais."
     },
     {
       "id": "ic10",
@@ -183,7 +214,9 @@
       "emoji": "🍬",
       "badge": "",
       "available": true,
-      "image": "assets/CandyAisle.png"
+      "image": "assets/CandyAisle.png",
+      "name_fr": "Allée des Bonbons",
+      "desc_fr": "Saveurs nostalgiques de bonbons d'enfance."
     }
   ],
   "icecream_vegan": [
@@ -195,7 +228,9 @@
       "emoji": "🥥",
       "badge": "🌱 Vegan",
       "available": true,
-      "image": "assets/CoconutOreo.png"
+      "image": "assets/CoconutOreo.png",
+      "name_fr": "Coco Oreo",
+      "desc_fr": "Base crémeuse à la noix de coco avec des morceaux d'Oreo. 100% sans lait."
     },
     {
       "id": "v2",
@@ -205,7 +240,9 @@
       "emoji": "💜",
       "badge": "🌱 Vegan",
       "available": true,
-      "image": "assets/OatLavenderVanilla.png"
+      "image": "assets/OatLavenderVanilla.png",
+      "name_fr": "Avoine Lavande Vanille",
+      "desc_fr": "Base de lait d'avoine avec vraie lavande et vanille. Léger et floral."
     },
     {
       "id": "v3",
@@ -215,7 +252,9 @@
       "emoji": "🌴",
       "badge": "🌱 Vegan",
       "available": true,
-      "image": "assets/CoconutVanilla.png"
+      "image": "assets/CoconutVanilla.png",
+      "name_fr": "Coco Vanille",
+      "desc_fr": "Crème de noix de coco pure avec vanille de Madagascar."
     }
   ],
   "coffee": [
@@ -226,7 +265,9 @@
       "price": "$5.50",
       "emoji": "☕",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Latte",
+      "desc_fr": "Espresso onctueux avec du lait vapeur. Ajoutez sirop d'érable, vanille ou mocha +1,10 $."
     },
     {
       "id": "cf2",
@@ -235,7 +276,9 @@
       "price": "$5.00",
       "emoji": "🫧",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Cappuccino",
+      "desc_fr": "Parts égales d'espresso, lait vapeur et mousse épaisse. Classique."
     },
     {
       "id": "cf3",
@@ -244,7 +287,9 @@
       "price": "$5.00",
       "emoji": "🥛",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Flat White",
+      "desc_fr": "Mousse de lait veloutée sur un double ristretto. Lisse et intense."
     },
     {
       "id": "cf4",
@@ -253,7 +298,9 @@
       "price": "$5.00",
       "emoji": "☕",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Cortado",
+      "desc_fr": "Parts égales d'espresso et de lait chaud. Fort et équilibré."
     },
     {
       "id": "cf5",
@@ -262,7 +309,9 @@
       "price": "$4.00",
       "emoji": "🍁",
       "badge": "🇨🇦",
-      "available": true
+      "available": true,
+      "name_fr": "Canadiano",
+      "desc_fr": "Notre version du classique — onctueux et facile à boire."
     },
     {
       "id": "cf6",
@@ -271,7 +320,9 @@
       "price": "$3.75",
       "emoji": "⚡",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Espresso",
+      "desc_fr": "Double shot, crème riche. Le choix du puriste."
     },
     {
       "id": "cf7",
@@ -280,7 +331,9 @@
       "price": "$3.25 / $3.75",
       "emoji": "☕",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Café Filtre",
+      "desc_fr": "Fraîchement infusé. Régulier 3,25 $ · Grand 3,75 $."
     },
     {
       "id": "cf8",
@@ -289,7 +342,9 @@
       "price": "$8.00",
       "emoji": "🍦",
       "badge": "⭐ Must Try",
-      "available": true
+      "available": true,
+      "name_fr": "Affogato",
+      "desc_fr": "Un shot d'espresso chaud versé sur une boule de crème glacée maison."
     },
     {
       "id": "cf9",
@@ -298,7 +353,9 @@
       "price": "$5.50",
       "emoji": "🧊",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Latte Glacé",
+      "desc_fr": "Espresso sur glace. Ajoutez sirop d'érable, vanille ou mocha +1,10 $."
     },
     {
       "id": "cf10",
@@ -307,7 +364,9 @@
       "price": "$5.50",
       "emoji": "🫖",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Latte au Thé",
+      "desc_fr": "Votre thé préféré avec du lait vapeur."
     },
     {
       "id": "cf11",
@@ -316,7 +375,9 @@
       "price": "$6.60",
       "emoji": "🍵",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Latte Matcha",
+      "desc_fr": "Glacé ou chaud. Ajoutez fraise, vanille, mocha ou miel lavande +0,80 $."
     },
     {
       "id": "cf12",
@@ -325,7 +386,9 @@
       "price": "$5.50",
       "emoji": "🌶️",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Latte Chaï",
+      "desc_fr": "Sucré ou non sucré. Glacé ou chaud."
     },
     {
       "id": "cf13",
@@ -334,7 +397,9 @@
       "price": "$4.75",
       "emoji": "🌺",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Thé Hibiscus Glacé",
+      "desc_fr": "Avec thé vert ou limonade."
     },
     {
       "id": "cf14",
@@ -343,7 +408,9 @@
       "price": "$5.25",
       "emoji": "🍫",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Chocolat Chaud",
+      "desc_fr": "Chocolat chaud maison riche et réconfortant."
     },
     {
       "id": "cf15",
@@ -352,7 +419,9 @@
       "price": "$4.75",
       "emoji": "🍃",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Thé Vert Glacé",
+      "desc_fr": "Sans sucre. Propre et rafraîchissant."
     },
     {
       "id": "cf16",
@@ -361,7 +430,9 @@
       "price": "$3.50",
       "emoji": "🍋",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Limonade",
+      "desc_fr": "Maison. Ajoutez fraise +0,60 $."
     },
     {
       "id": "cf17",
@@ -370,7 +441,9 @@
       "price": "$5.50",
       "emoji": "⚡",
       "badge": "🔥 Ask Us",
-      "available": true
+      "available": true,
+      "name_fr": "Nitro Cold Brew",
+      "desc_fr": "Café froid velouté — HAUTE TENSION. Demandez la disponibilité."
     }
   ],
   "food": [
@@ -381,7 +454,9 @@
       "price": "$8.00",
       "emoji": "🥚",
       "badge": "☀️ All Day",
-      "available": true
+      "available": true,
+      "name_fr": "Sandwich Déjeuner",
+      "desc_fr": "Muffin anglais avec œuf frittata, cheddar et chutney de tomate. Ajoutez bacon +1,50 $."
     },
     {
       "id": "f2",
@@ -390,7 +465,9 @@
       "price": "$11.75",
       "emoji": "🥪",
       "badge": "☀️ All Day",
-      "available": true
+      "available": true,
+      "name_fr": "BLT",
+      "desc_fr": "Fromage et mayo sur un bagel au sésame. Ajoutez œuf frittata +2,00 $."
     },
     {
       "id": "f3",
@@ -399,7 +476,9 @@
       "price": "$12.00",
       "emoji": "🧀",
       "badge": "☀️ All Day",
-      "available": true
+      "available": true,
+      "name_fr": "Mac 'n' Fromage",
+      "desc_fr": "Gouda fumé et cheddar. Le confort alimentaire par excellence."
     },
     {
       "id": "f4",
@@ -408,7 +487,9 @@
       "price": "$15.00",
       "emoji": "🥗",
       "badge": "🌱 Vegan",
-      "available": true
+      "available": true,
+      "name_fr": "Salade de Pois Chiches Végane",
+      "desc_fr": "Pois chiches au curry, verdures et légumes marinés."
     },
     {
       "id": "f5",
@@ -417,7 +498,9 @@
       "price": "$5.25",
       "emoji": "🥐",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Scone",
+      "desc_fr": "Fraîchement cuit, demandez la saveur du jour."
     },
     {
       "id": "f6",
@@ -426,7 +509,9 @@
       "price": "$4.25",
       "emoji": "🍪",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Biscuit",
+      "desc_fr": "Biscuits cuits maison, frais chaque jour."
     },
     {
       "id": "f7",
@@ -435,7 +520,9 @@
       "price": "$4.50",
       "emoji": "⭐",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Biscuit au Sucre",
+      "desc_fr": "Biscuit au sucre classique, parfaitement sucré."
     },
     {
       "id": "f8",
@@ -444,7 +531,9 @@
       "price": "$3.50",
       "emoji": "💪",
       "badge": "🌱 Vegan",
-      "available": true
+      "available": true,
+      "name_fr": "Bouchée Énergisante",
+      "desc_fr": "Bouchée naturellement sucrée et nourrissante."
     },
     {
       "id": "f9",
@@ -453,7 +542,9 @@
       "price": "$4.75",
       "emoji": "🌰",
       "badge": "GF Option",
-      "available": true
+      "available": true,
+      "name_fr": "Biscuit aux Amandes",
+      "desc_fr": "Biscuit à la farine d'amande, sans gluten."
     },
     {
       "id": "f10",
@@ -462,7 +553,9 @@
       "price": "$5.75",
       "emoji": "🫓",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Petit Pain",
+      "desc_fr": "Fraîchement cuit, demandez la saveur du jour."
     },
     {
       "id": "f11",
@@ -471,7 +564,9 @@
       "price": "$5.75 / $7.95",
       "emoji": "🎂",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Tranche / Gâteau entier",
+      "desc_fr": "Demandez le gâteau du jour. Tranche ou gâteau entier disponible."
     },
     {
       "id": "f12",
@@ -480,7 +575,9 @@
       "price": "$4.50",
       "emoji": "🍫",
       "badge": "",
-      "available": true
+      "available": true,
+      "name_fr": "Barres",
+      "desc_fr": "Demandez la sélection de barres du jour."
     }
   ]
 }
