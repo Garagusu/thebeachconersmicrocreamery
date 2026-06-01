@@ -100,14 +100,93 @@
     .add-item-btn { display:flex; align-items:center; justify-content:center; gap:0.6rem; padding:1rem; border:2px dashed var(--border); border-radius:14px; background:transparent; color:var(--muted); font-size:0.85rem; font-family:inherit; cursor:pointer; width:100%; transition:all 0.2s; }
     .add-item-btn:hover { border-color:var(--teal); color:var(--teal); background:rgba(43,191,191,0.04); }
 
+    /* ASSET LIBRARY */
+    .asset-upload-zone {
+      border: 2px dashed var(--border); border-radius: 14px;
+      padding: 3rem 2rem; text-align: center; cursor: pointer;
+      transition: all 0.2s; position: relative; margin-bottom: 2rem;
+      background: var(--bg);
+    }
+    .asset-upload-zone:hover, .asset-upload-zone.drag-over {
+      border-color: var(--teal); background: rgba(43,191,191,0.04);
+    }
+    .asset-upload-zone input { position:absolute;inset:0;opacity:0;cursor:pointer; }
+    .asset-upload-zone .icon { font-size: 2.5rem; margin-bottom: 0.8rem; }
+    .asset-upload-zone h3 { font-size: 1rem; font-weight: 600; color: var(--choc); margin-bottom: 0.4rem; }
+    .asset-upload-zone p { font-size: 0.8rem; color: var(--muted); }
+
+    .asset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+    .asset-item {
+      border: 1.5px solid var(--border); border-radius: 10px;
+      overflow: hidden; position: relative; cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+      background: var(--card);
+    }
+    .asset-item:hover { border-color: var(--teal); transform: translateY(-2px); }
+    .asset-item.selected { border-color: var(--coral); border-width: 2.5px; }
+    .asset-item img { width:100%; height: 120px; object-fit: cover; display:block; }
+    .asset-item-name {
+      font-size: 0.72rem; color: var(--muted); padding: 0.4rem 0.6rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .asset-item-del {
+      position: absolute; top: 4px; right: 4px;
+      background: rgba(0,0,0,0.6); color: white;
+      border: none; border-radius: 50%; width: 22px; height: 22px;
+      font-size: 0.7rem; cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .asset-item:hover .asset-item-del { opacity: 1; }
+    .asset-count { font-size: 0.78rem; color: var(--muted); margin-bottom: 1rem; }
+
+    /* ASSET PICKER MODAL */
+    .asset-modal-bg {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+      z-index: 500; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.2s;
+    }
+    .asset-modal-bg.open { opacity: 1; pointer-events: all; }
+    .asset-modal {
+      background: white; border-radius: 20px; padding: 2rem;
+      width: 90%; max-width: 700px; max-height: 80vh;
+      overflow-y: auto;
+      transform: translateY(20px); transition: transform 0.2s;
+    }
+    .asset-modal-bg.open .asset-modal { transform: translateY(0); }
+    .asset-modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .asset-modal-header h3 { font-size: 1.1rem; font-weight: 600; color: var(--choc); }
+    .asset-modal-close {
+      background: none; border: none; font-size: 1.4rem; cursor: pointer;
+      color: var(--muted); line-height: 1;
+    }
+    .asset-modal-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 0.8rem;
+    }
+    .asset-modal-item {
+      border: 2px solid var(--border); border-radius: 8px;
+      overflow: hidden; cursor: pointer; transition: all 0.15s;
+    }
+    .asset-modal-item:hover { border-color: var(--teal); transform: scale(1.02); }
+    .asset-modal-item img { width: 100%; height: 100px; object-fit: cover; display: block; }
+    .asset-modal-item span { font-size: 0.68rem; color: var(--muted); padding: 0.3rem 0.5rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .asset-modal-empty { text-align: center; padding: 3rem; color: var(--muted); font-size: 0.9rem; }
+
     /* IMG UPLOAD */
     .img-upload-area { border:2px dashed var(--border); border-radius:10px; padding:1.2rem; text-align:center; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; }
     .img-upload-area:hover { border-color:var(--teal); }
     .img-upload-area.has-image { padding:0; border-style:solid; border-color:var(--teal); }
     .img-upload-area img { width:100%; height:130px; object-fit:cover; border-radius:8px; display:block; }
-    .img-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; color:white; font-size:0.82rem; }
+    .img-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; color:white; font-size:0.82rem; gap:0.5rem; }
     .img-upload-area.has-image:hover .img-overlay { opacity:1; }
-    .img-upload-input { position:absolute; inset:0; opacity:0; cursor:pointer; }
     .img-placeholder { color:var(--muted); font-size:0.8rem; }
     .img-placeholder-icon { font-size:1.6rem; margin-bottom:0.3rem; }
 
@@ -118,7 +197,7 @@
     .ep-emoji:hover { background:var(--sand); }
 
     /* TOAST */
-    .toast { position:fixed; bottom:5rem; right:2rem; background:var(--choc); color:var(--cream); padding:0.8rem 1.4rem; border-radius:10px; font-size:0.85rem; font-weight:500; transform:translateY(20px); opacity:0; transition:all 0.3s; z-index:300; pointer-events:none; }
+    .toast { position:fixed; bottom:5rem; right:2rem; background:var(--choc); color:var(--cream); padding:0.8rem 1.4rem; border-radius:10px; font-size:0.85rem; font-weight:500; transform:translateY(20px); opacity:0; transition:all 0.3s; z-index:600; pointer-events:none; }
     .toast.show { transform:translateY(0); opacity:1; }
 
     @media (max-width:768px) { .sidebar { display:none; } .main { margin-left:0; } .save-bar { left:0; } }
@@ -147,6 +226,9 @@
     <div class="nav-item" onclick="showTab('icecream',this)"><span class="nav-icon">🍦</span> All Ice Cream</div>
     <div class="nav-item" onclick="showTab('coffee',this)"><span class="nav-icon">☕</span> Coffee</div>
     <div class="nav-item" onclick="showTab('food',this)"><span class="nav-icon">🥪</span> Food & Treats</div>
+
+    <div class="nav-group">Media</div>
+    <div class="nav-item" onclick="showTab('assets',this)"><span class="nav-icon">🖼️</span> Photo Library</div>
 
     <div class="nav-group">Site Content</div>
     <div class="nav-item" onclick="showTab('about',this)"><span class="nav-icon">📖</span> Our Story</div>
@@ -295,6 +377,22 @@
       </div>
     </div>
 
+    <!-- ASSETS -->
+    <div class="tab" id="tab-assets">
+      <div class="page-header">
+        <div class="page-title">📸 Photo Library</div>
+        <div class="page-sub">Upload all your photos here first, then assign them to menu items.</div>
+      </div>
+      <div class="asset-upload-zone" id="asset-drop-zone">
+        <input type="file" multiple accept="image/*" onchange="handleAssetUpload(event)"/>
+        <div class="icon">📁</div>
+        <h3>Drop photos here or click to browse</h3>
+        <p>Upload multiple photos at once · JPG, PNG, WebP supported</p>
+      </div>
+      <div class="asset-count" id="asset-count">0 photos in library</div>
+      <div class="asset-grid" id="asset-grid"></div>
+    </div>
+
     <!-- PASSWORD -->
     <div class="tab" id="tab-password">
       <div class="page-header">
@@ -322,10 +420,36 @@
   </div>
 
   <div class="save-bar" id="save-bar">
-    <div class="save-bar-msg">You have <span>unsaved changes</span></div>
+    <div class="save-bar-msg">
+      You have <span>unsaved changes</span>
+      <div style="font-size:0.72rem;color:#aaa;margin-top:0.2rem;" id="img-reminder"></div>
+    </div>
     <div class="save-actions">
       <button class="btn-discard" onclick="discardChanges()">Discard</button>
-      <button class="btn-save" onclick="saveChanges()">💾 Save & Download</button>
+      <button class="btn-save" onclick="saveChanges()">💾 Save & Download menu.json</button>
+    </div>
+  </div>
+
+  <!-- IMAGE UPLOAD GUIDE -->
+  <div id="img-guide" style="display:none;position:fixed;bottom:5rem;left:240px;right:0;background:#FFF9E6;border-top:2px solid #F5C842;padding:1rem 2.5rem;z-index:49;font-size:0.82rem;color:#3B1F0E;">
+    <strong>📸 Photo upload steps:</strong>
+    1. Upload photo above → it auto-downloads to your computer &nbsp;|&nbsp;
+    2. Go to GitHub → <code>assets/</code> folder → upload that file &nbsp;|&nbsp;
+    3. Click "Save & Download menu.json" → upload that too &nbsp;|&nbsp;
+    4. Site updates in ~1 min ✅
+    <button onclick="document.getElementById('img-guide').style.display='none'" style="float:right;background:none;border:none;cursor:pointer;font-size:1rem;">✕</button>
+  </div>
+</div>
+
+<!-- ASSET PICKER MODAL -->
+<div class="asset-modal-bg" id="asset-modal-bg" onclick="closeAssetModal(event)">
+  <div class="asset-modal">
+    <div class="asset-modal-header">
+      <h3>📸 Choose a photo from your library</h3>
+      <button class="asset-modal-close" onclick="closeAssetModal()">✕</button>
+    </div>
+    <div class="asset-modal-grid" id="asset-modal-grid">
+      <div class="asset-modal-empty">No photos yet — go to Photo Library to upload some first!</div>
     </div>
   </div>
 </div>
@@ -394,6 +518,7 @@
     }
     originalData = JSON.stringify(menuData);
     renderAll();
+    renderAssetGrid();
   }
 
   function markDirty() { isDirty = true; document.getElementById('save-bar').classList.add('visible'); }
@@ -465,11 +590,22 @@
       </div>
       <div class="field-group">
         <div class="field-label">Photo</div>
-        <div class="img-upload-area ${item.image?'has-image':''}" id="img-${section}-${idx}">
+        <div class="img-upload-area ${item.image ? 'has-image' : ''}" id="img-${section}-${idx}">
           ${item.image
-            ? `<img src="${item.image}" alt=""/><div class="img-overlay">📷 Change Photo</div>`
-            : `<div class="img-placeholder"><div class="img-placeholder-icon">📷</div>Click to upload photo</div>`}
-          <input type="file" class="img-upload-input" accept="image/*" onchange="uploadImg(event,'${section}',${idx})"/>
+            ? `<img src="${item.image}" alt=""/>
+               <div class="img-overlay">
+                 <span onclick="openAssetPicker('${section}',${idx})" style="cursor:pointer;">🖼 Change</span>
+                 &nbsp;
+                 <span onclick="removeImg('${section}',${idx})" style="cursor:pointer;">✕ Remove</span>
+               </div>`
+            : `<div class="img-placeholder">
+                 <div class="img-placeholder-icon">🖼️</div>
+                 <div style="margin-bottom:0.6rem;font-size:0.75rem;">No photo</div>
+                 <button type="button" onclick="openAssetPicker('${section}',${idx})"
+                   style="background:var(--teal);color:white;border:none;border-radius:8px;padding:0.45rem 1rem;font-size:0.75rem;font-weight:600;cursor:pointer;font-family:inherit;">
+                   📸 Choose from Library
+                 </button>
+               </div>`}
         </div>
       </div>
     `;
@@ -505,15 +641,39 @@
   // ─── IMAGE ────────────────────────────────────────────
   function uploadImg(event, section, idx) {
     const file = event.target.files[0]; if (!file) return;
+
+    // Clean filename: lowercase, no spaces
+    const ext = file.name.split('.').pop().toLowerCase();
+    const cleanName = (menuData[section][idx].name || 'item')
+      .toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g,'-') + '.' + ext;
+    const filePath = 'assets/' + cleanName;
+
     const reader = new FileReader();
     reader.onload = e => {
-      menuData[section][idx].image = e.target.result;
+      // Store path (not base64) in JSON
+      menuData[section][idx].image = filePath;
+
+      // Show preview
       const area = document.getElementById(`img-${section}-${idx}`);
       area.classList.add('has-image');
-      area.innerHTML = `<img src="${e.target.result}" alt=""/><div class="img-overlay">📷 Change</div><input type="file" class="img-upload-input" accept="image/*" onchange="uploadImg(event,'${section}',${idx})"/>`;
-      markDirty(); showToast('📷 Photo uploaded!');
+      area.innerHTML = `
+        <img src="${e.target.result}" alt="" style="width:100%;height:130px;object-fit:cover;border-radius:8px;display:block;"/>
+        <div class="img-overlay">📷 Change</div>
+        <input type="file" class="img-upload-input" accept="image/*" onchange="uploadImg(event,'${section}',${idx})"/>
+      `;
+
+      // Auto-download image file so user can upload to assets/
+      const a = document.createElement('a');
+      a.href = e.target.result;
+      a.download = cleanName;
+      a.click();
+
+      markDirty();
+      document.getElementById('img-guide').style.display = 'block';
+      showToast(`📥 "${cleanName}" downloaded! Now upload it to assets/ on GitHub.`);
     };
     reader.readAsDataURL(file);
+  }
   }
 
   // ─── EMOJI ────────────────────────────────────────────
@@ -564,6 +724,137 @@
   }
 
   function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+  // ─── ASSET LIBRARY ────────────────────────────────────
+  // Assets stored in localStorage as {name, dataUrl}
+  let assets = JSON.parse(localStorage.getItem('bc_assets') || '[]');
+  let assetPickerTarget = null; // {section, idx}
+
+  function saveAssets() {
+    localStorage.setItem('bc_assets', JSON.stringify(assets));
+  }
+
+  function renderAssetGrid() {
+    const grid = document.getElementById('asset-grid');
+    const count = document.getElementById('asset-count');
+    const modalGrid = document.getElementById('asset-modal-grid');
+    if (!grid) return;
+
+    count.textContent = `${assets.length} photo${assets.length !== 1 ? 's' : ''} in library`;
+
+    if (assets.length === 0) {
+      grid.innerHTML = '<p style="color:var(--muted);font-size:0.85rem;">No photos yet. Upload some above!</p>';
+      modalGrid.innerHTML = '<div class="asset-modal-empty">No photos yet — go to Photo Library tab to upload some first!</div>';
+      return;
+    }
+
+    grid.innerHTML = assets.map((a, i) => `
+      <div class="asset-item">
+        <img src="${a.dataUrl}" alt="${a.name}"/>
+        <div class="asset-item-name">${a.name}</div>
+        <button class="asset-item-del" onclick="deleteAsset(${i})" title="Remove">✕</button>
+      </div>
+    `).join('');
+
+    modalGrid.innerHTML = assets.map((a, i) => `
+      <div class="asset-modal-item" onclick="selectAsset(${i})">
+        <img src="${a.dataUrl}" alt="${a.name}"/>
+        <span>${a.name}</span>
+      </div>
+    `).join('');
+  }
+
+  function handleAssetUpload(event) {
+    const files = Array.from(event.target.files);
+    if (!files.length) return;
+    let loaded = 0;
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        // Check not duplicate
+        const name = file.name;
+        if (!assets.find(a => a.name === name)) {
+          assets.push({ name, dataUrl: e.target.result });
+        }
+        loaded++;
+        if (loaded === files.length) {
+          saveAssets();
+          renderAssetGrid();
+          showToast(`✅ ${files.length} photo${files.length > 1 ? 's' : ''} added to library!`);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+    event.target.value = ''; // reset input
+  }
+
+  function deleteAsset(idx) {
+    if (!confirm('Remove this photo from library?')) return;
+    assets.splice(idx, 1);
+    saveAssets();
+    renderAssetGrid();
+    showToast('🗑️ Photo removed.');
+  }
+
+  // ─── ASSET PICKER ─────────────────────────────────────
+  function openAssetPicker(section, idx) {
+    assetPickerTarget = { section, idx };
+    renderAssetGrid(); // refresh modal grid
+    document.getElementById('asset-modal-bg').classList.add('open');
+  }
+
+  function closeAssetModal(event) {
+    if (event && event.target !== document.getElementById('asset-modal-bg')) return;
+    document.getElementById('asset-modal-bg').classList.remove('open');
+    assetPickerTarget = null;
+  }
+
+  function selectAsset(assetIdx) {
+    if (!assetPickerTarget) return;
+    const { section, idx } = assetPickerTarget;
+    const asset = assets[assetIdx];
+
+    // Save dataUrl to menu item
+    menuData[section][idx].image = asset.dataUrl;
+
+    // Update the card preview
+    const area = document.getElementById(`img-${section}-${idx}`);
+    if (area) {
+      area.classList.add('has-image');
+      area.innerHTML = `
+        <img src="${asset.dataUrl}" alt=""/>
+        <div class="img-overlay">
+          <span onclick="openAssetPicker('${section}',${idx})">🖼 Change</span>
+          <span onclick="removeImg('${section}',${idx})" style="margin-left:0.5rem;">✕ Remove</span>
+        </div>
+      `;
+    }
+
+    document.getElementById('asset-modal-bg').classList.remove('open');
+    assetPickerTarget = null;
+    markDirty();
+    showToast('✅ Photo assigned!');
+  }
+
+  function removeImg(section, idx) {
+    menuData[section][idx].image = '';
+    renderGrid(section, 'grid-' + (section === 'icecream_today' ? 'today' : section));
+    markDirty();
+  }
+
+  // Drag & drop on asset zone
+  document.addEventListener('DOMContentLoaded', () => {
+    const zone = document.getElementById('asset-drop-zone');
+    if (!zone) return;
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault(); zone.classList.remove('drag-over');
+      const fakeEvent = { target: { files: e.dataTransfer.files, value: '' } };
+      handleAssetUpload(fakeEvent);
+    });
+  });
+
 </script>
 </body>
 </html>
