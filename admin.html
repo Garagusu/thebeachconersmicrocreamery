@@ -210,9 +210,11 @@
   <div class="login-box">
     <div class="login-logo">Beach<span>coners</span></div>
     <div class="login-sub">Admin Panel · Staff Only</div>
-    <input type="text" id="login-user" placeholder="Username" autocomplete="username"/>
-    <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password"/>
-    <button class="btn" onclick="doLogin()">Sign In →</button>
+    <form onsubmit="doLogin(event)">
+      <input type="text" id="login-user" placeholder="Username" autocomplete="username"/>
+      <input type="password" id="login-pass" placeholder="Password" autocomplete="current-password"/>
+      <button type="submit" class="btn">Sign In →</button>
+    </form>
     <div class="login-error" id="login-error">Incorrect username or password.</div>
   </div>
 </div>
@@ -476,7 +478,8 @@
   let ADMIN_USER = localStorage.getItem('bc_user') || 'beachconers';
   let ADMIN_PASS = localStorage.getItem('bc_pass') || 'icecream2025';
 
-  function doLogin() {
+  function doLogin(e) {
+    if (e) e.preventDefault();
     const u = document.getElementById('login-user').value;
     const p = document.getElementById('login-pass').value;
     if (u === ADMIN_USER && p === ADMIN_PASS) {
