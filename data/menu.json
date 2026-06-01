@@ -3,15 +3,15 @@
     "name": "The Beachconers Microcreamery",
     "tagline": "Handcrafted Ice Cream & Coffee · Britannia, Ottawa",
     "phone": "+1 (613) 829-9696",
-    "email": "hello@thebeachconers.ca",
+    "email": "thebeachconers@gmail.com",
     "address": "273 Britannia Rd, Ottawa, ON K2B 6W7",
-    "address_note": "Free parking on site · Steps from Britannia Beach",
+    "address_note": "Free parking · Steps from Britannia Beach",
     "facebook": "https://www.facebook.com/thebeachconers/",
-    "instagram": "#",
-    "maps_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2802.7612815587766!2d-75.81749492392106!3d45.372918!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce0441c34e7a8d%3A0xc39c9b7e72e37b29!2s273%20Britannia%20Rd%2C%20Ottawa%2C%20ON%20K2B%206W7!5e0!3m2!1sen!2sca!4v1700000000000",
+    "instagram": "https://www.instagram.com/beachconers/",
+    "maps_embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2803.1!2d-75.7986747!3d45.3656131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce01237874e761%3A0xc3cbb1c760bfce5f!2sThe%20Beachconers%20Microcreamery!5e0!3m2!1sen!2sca!4v1700000000000",
     "about_title": "Ice cream & coffee — our love language",
-    "about_p1": "The Beachconers was born from a simple belief: ice cream and coffee should be made the way your grandmother would — from scratch, with real ingredients, and a lot of love.",
-    "about_p2": "Nestled steps from Britannia Beach on the Ottawa River, we've been hand-crafting small-batch ice cream and pulling specialty espresso since 2015. Every flavour is developed in-house and made fresh each morning.",
+    "about_p1": "The Beachconers was born from a simple belief: ice cream and coffee should be made the way your grandmother would — from scratch, with real ingredients, and a lot of love. All made from scratch in small batches.",
+    "about_p2": "Nestled steps from Britannia Beach on the Ottawa River, we've been hand-crafting small-batch ice cream and pulling specialty espresso for 19 years. Every flavour is developed in-house and made fresh each morning.",
     "about_p3": "We source locally whenever possible — Ontario dairy farms, seasonal fruit growers, and independent suppliers who care as much as we do. Come find us by the water.",
     "hours": {
       "monday": "Closed",
@@ -23,40 +23,67 @@
       "sunday": "9:00 AM – 4:00 PM"
     }
   },
+
   "icecream_today": [
-    { "id":"t1", "name":"Maple Ehr", "desc":"A Canadian classic — pure maple with a rich, buttery finish.", "price":"from $5.00", "emoji":"🍁", "badge":"🌟 Today", "available":true },
-    { "id":"t2", "name":"Peach Cardamom", "desc":"Juicy Ontario peach with a warm hint of cardamom spice.", "price":"from $5.00", "emoji":"🍑", "badge":"🌟 Today", "available":true },
-    { "id":"t3", "name":"Raspberry Lemon", "desc":"Bright, tart raspberries swirled with fresh lemon zest.", "price":"from $5.00", "emoji":"🍋", "badge":"🌟 Today", "available":true },
-    { "id":"t4", "name":"Strawberry", "desc":"Fresh Ontario strawberries, churned to perfection.", "price":"from $5.00", "emoji":"🍓", "badge":"🌟 Today", "available":true },
-    { "id":"t5", "name":"Chocolate Reese", "desc":"Rich dark chocolate loaded with peanut butter cups.", "price":"from $5.00", "emoji":"🍫", "badge":"🌟 Today", "available":true }
+    { "id":"t1", "name":"Bakery X-Plosion", "desc":"A wild mashup of local bakery pieces in every scoop.", "price":"Single $6.00", "emoji":"💥", "badge":"🌟 Today", "available":true },
+    { "id":"t2", "name":"Britannia Brownie", "desc":"Rich fudgy brownie chunks swirled into creamy ice cream.", "price":"Single $6.00", "emoji":"🍫", "badge":"🌟 Today", "available":true },
+    { "id":"t3", "name":"Vanilla Matcha", "desc":"Smooth vanilla meets earthy Japanese matcha.", "price":"Single $6.00", "emoji":"🍵", "badge":"🌟 Today", "available":true },
+    { "id":"t4", "name":"Candy Aisle", "desc":"A nostalgic mix of your favourite childhood candy flavours.", "price":"Single $6.00", "emoji":"🍬", "badge":"🌟 Today", "available":true },
+    { "id":"t5", "name":"Blueberry Lavender", "desc":"Wild blueberries with a floral lavender note.", "price":"Single $6.00", "emoji":"🫐", "badge":"🌟 Today", "available":true },
+    { "id":"t6", "name":"Strawberry", "desc":"Fresh Ontario strawberries, churned to perfection.", "price":"Single $6.00", "emoji":"🍓", "badge":"🌟 Today", "available":true }
   ],
+
   "icecream": [
-    { "id":"ic1", "name":"Vanilla Bean", "desc":"Classic Madagascar vanilla bean, slow-churned with Ontario cream.", "price":"from $4.50", "emoji":"🍦", "badge":"⭐ Fan Fave", "available":true },
-    { "id":"ic2", "name":"Rich Chocolate", "desc":"Deep, intense Belgian dark chocolate. A purist's dream.", "price":"from $4.50", "emoji":"🍫", "badge":"", "available":true },
-    { "id":"ic3", "name":"Blueberry Lavender", "desc":"Wild blueberries with a floral lavender note. Utterly unique.", "price":"from $4.75", "emoji":"🫐", "badge":"💜 Popular", "available":true },
-    { "id":"ic4", "name":"Cold Brew Coffee", "desc":"House cold brew ice cream — coffee lovers rejoice.", "price":"from $4.75", "emoji":"☕", "badge":"", "available":true },
-    { "id":"ic5", "name":"Cookie D'OH", "desc":"Cookie dough pieces in a sweet vanilla cream base.", "price":"from $5.00", "emoji":"🍪", "badge":"⭐ Fan Fave", "available":true },
-    { "id":"ic6", "name":"London Fog", "desc":"Earl Grey tea-infused cream with vanilla undertones.", "price":"from $4.75", "emoji":"🫖", "badge":"", "available":true },
-    { "id":"ic7", "name":"Maple Walnut", "desc":"Ontario maple syrup with crunchy toasted walnuts.", "price":"from $4.75", "emoji":"🍁", "badge":"🇨🇦 Local", "available":true },
-    { "id":"ic8", "name":"Mojito", "desc":"Fresh mint and lime — like your favourite cocktail, but better.", "price":"from $4.75", "emoji":"🍃", "badge":"", "available":true },
-    { "id":"ic9", "name":"Pistachio", "desc":"Real roasted pistachios in a rich, nutty cream base.", "price":"from $4.75", "emoji":"🌿", "badge":"", "available":true },
-    { "id":"ic10", "name":"Honey", "desc":"Local Ottawa Valley wildflower honey — simple and stunning.", "price":"from $4.75", "emoji":"🍯", "badge":"🇨🇦 Local", "available":true },
-    { "id":"ic11", "name":"Root Beer", "desc":"Classic root beer float vibes in a creamy scoop.", "price":"from $4.75", "emoji":"🥤", "badge":"", "available":true },
-    { "id":"ic12", "name":"Vegan Root Beer", "desc":"100% dairy-free. All the root beer flavour, no compromise.", "price":"from $4.75", "emoji":"🌱", "badge":"🌱 Vegan", "available":true }
+    { "id":"ic1", "name":"Vanilla", "desc":"Classic Madagascar vanilla bean, slow-churned with Ontario cream.", "price":"Single $6.00 · Double $9.25", "emoji":"🍦", "badge":"⭐ Classic", "available":true },
+    { "id":"ic2", "name":"Chocolate", "desc":"Rich Belgian dark chocolate. A purist's dream.", "price":"Single $6.00 · Double $9.25", "emoji":"🍫", "badge":"", "available":true },
+    { "id":"ic3", "name":"Blueberry Lavender", "desc":"Wild blueberries with a floral lavender note. Utterly unique.", "price":"Single $6.00 · Double $9.25", "emoji":"🫐", "badge":"💜 Popular", "available":true },
+    { "id":"ic4", "name":"Strawberry", "desc":"Fresh Ontario strawberries, churned to perfection.", "price":"Single $6.00 · Double $9.25", "emoji":"🍓", "badge":"", "available":true },
+    { "id":"ic5", "name":"Rootbeer Float", "desc":"Classic root beer float vibes in a creamy scoop.", "price":"Single $6.00 · Double $9.25", "emoji":"🥤", "badge":"", "available":true },
+    { "id":"ic6", "name":"Moose Trails", "desc":"A Canadian adventure in every scoop — rich, nutty, indulgent.", "price":"Single $6.00 · Double $9.25", "emoji":"🦌", "badge":"🇨🇦 Local", "available":true },
+    { "id":"ic7", "name":"Bakery X-Plosion", "desc":"A wild mashup of local Ottawa bakery pieces.", "price":"Single $6.00 · Double $9.25", "emoji":"💥", "badge":"", "available":true },
+    { "id":"ic8", "name":"Britannia Brownie", "desc":"Fudgy brownie chunks in creamy ice cream.", "price":"Single $6.00 · Double $9.25", "emoji":"🍫", "badge":"", "available":true },
+    { "id":"ic9", "name":"Vanilla Matcha", "desc":"Smooth vanilla meets earthy Japanese matcha.", "price":"Single $6.00 · Double $9.25", "emoji":"🍵", "badge":"🍃 New", "available":true },
+    { "id":"ic10", "name":"Candy Aisle", "desc":"Nostalgic childhood candy flavours in every bite.", "price":"Single $6.00 · Double $9.25", "emoji":"🍬", "badge":"", "available":true }
   ],
+
+  "icecream_vegan": [
+    { "id":"v1", "name":"Coconut Oreo", "desc":"Creamy coconut base loaded with Oreo pieces. 100% dairy-free.", "price":"Single $6.75 · Double $10.50", "emoji":"🥥", "badge":"🌱 Vegan", "available":true },
+    { "id":"v2", "name":"Oat Lavender Vanilla", "desc":"Oat milk base with real lavender and vanilla. Light and floral.", "price":"Single $6.75 · Double $10.50", "emoji":"💜", "badge":"🌱 Vegan", "available":true },
+    { "id":"v3", "name":"Coconut Vanilla", "desc":"Pure coconut cream with Madagascar vanilla. Simple, stunning.", "price":"Single $6.75 · Double $10.50", "emoji":"🌴", "badge":"🌱 Vegan", "available":true }
+  ],
+
   "coffee": [
-    { "id":"cf1", "name":"Snickerdoodle Latte", "desc":"Cinnamon sugar sweetness in a velvety espresso latte.", "price":"$6.00", "emoji":"🍪", "badge":"⭐ Must Try", "available":true },
-    { "id":"cf2", "name":"Vanilla Oat Latte", "desc":"Smooth espresso with oat milk and house vanilla syrup.", "price":"$5.50", "emoji":"🥛", "badge":"🌱 Vegan", "available":true },
-    { "id":"cf3", "name":"Oat Milk Mocha", "desc":"Rich chocolate mocha made with creamy oat milk.", "price":"$5.50", "emoji":"☕", "badge":"🌱 Vegan", "available":true },
-    { "id":"cf4", "name":"Orange Mocha", "desc":"Espresso with dark chocolate and a bright orange twist.", "price":"$5.50", "emoji":"🍊", "badge":"", "available":true },
-    { "id":"cf5", "name":"Cold Brew", "desc":"Steeped 18 hours. Naturally sweet, low acid, deeply smooth.", "price":"$5.00", "emoji":"🧊", "badge":"", "available":true },
-    { "id":"cf6", "name":"Cappuccino", "desc":"Equal parts espresso, steamed milk, and thick foam. Classic.", "price":"$4.50", "emoji":"🫧", "badge":"", "available":true }
+    { "id":"cf1", "name":"Latte", "desc":"Smooth espresso with steamed milk. Add maple, vanilla or mocha +$1.10.", "price":"$5.50", "emoji":"☕", "badge":"", "available":true },
+    { "id":"cf2", "name":"Cappuccino", "desc":"Equal parts espresso, steamed milk and thick foam. Classic.", "price":"$5.00", "emoji":"🫧", "badge":"", "available":true },
+    { "id":"cf3", "name":"Flat White", "desc":"Velvety microfoam over a double ristretto. Smooth, intense.", "price":"$5.00", "emoji":"🥛", "badge":"", "available":true },
+    { "id":"cf4", "name":"Cortado", "desc":"Equal parts espresso and warm milk. Bold and balanced.", "price":"$5.00", "emoji":"☕", "badge":"", "available":true },
+    { "id":"cf5", "name":"Canadiano", "desc":"Our twist on the classic — smooth and easy-drinking.", "price":"$4.00", "emoji":"🍁", "badge":"🇨🇦", "available":true },
+    { "id":"cf6", "name":"Espresso", "desc":"Double shot, rich crema. The purist's choice.", "price":"$3.75", "emoji":"⚡", "badge":"", "available":true },
+    { "id":"cf7", "name":"Drip Coffee", "desc":"Freshly brewed. Regular $3.25 · Large $3.75.", "price":"$3.25 / $3.75", "emoji":"☕", "badge":"", "available":true },
+    { "id":"cf8", "name":"Affogatto", "desc":"A shot of hot espresso poured over a scoop of housemade ice cream. Sweet + strong.", "price":"$8.00", "emoji":"🍦", "badge":"⭐ Must Try", "available":true },
+    { "id":"cf9", "name":"Iced Latte", "desc":"Espresso over ice. Add maple, vanilla or mocha +$1.10.", "price":"$5.50", "emoji":"🧊", "badge":"", "available":true },
+    { "id":"cf10", "name":"Tea Latte", "desc":"Your choice of tea with steamed milk.", "price":"$5.50", "emoji":"🫖", "badge":"", "available":true },
+    { "id":"cf11", "name":"Matcha Latte", "desc":"Iced or hot. Add strawberry, vanilla, mocha or honey lavender +$0.80.", "price":"$6.60", "emoji":"🍵", "badge":"", "available":true },
+    { "id":"cf12", "name":"Chai Latte", "desc":"Sweet or not sweet. Iced or hot.", "price":"$5.50", "emoji":"🌶️", "badge":"", "available":true },
+    { "id":"cf13", "name":"Iced Hibiscus Tea", "desc":"With green tea or lemonade.", "price":"$4.75", "emoji":"🌺", "badge":"", "available":true },
+    { "id":"cf14", "name":"Hot Cocoa", "desc":"Rich, comforting homemade hot chocolate.", "price":"$5.25", "emoji":"🍫", "badge":"", "available":true },
+    { "id":"cf15", "name":"Green Tea on Ice", "desc":"No sugar. Clean and refreshing.", "price":"$4.75", "emoji":"🍃", "badge":"", "available":true },
+    { "id":"cf16", "name":"Lemonade", "desc":"House-made. Add strawberry +$0.60.", "price":"$3.50", "emoji":"🍋", "badge":"", "available":true },
+    { "id":"cf17", "name":"Nitro Cold Brew", "desc":"Velvety cold coffee — HIGH VOLTAGE. Check availability.", "price":"$5.50", "emoji":"⚡", "badge":"🔥 Ask Us", "available":true }
   ],
+
   "food": [
-    { "id":"f1", "name":"Breakfast Sandwich", "desc":"Fresh-made morning sandwich — ask your server for today's build.", "price":"$8.00", "emoji":"🥪", "badge":"☀️ Morning", "available":true },
-    { "id":"f2", "name":"Hong Kong Waffle", "desc":"Crispy bubble waffle served with your choice of ice cream scoop.", "price":"$9.00", "emoji":"🧇", "badge":"⭐ Fan Fave", "available":true },
-    { "id":"f3", "name":"Affogato", "desc":"A shot of hot espresso poured over vanilla bean ice cream.", "price":"$6.50", "emoji":"🍦", "badge":"☕ Classic", "available":true },
-    { "id":"f4", "name":"Cookie D'OH (Baked)", "desc":"House-baked cookie dough cookie, warm from the oven.", "price":"$3.50", "emoji":"🍪", "badge":"", "available":true },
-    { "id":"f5", "name":"Local Baked Goods", "desc":"Daily selection of muffins, pastries, and sweets from local Ottawa bakers.", "price":"from $3.00", "emoji":"🥐", "badge":"🇨🇦 Local", "available":true }
+    { "id":"f1", "name":"Breakfast Sammie", "desc":"English muffin with frittata-style egg, cheddar & tomato chutney. Add bacon +$1.50.", "price":"$8.00", "emoji":"🥚", "badge":"☀️ All Day", "available":true },
+    { "id":"f2", "name":"BLT", "desc":"Cheese & mayo on a sesame bagel. Add egg frittata +$2.00.", "price":"$11.75", "emoji":"🥪", "badge":"☀️ All Day", "available":true },
+    { "id":"f3", "name":"Mac n' Cheese", "desc":"Smoked gouda & cheddar cheese. Comfort food at its finest.", "price":"$12.00", "emoji":"🧀", "badge":"☀️ All Day", "available":true },
+    { "id":"f4", "name":"Vegan Chickpea Salad", "desc":"Curried chickpeas, greens & pickled vegetables.", "price":"$15.00", "emoji":"🥗", "badge":"🌱 Vegan", "available":true },
+    { "id":"f5", "name":"Scone", "desc":"Freshly baked, ask about today's flavour.", "price":"$5.25", "emoji":"🥐", "badge":"", "available":true },
+    { "id":"f6", "name":"Cookie", "desc":"House-baked cookies, made fresh daily.", "price":"$4.25", "emoji":"🍪", "badge":"", "available":true },
+    { "id":"f7", "name":"Sugar Cookie", "desc":"Classic sugar cookie, perfectly sweet.", "price":"$4.50", "emoji":"⭐", "badge":"", "available":true },
+    { "id":"f8", "name":"Energy Bite", "desc":"Wholesome, naturally sweetened energy bite.", "price":"$3.50", "emoji":"💪", "badge":"🌱 Vegan", "available":true },
+    { "id":"f9", "name":"Almond Cookie", "desc":"Gluten-friendly almond flour cookie.", "price":"$4.75", "emoji":"🌰", "badge":"GF Option", "available":true },
+    { "id":"f10", "name":"Bun", "desc":"Fresh-baked bun, ask about today's flavour.", "price":"$5.75", "emoji":"🫓", "badge":"", "available":true },
+    { "id":"f11", "name":"Cake Slice / Whole", "desc":"Ask about today's cake. Slice or whole cake available.", "price":"$5.75 / $7.95", "emoji":"🎂", "badge":"", "available":true },
+    { "id":"f12", "name":"Bars", "desc":"Ask about today's bar selection.", "price":"$4.50", "emoji":"🍫", "badge":"", "available":true }
   ]
 }
