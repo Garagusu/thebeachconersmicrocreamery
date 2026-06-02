@@ -1366,9 +1366,20 @@
     if (!item) return;
     const imgSrc = item.image || item.imagePath || '';
     const lbImg = document.getElementById('lb-img');
-    lbImg.style.opacity = '0';
-    lbImg.src = imgSrc;
-    lbImg.onload = () => { lbImg.style.opacity = '1'; };
+    const lbNoImg = document.getElementById('lb-no-img');
+
+    if (imgSrc) {
+      lbImg.style.display = 'block';
+      lbNoImg.style.display = 'none';
+      lbImg.style.opacity = '0';
+      lbImg.src = imgSrc;
+      lbImg.onload = () => { lbImg.style.opacity = '1'; };
+    } else {
+      lbImg.style.display = 'none';
+      lbNoImg.style.display = 'flex';
+      document.getElementById('lb-no-emoji').textContent = item.emoji || '🍦';
+    }
+
     document.getElementById('lb-name').textContent = item.name;
     document.getElementById('lb-desc').textContent = item.desc;
     document.getElementById('lb-price').textContent = item.price;
@@ -1482,6 +1493,10 @@
         if (!lbItems.find(l => l.name === item.name)) lbItems.push(item);
       });
     });
+    // Add ALL coffee to lightbox (with or without image)
+    (data.coffee||[]).filter(i => i.available).forEach(item => {
+      if (!lbItems.find(l => l.name === item.name)) lbItems.push(item);
+    });
 
     // Helper to get lightbox index
     function getLbIdx(name) { return lbItems.findIndex(l => l.name === name); }
@@ -1521,11 +1536,20 @@
 
     function cfCard(item) {
       const imgSrc = item.image || '';
-      return `<div class="coffee-item" style="${imgSrc ? 'align-items:flex-start;' : ''}">
+      const idx = getLbIdx(item.name);
+      return `<div class="coffee-item" onclick="window.openLightbox(${idx})"
+        style="cursor:pointer;${imgSrc ? 'align-items:flex-start;' : ''}transition:background 0.2s;"
+        onmouseover="this.style.background='var(--bg-alt)'" onmouseout="this.style.background=''">
         ${imgSrc
-          ? `<img src="${imgSrc}" alt="${item.name}"
-               style="width:72px;height:72px;object-fit:cover;border-radius:8px;flex-shrink:0;"/>`
-          : `<div class="coffee-item-icon">${item.emoji}</div>`}
+          ? `<div style="position:relative;flex-shrink:0;">
+               <img src="${imgSrc}" alt="${item.name}"
+                 style="width:72px;height:72px;object-fit:cover;border-radius:8px;display:block;"/>
+               <div style="position:absolute;inset:0;border-radius:8px;background:rgba(0,0,0,0);transition:background 0.2s;" class="cf-overlay"></div>
+             </div>`
+          : `<div style="width:72px;height:72px;border-radius:8px;background:var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;flex-direction:column;gap:0.2rem;">
+               <span style="font-size:1.4rem;">${item.emoji}</span>
+               <span style="font-size:0.55rem;color:var(--muted);font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">No photo</span>
+             </div>`}
         <div class="coffee-item-info">
           <div class="coffee-item-name">
             <span class="en">${item.name}</span>
@@ -1632,7 +1656,11 @@
   <div style="position:relative;display:flex;align-items:center;gap:1rem;max-width:90vw;">
     <button id="lb-prev" onclick="lbPrev()" style="background:rgba(255,255,255,0.1);border:none;color:white;width:48px;height:48px;border-radius:50%;font-size:1.4rem;cursor:pointer;flex-shrink:0;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">‹</button>
 
-    <img id="lb-img" src="" alt="" style="max-width:70vw;max-height:65vh;object-fit:contain;border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,0.5);"/>
+    <img id="lb-img" src="" alt="" style="max-width:70vw;max-height:65vh;object-fit:contain;border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,0.5);transition:opacity 0.2s;"/>
+    <div id="lb-no-img" style="display:none;width:300px;height:300px;border-radius:12px;background:rgba(255,255,255,0.05);border:2px dashed rgba(255,255,255,0.2);flex-direction:column;align-items:center;justify-content:center;gap:1rem;">
+      <span id="lb-no-emoji" style="font-size:5rem;">🍦</span>
+      <span style="color:rgba(255,255,255,0.4);font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;">No photo yet</span>
+    </div>
 
     <button id="lb-next" onclick="lbNext()" style="background:rgba(255,255,255,0.1);border:none;color:white;width:48px;height:48px;border-radius:50%;font-size:1.4rem;cursor:pointer;flex-shrink:0;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">›</button>
   </div>
