@@ -387,7 +387,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Latte Matcha",
-      "desc_fr": "Glacé ou chaud. Ajoutez fraise, vanille, mocha ou miel lavande +0,80 $."
+      "desc_fr": "Glacé ou chaud. Ajoutez fraise, vanille, mocha ou miel lavande +0,80 $.",
+      "image": "assets/IcedMatchaLatte.png"
     },
     {
       "id": "cf12",
@@ -398,7 +399,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Latte Chaï",
-      "desc_fr": "Sucré ou non sucré. Glacé ou chaud."
+      "desc_fr": "Sucré ou non sucré. Glacé ou chaud.",
+      "image": "assets/IcedChaiLatte.png"
     },
     {
       "id": "cf13",
@@ -409,7 +411,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Thé Hibiscus Glacé",
-      "desc_fr": "Avec thé vert ou limonade."
+      "desc_fr": "Avec thé vert ou limonade.",
+      "image": "assets/IcedHibiscusTea.png"
     },
     {
       "id": "cf14",
@@ -432,7 +435,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Thé Vert Glacé",
-      "desc_fr": "Sans sucre. Propre et rafraîchissant."
+      "desc_fr": "Sans sucre. Propre et rafraîchissant.",
+      "image": "assets/GreenTeaOnIce.png"
     },
     {
       "id": "cf16",
@@ -443,7 +447,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Limonade",
-      "desc_fr": "Maison. Ajoutez fraise +0,60 $."
+      "desc_fr": "Maison. Ajoutez fraise +0,60 $.",
+      "image": "assets/Lemonade.png"
     },
     {
       "id": "cf17",
