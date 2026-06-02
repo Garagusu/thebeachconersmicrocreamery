@@ -473,7 +473,8 @@
       "badge": "☀️ All Day",
       "available": true,
       "name_fr": "Sandwich Déjeuner",
-      "desc_fr": "Muffin anglais avec œuf frittata, cheddar et chutney de tomate. Ajoutez bacon +1,50 $."
+      "desc_fr": "Muffin anglais avec œuf frittata, cheddar et chutney de tomate. Ajoutez bacon +1,50 $.",
+      "image": "assets/BreakfastSammie.png"
     },
     {
       "id": "f2",
@@ -484,7 +485,8 @@
       "badge": "☀️ All Day",
       "available": true,
       "name_fr": "BLT",
-      "desc_fr": "Fromage et mayo sur un bagel au sésame. Ajoutez œuf frittata +2,00 $."
+      "desc_fr": "Fromage et mayo sur un bagel au sésame. Ajoutez œuf frittata +2,00 $.",
+      "image": "assets/BLT.png"
     },
     {
       "id": "f3",
@@ -495,7 +497,8 @@
       "badge": "☀️ All Day",
       "available": true,
       "name_fr": "Mac 'n' Fromage",
-      "desc_fr": "Gouda fumé et cheddar. Le confort alimentaire par excellence."
+      "desc_fr": "Gouda fumé et cheddar. Le confort alimentaire par excellence.",
+      "image": "assets/MacNCheese.png"
     },
     {
       "id": "f4",
@@ -506,7 +509,8 @@
       "badge": "🌱 Vegan",
       "available": true,
       "name_fr": "Salade de Pois Chiches Végane",
-      "desc_fr": "Pois chiches au curry, verdures et légumes marinés."
+      "desc_fr": "Pois chiches au curry, verdures et légumes marinés.",
+      "image": "assets/VeganChickpeaSalad.png"
     },
     {
       "id": "f5",
@@ -517,7 +521,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Scone",
-      "desc_fr": "Fraîchement cuit, demandez la saveur du jour."
+      "desc_fr": "Fraîchement cuit, demandez la saveur du jour.",
+      "image": "assets/Scone.png"
     },
     {
       "id": "f6",
