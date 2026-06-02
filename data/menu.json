@@ -267,7 +267,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Latte",
-      "desc_fr": "Espresso onctueux avec du lait vapeur. Ajoutez sirop d'érable, vanille ou mocha +1,10 $."
+      "desc_fr": "Espresso onctueux avec du lait vapeur. Ajoutez sirop d'érable, vanille ou mocha +1,10 $.",
+      "image": "assets/Latte.png"
     },
     {
       "id": "cf2",
@@ -278,7 +279,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Cappuccino",
-      "desc_fr": "Parts égales d'espresso, lait vapeur et mousse épaisse. Classique."
+      "desc_fr": "Parts égales d'espresso, lait vapeur et mousse épaisse. Classique.",
+      "image": "assets/Cappuccino.jpg"
     },
     {
       "id": "cf3",
@@ -289,7 +291,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Flat White",
-      "desc_fr": "Mousse de lait veloutée sur un double ristretto. Lisse et intense."
+      "desc_fr": "Mousse de lait veloutée sur un double ristretto. Lisse et intense.",
+      "image": "assets/FlatWhite.png"
     },
     {
       "id": "cf4",
@@ -300,7 +303,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Cortado",
-      "desc_fr": "Parts égales d'espresso et de lait chaud. Fort et équilibré."
+      "desc_fr": "Parts égales d'espresso et de lait chaud. Fort et équilibré.",
+      "image": "assets/Cortado.png"
     },
     {
       "id": "cf5",
@@ -311,7 +315,8 @@
       "badge": "🇨🇦",
       "available": true,
       "name_fr": "Canadiano",
-      "desc_fr": "Notre version du classique — onctueux et facile à boire."
+      "desc_fr": "Notre version du classique — onctueux et facile à boire.",
+      "image": "assets/Canadiano.png"
     },
     {
       "id": "cf6",
@@ -322,7 +327,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Espresso",
-      "desc_fr": "Double shot, crème riche. Le choix du puriste."
+      "desc_fr": "Double shot, crème riche. Le choix du puriste.",
+      "image": "assets/Espresso.png"
     },
     {
       "id": "cf7",
@@ -333,7 +339,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Café Filtre",
-      "desc_fr": "Fraîchement infusé. Régulier 3,25 $ · Grand 3,75 $."
+      "desc_fr": "Fraîchement infusé. Régulier 3,25 $ · Grand 3,75 $.",
+      "image": "assets/DripTea.png"
     },
     {
       "id": "cf8",
@@ -344,7 +351,8 @@
       "badge": "⭐ Must Try",
       "available": true,
       "name_fr": "Affogato",
-      "desc_fr": "Un shot d'espresso chaud versé sur une boule de crème glacée maison."
+      "desc_fr": "Un shot d'espresso chaud versé sur une boule de crème glacée maison.",
+      "image": "assets/Affogato.png"
     },
     {
       "id": "cf9",
@@ -355,7 +363,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Latte Glacé",
-      "desc_fr": "Espresso sur glace. Ajoutez sirop d'érable, vanille ou mocha +1,10 $."
+      "desc_fr": "Espresso sur glace. Ajoutez sirop d'érable, vanille ou mocha +1,10 $.",
+      "image": "assets/IcedLatte.png"
     },
     {
       "id": "cf10",
@@ -366,7 +375,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Latte au Thé",
-      "desc_fr": "Votre thé préféré avec du lait vapeur."
+      "desc_fr": "Votre thé préféré avec du lait vapeur.",
+      "image": "assets/TeaLatte.png"
     },
     {
       "id": "cf11",
@@ -410,7 +420,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Chocolat Chaud",
-      "desc_fr": "Chocolat chaud maison riche et réconfortant."
+      "desc_fr": "Chocolat chaud maison riche et réconfortant.",
+      "image": "assets/HotCocoa.png"
     },
     {
       "id": "cf15",
@@ -443,7 +454,8 @@
       "badge": "🔥 Ask Us",
       "available": true,
       "name_fr": "Nitro Cold Brew",
-      "desc_fr": "Café froid velouté — HAUTE TENSION. Demandez la disponibilité."
+      "desc_fr": "Café froid velouté — HAUTE TENSION. Demandez la disponibilité.",
+      "image": "assets/NitroColdBrew.png"
     }
   ],
   "food": [
