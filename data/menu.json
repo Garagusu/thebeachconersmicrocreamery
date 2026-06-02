@@ -533,7 +533,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Biscuit",
-      "desc_fr": "Biscuits cuits maison, frais chaque jour."
+      "desc_fr": "Biscuits cuits maison, frais chaque jour.",
+      "image": "assets/Cookie.png"
     },
     {
       "id": "f7",
@@ -544,7 +545,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Biscuit au Sucre",
-      "desc_fr": "Biscuit au sucre classique, parfaitement sucré."
+      "desc_fr": "Biscuit au sucre classique, parfaitement sucré.",
+      "image": "assets/SugarCookie.png"
     },
     {
       "id": "f8",
@@ -555,7 +557,8 @@
       "badge": "🌱 Vegan",
       "available": true,
       "name_fr": "Bouchée Énergisante",
-      "desc_fr": "Bouchée naturellement sucrée et nourrissante."
+      "desc_fr": "Bouchée naturellement sucrée et nourrissante.",
+      "image": "assets/EnergyBite.png"
     },
     {
       "id": "f9",
@@ -566,7 +569,8 @@
       "badge": "GF Option",
       "available": true,
       "name_fr": "Biscuit aux Amandes",
-      "desc_fr": "Biscuit à la farine d'amande, sans gluten."
+      "desc_fr": "Biscuit à la farine d'amande, sans gluten.",
+      "image": "assets/AlmondCookie.png"
     },
     {
       "id": "f10",
@@ -577,7 +581,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Petit Pain",
-      "desc_fr": "Fraîchement cuit, demandez la saveur du jour."
+      "desc_fr": "Fraîchement cuit, demandez la saveur du jour.",
+      "image": "assets/Bun.png"
     },
     {
       "id": "f11",
@@ -588,7 +593,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Tranche / Gâteau entier",
-      "desc_fr": "Demandez le gâteau du jour. Tranche ou gâteau entier disponible."
+      "desc_fr": "Demandez le gâteau du jour. Tranche ou gâteau entier disponible.",
+      "image": "assets/CakeSlice.png"
     },
     {
       "id": "f12",
@@ -599,7 +605,8 @@
       "badge": "",
       "available": true,
       "name_fr": "Barres",
-      "desc_fr": "Demandez la sélection de barres du jour."
+      "desc_fr": "Demandez la sélection de barres du jour.",
+      "image": "assets/Bars.png"
     }
   ]
 }
