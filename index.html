@@ -1520,8 +1520,12 @@
     });
 
     function cfCard(item) {
-      return `<div class="coffee-item">
-        <div class="coffee-item-icon">${item.emoji}</div>
+      const imgSrc = item.image || '';
+      return `<div class="coffee-item" style="${imgSrc ? 'align-items:flex-start;' : ''}">
+        ${imgSrc
+          ? `<img src="${imgSrc}" alt="${item.name}"
+               style="width:72px;height:72px;object-fit:cover;border-radius:8px;flex-shrink:0;"/>`
+          : `<div class="coffee-item-icon">${item.emoji}</div>`}
         <div class="coffee-item-info">
           <div class="coffee-item-name">
             <span class="en">${item.name}</span>
